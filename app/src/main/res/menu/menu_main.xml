@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_statistics"
+        android:title="Thống kê"/>
+    <item
+        android:id="@+id/nav_product_management"
+        android:title="Quản lý sản phẩm"/>
+    <item
+        android:id="@+id/nav_employee_management"
+        android:title="Quản lý nhân viên"/>
+    <item
+        android:id="@+id/nav_customer_management"
+        android:title="Quản lý khách hàng"/>
+    <item
+        android:id="@+id/nav_order_management"
+        android:title="Quản lý đơn hàng"/>
+    <item
+        android:id="@+id/nav_update_profile"
+        android:title="Cập nhật thông tin"/>
+    <item
+        android:id="@+id/nav_logout"
+        android:title="Đăng xuất"/>
+</menu>

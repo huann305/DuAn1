@@ -1,4 +1,4 @@
-package com.example.duan1.ui.activity;
+package com.example.duan1.admin.ui.activity;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

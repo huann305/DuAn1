@@ -1,4 +1,4 @@
-package com.example.duan1.ui.dialog;
+package com.example.duan1.admin.ui.dialog;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
