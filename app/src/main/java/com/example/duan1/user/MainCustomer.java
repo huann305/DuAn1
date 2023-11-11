@@ -1,4 +1,4 @@
-package com.example.duan1;
+package com.example.duan1.user;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -7,31 +7,30 @@ import android.widget.Toast;
 
 import androidx.core.view.GravityCompat;
 
+import com.example.duan1.R;
 import com.example.duan1.activity.ChooseActivity;
-import com.example.duan1.databinding.ActivityMainBinding;
 import com.example.duan1.admin.ui.activity.BaseActivity;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
-import com.example.duan1.admin.ui.fragment.customermanagement.CustomerManagementFragment;
-import com.example.duan1.admin.ui.fragment.employeemanagement.EmployeeManagementFragment;
-import com.example.duan1.admin.ui.fragment.ordermanagement.OrderManagementFragment;
-import com.example.duan1.admin.ui.fragment.productmanagement.ProductManagementFragment;
-import com.example.duan1.admin.ui.fragment.statistics.StatisticsFragment;
 import com.example.duan1.admin.ui.fragment.updateinformation.UpdateInformationFragment;
+import com.example.duan1.databinding.ActivityMainCustomerBinding;
 import com.example.duan1.user.fragment.changepass.ChangePasswordFragment;
+import com.example.duan1.user.fragment.home.HomeFragment;
+import com.example.duan1.user.fragment.order.OrderFragment;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding> {
+public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
 
     private Boolean isExit = false;
+
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_main;
+        return R.layout.activity_main_customer;
     }
 
     @Override
     protected void initEvent() {
-        BaseFragment.add(this, ProductManagementFragment.newInstance());
-        binding.tvTitle.setText(ProductManagementFragment.newInstance().getTAG());
-        binding.navView.setCheckedItem(R.id.nav_product_management);
+        BaseFragment.add(this, HomeFragment.newInstance());
+        binding.tvTitle.setText(HomeFragment.newInstance().getTAG());
+        binding.navView.setCheckedItem(R.id.nav_home_page);
         binding.btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,26 +52,20 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
         binding.navView.setNavigationItemSelectedListener(item -> {
             BaseFragment fragment = null;
-            if(item.getItemId() == R.id.nav_statistics){
-                 fragment = StatisticsFragment.newInstance();
-            } else if (item.getItemId() == R.id.nav_product_management) {
-                 fragment = ProductManagementFragment.newInstance();
-            } else if (item.getItemId() == R.id.nav_employee_management) {
-                 fragment = EmployeeManagementFragment.newInstance();
-            } else if (item.getItemId() == R.id.nav_customer_management) {
-                 fragment = CustomerManagementFragment.newInstance();
-            } else if (item.getItemId() == R.id.nav_order_management) {
-                 fragment = OrderManagementFragment.newInstance();
+            if (item.getItemId() == R.id.nav_home_page) {
+                fragment = HomeFragment.newInstance();
+            } else if (item.getItemId() == R.id.nav_order) {
+                fragment = OrderFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_update_profile) {
-                 fragment = UpdateInformationFragment.newInstance();
+                fragment = UpdateInformationFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_change_password) {
                 fragment = ChangePasswordFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_logout) {
-                startActivity(new Intent(MainActivity.this, ChooseActivity.class));
+                startActivity(new Intent(MainCustomer.this, ChooseActivity.class));
                 finish();
             }
             if (fragment != null) {
-                BaseFragment.add(MainActivity.this, fragment);
+                BaseFragment.add(MainCustomer.this, fragment);
                 binding.tvTitle.setText(fragment.getTAG());
             }
             item.setCheckable(true);

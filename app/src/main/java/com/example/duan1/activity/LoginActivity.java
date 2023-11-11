@@ -1,7 +1,6 @@
 package com.example.duan1.activity;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -10,8 +9,7 @@ import com.example.duan1.R;
 import com.example.duan1.Utils;
 import com.example.duan1.admin.ui.activity.BaseActivity;
 import com.example.duan1.databinding.ActivityLoginBinding;
-import com.example.duan1.user.a;
-import com.journeyapps.barcodescanner.Util;
+import com.example.duan1.user.MainCustomer;
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     private String type = "custom";
@@ -34,13 +32,13 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
             public void onClick(View view) {
                 if(type.equals(Utils.CUSTOM)){
                     if(binding.edtEmail.getText().toString().equals("custom") && binding.edtPassword.getText().toString().equals("custom")) {
-                        startActivity(new Intent(LoginActivity.this, a.class));
+                        startActivity(new Intent(LoginActivity.this, MainCustomer.class));
                         finishAffinity();
                     }else{
                         Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
                     }
                 } else if (type.equals(Utils.SHOP)) {
-                    if(binding.edtEmail.getText().toString().equals("admin") && binding.edtPassword.getText().toString().equals("admin")) {
+                    if(binding.edtEmail.getText().toString().equals("shop") && binding.edtPassword.getText().toString().equals("shop")) {
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finishAffinity();
                     }else{
@@ -59,8 +57,10 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
             type = Utils.CUSTOM;
         }
         if (type.equals(Utils.SHOP)) {
-            binding.llLogin.setVisibility(View.GONE);
+            binding.llSignUp.setVisibility(View.GONE);
         }
+        binding.edtEmail.setText(type);
+        binding.edtPassword.setText(type);
         Toast.makeText(this, type, Toast.LENGTH_SHORT).show();
     }
 }

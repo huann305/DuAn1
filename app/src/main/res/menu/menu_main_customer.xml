@@ -4,18 +4,15 @@
         android:id="@+id/nav_home_page"
         android:title="Trang chủ"/>
     <item
-        android:id="@+id/nav_update_profile_employe"
-        android:title="Cập nhật thông tin"/>
-    <item
         android:id="@+id/nav_order"
         android:title="Đơn hàng"/>
     <item
-        android:id="@+id/nav_Order_placed_and_cancelled"
-        android:title="Đơn đã đặt và hủy"/>
+        android:id="@+id/nav_update_profile"
+        android:title="Cập nhật thông tin"/>
     <item
-        android:id="@+id/nav_change_Password"
+        android:id="@+id/nav_change_password"
         android:title="Đổi mật khẩu"/>
     <item
-        android:id="@+id/nav_logout_employe"
+        android:id="@+id/nav_logout"
         android:title="Đăng xuất"/>
 </menu>

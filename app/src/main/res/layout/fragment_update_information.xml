@@ -1,9 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="20dp"
+        >
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:layout_marginTop="30dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/baseline_person_24"
+            android:layout_gravity="center_horizontal"
+            />
+        <EditText
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="#CCD8D7D7"
+            android:hint="Họ tên"
+            android:textColor="@color/black"
+            android:paddingLeft="15dp"
+            android:textSize="14sp"
+            />
+        <EditText
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="#CCD8D7D7"
+            android:hint="SDT"
+            android:paddingLeft="15dp"
+            android:textSize="14sp"
+            />
+        <EditText
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="#CCD8D7D7"
+            android:hint="Địa chỉ"
+            android:paddingLeft="15dp"
+            android:textSize="14sp"
+            />
+        <EditText
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="#CCD8D7D7"
+            android:hint="Tài khoản"
+            android:paddingLeft="15dp"
+            android:textSize="14sp"
+            />
+        <EditText
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="#CCD8D7D7"
+            android:hint="CCCD"
+            android:paddingLeft="15dp"
+            android:textSize="14sp"
+            />
+        <Button
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@color/main"
+            android:text="Lưu"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            />
+    </LinearLayout>
 </layout>

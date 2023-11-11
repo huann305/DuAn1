@@ -109,30 +109,28 @@
                 android:textSize="20dp" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_sign_up"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginEnd="103dp"
-            android:layout_marginBottom="24dp"
-            android:background="@color/zxing_transparent"
-            android:text="SIGN UP"
-            android:textColor="#E14615"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView2" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="115dp"
-            android:layout_marginEnd="-10dp"
-            android:layout_marginBottom="28dp"
-            android:text="Don’t have account?"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn_sign_up"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:id="@+id/ll_sign_up"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Don’t have account?"/>
+            <Button
+                android:id="@+id/btn_sign_up"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@color/zxing_transparent"
+                android:text="SIGN UP"
+                android:textColor="#E14615"
+                android:textStyle="bold"/>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

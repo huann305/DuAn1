@@ -35,7 +35,7 @@
             android:name=".MainActivity"
             android:exported="false"></activity>
         <activity
-            android:name=".user.a"
+            android:name=".user.MainCustomer"
             android:exported="false"></activity>
         <activity
             android:name=".activity.LoginActivity"
