@@ -17,6 +17,7 @@ import com.example.duan1.admin.ui.fragment.ordermanagement.OrderManagementFragme
 import com.example.duan1.admin.ui.fragment.productmanagement.ProductManagementFragment;
 import com.example.duan1.admin.ui.fragment.statistics.StatisticsFragment;
 import com.example.duan1.admin.ui.fragment.updateinformation.UpdateInformationFragment;
+import com.example.duan1.database.DBHelper;
 import com.example.duan1.user.fragment.changepass.ChangePasswordFragment;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {

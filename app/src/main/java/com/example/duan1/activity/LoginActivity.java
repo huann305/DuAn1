@@ -1,6 +1,7 @@
 package com.example.duan1.activity;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -8,8 +9,13 @@ import com.example.duan1.MainActivity;
 import com.example.duan1.R;
 import com.example.duan1.Utils;
 import com.example.duan1.admin.ui.activity.BaseActivity;
+import com.example.duan1.dao.AccountDAO;
 import com.example.duan1.databinding.ActivityLoginBinding;
+import com.example.duan1.model.Account;
 import com.example.duan1.user.MainCustomer;
+import com.example.duan1.database.DBHelper;
+
+import java.util.List;
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     private String type = "custom";
@@ -18,8 +24,10 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         return R.layout.activity_login;
     }
 
+    List<Account> list;
     @Override
     protected void initEvent() {
+        AccountDAO accountDAO = new AccountDAO(this);
         binding.btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -31,14 +39,14 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
             @Override
             public void onClick(View view) {
                 if(type.equals(Utils.CUSTOM)){
-                    if(binding.edtEmail.getText().toString().equals("custom") && binding.edtPassword.getText().toString().equals("custom")) {
+                    if(accountDAO.checkLogin(binding.edtEmail.getText().toString(), binding.edtPassword.getText().toString(), DBHelper.TABLE_ACCOUNT_CUSTOMER)){
                         startActivity(new Intent(LoginActivity.this, MainCustomer.class));
                         finishAffinity();
                     }else{
                         Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
                     }
                 } else if (type.equals(Utils.SHOP)) {
-                    if(binding.edtEmail.getText().toString().equals("shop") && binding.edtPassword.getText().toString().equals("shop")) {
+                    if(accountDAO.checkLogin(binding.edtEmail.getText().toString(), binding.edtPassword.getText().toString(), DBHelper.TABLE_ACCOUNT_SHOP)) {
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finishAffinity();
                     }else{
