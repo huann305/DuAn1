@@ -49,7 +49,8 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(INSERT_ACCOUNT_CUSTOMER_DATA);
 
         String CREATE_TABLE_CUSTOMER = "CREATE TABLE " + TABLE_CUSTOMER + "(" +
-                "email TEXT PRIMARY KEY UNIQUE NOT NULL, " +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "email TEXT UNIQUE NOT NULL, " +
                 "name TEXT, " +
                 "phone TEXT, " +
                 "address TEXT, " +
