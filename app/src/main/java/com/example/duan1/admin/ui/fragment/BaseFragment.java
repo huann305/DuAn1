@@ -22,6 +22,8 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
     protected abstract void initView();
     protected abstract void initData();
 
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

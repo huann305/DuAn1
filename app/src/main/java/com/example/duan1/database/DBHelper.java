@@ -126,7 +126,8 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(INSERT_PRODUCT_DETAIL_DATA);
 
         String CREATE_TABLE_EMPLOYEE = "CREATE TABLE " + TABLE_EMPLOYEE + " (" +
-                "email TEXT PRIMARY KEY, " +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "email TEXT, " +
                 "name TEXT, " +
                 "phone TEXT, " +
                 "address TEXT, " +
@@ -134,10 +135,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 "status TEXT)";
         sqLiteDatabase.execSQL(CREATE_TABLE_EMPLOYEE);
         //Initialize data for the employee table
-        String INSERT_EMPLOYEE_DATA = "INSERT INTO " + TABLE_EMPLOYEE + " (email, name, phone, address, citizenshipID, status) VALUES " +
-                "('employee1@gmail.com', 'Employee 1', '1234567890', 'Address 1', '1234567890', 'active'), " +
-                "('employee2@gmail.com', 'Employee 2', '0987654321', 'Address 2', '0987654321', 'active'), " +
-                "('employee3@gmail.com', 'Employee 3', '9876543210', 'Address 3', '9876543210', 'inactive')";
+        String INSERT_EMPLOYEE_DATA = "INSERT INTO " + TABLE_EMPLOYEE + " (id, email, name, phone, address, citizenshipID, status) VALUES " +
+                "(1, 'employee1@gmail.com', 'Employee 1', '1234567890', 'Address 1', '1234567890', 'active'), " +
+                "(2, 'employee2@gmail.com', 'Employee 2', '0987654321', 'Address 2', '0987654321', 'active'), " +
+                "(3, 'employee3@gmail.com', 'Employee 3', '9876543210', 'Address 3', '9876543210', 'inactive')";
         sqLiteDatabase.execSQL(INSERT_EMPLOYEE_DATA);
     }
 
