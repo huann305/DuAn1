@@ -2,6 +2,8 @@ package com.example.duan1.user.fragment.home;
 
 import android.os.Bundle;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.example.duan1.R;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.databinding.FragmentHomeCustomerBinding;
@@ -23,7 +25,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeCustomerBinding> {
 
     @Override
     protected void initView() {
+        binding.rcvHomePage1.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.rcvHomePage2.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        binding.rcvHomePage1.setAdapter(new HomeAdapter());
+        binding.rcvHomePage2.setAdapter(new HomeAdapter());
     }
 
     @Override

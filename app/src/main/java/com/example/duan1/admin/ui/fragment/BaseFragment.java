@@ -17,7 +17,7 @@ import com.example.duan1.MainActivity;
 import com.example.duan1.R;
 
 public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
-    private B binding;
+    protected B binding;
     protected abstract int getLayoutId();
     protected abstract void initView();
     protected abstract void initData();
