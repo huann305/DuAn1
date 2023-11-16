@@ -1,12 +1,24 @@
 package com.example.duan1.model;
 
 public class Employee {
+    private int id;
     private String email;
     private String name;
     private String phone;
     private String address;
     private String citizenshipID;
     private String status;
+
+    public int getId() {
+        return id;
+    }
+
+    public Employee() {
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
@@ -56,7 +68,8 @@ public class Employee {
         this.status = status;
     }
 
-    public Employee(String email, String name, String phone, String address, String citizenshipID, String status) {
+    public Employee(int id, String email, String name, String phone, String address, String citizenshipID, String status) {
+        this.id = id;
         this.email = email;
         this.name = name;
         this.phone = phone;
