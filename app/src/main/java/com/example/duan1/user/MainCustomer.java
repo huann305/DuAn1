@@ -15,7 +15,7 @@ import com.example.duan1.admin.ui.fragment.updateinformation.UpdateInformationFr
 import com.example.duan1.databinding.ActivityMainCustomerBinding;
 import com.example.duan1.user.fragment.changepass.ChangePasswordFragment;
 import com.example.duan1.user.fragment.home.HomeFragment;
-import com.example.duan1.user.fragment.order.OrderFragment;
+import com.example.duan1.user.fragment.bill.BillFragment;
 
 public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
 
@@ -55,7 +55,7 @@ public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
             if (item.getItemId() == R.id.nav_home_page) {
                 fragment = HomeFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_order) {
-                fragment = OrderFragment.newInstance();
+                fragment = BillFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_update_profile) {
                 fragment = UpdateInformationFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_change_password) {
@@ -63,6 +63,8 @@ public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
             } else if (item.getItemId() == R.id.nav_logout) {
                 startActivity(new Intent(MainCustomer.this, ChooseActivity.class));
                 finish();
+            } else if (item.getItemId() == R.id.nav_order_placed) {
+                Toast.makeText(this, "Chức năng đang cập nhật", Toast.LENGTH_SHORT).show();
             }
             if (fragment != null) {
                 BaseFragment.add(MainCustomer.this, fragment);

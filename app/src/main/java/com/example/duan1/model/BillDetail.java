@@ -64,4 +64,16 @@ public class BillDetail {
         this.price = price;
         this.note = note;
     }
+
+    @Override
+    public String toString() {
+        return "BillDetail{" +
+                "id=" + id +
+                ", idBill=" + idBill +
+                ", idProduct=" + idProduct +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                ", note='" + note + '\'' +
+                '}';
+    }
 }

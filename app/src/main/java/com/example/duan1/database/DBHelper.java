@@ -98,7 +98,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(INSERT_BILL_DETAIL_DATA);
 
         String CREATE_TABLE_PRODUCT = "CREATE TABLE " + TABLE_PRODUCT + " (" +
-                "id TEXT PRIMARY KEY, " +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name TEXT, " +
                 "image BLOB, " +
                 "price INTEGER, " +
@@ -106,10 +106,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 "status TEXT)";
         sqLiteDatabase.execSQL(CREATE_TABLE_PRODUCT);
         //Initialize data for the product table
-        String INSERT_PRODUCT_DATA = "INSERT INTO " + TABLE_PRODUCT + " (id, name, image, price, quantitySold, status) VALUES " +
-                "('product1', 'Product 1', null, 10, 0, 'active'), " +
-                "('product2', 'Product 2', null, 15, 0, 'active'), " +
-                "('product3', 'Product 3', null, 20, 0, 'inactive')";
+        String INSERT_PRODUCT_DATA = "INSERT INTO " + TABLE_PRODUCT + " (name, image, price, quantitySold, status) VALUES " +
+                "('Product 1', null, 10, 0, 'active'), " +
+                "('Product 2', null, 15, 0, 'active'), " +
+                "('Product 3', null, 20, 0, 'inactive')";
         sqLiteDatabase.execSQL(INSERT_PRODUCT_DATA);
 
         String CREATE_TABLE_PRODUCT_DETAIL = "CREATE TABLE " + TABLE_PRODUCT_DETAIL + " (" +

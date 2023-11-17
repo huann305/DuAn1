@@ -64,4 +64,16 @@ public class Product {
         this.quantitySold = quantitySold;
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", image='" + image + '\'' +
+                ", price=" + price +
+                ", quantitySold=" + quantitySold +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }
