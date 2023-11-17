@@ -38,4 +38,16 @@ public class Account {
             this.role = role;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
+
+    public Account() {
+    }
 }

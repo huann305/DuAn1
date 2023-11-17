@@ -42,6 +42,13 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
             public void onClick(View view) {
                 if(type.equals(Utils.CUSTOM)){
                     if(accountDAO.checkLogin(binding.edtEmail.getText().toString(), binding.edtPassword.getText().toString(), DBHelper.TABLE_ACCOUNT_CUSTOMER)){
+                        SharedPreferences sharedPreferences = getSharedPreferences(Utils.EMAIL, MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(Utils.EMAIL, binding.edtEmail.getText().toString());
+
+                        editor.putString(Utils.ROLE, type);
+                        editor.commit();
+
                         startActivity(new Intent(LoginActivity.this, MainCustomer.class));
                         finishAffinity();
                     }else{
@@ -49,10 +56,12 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                     }
                 } else if (type.equals(Utils.SHOP)) {
                     if(accountDAO.checkLogin(binding.edtEmail.getText().toString(), binding.edtPassword.getText().toString(), DBHelper.TABLE_ACCOUNT_SHOP)) {
-                        SharedPreferences sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
+
+                        SharedPreferences sharedPreferences = getSharedPreferences(Utils.EMAIL, MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("email", binding.edtEmail.getText().toString());
-                        editor.putString("password", binding.edtPassword.getText().toString());
+                        editor.putString(Utils.EMAIL, binding.edtEmail.getText().toString());
+
+                        editor.putString(Utils.ROLE, type);
                         editor.commit();
 
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));

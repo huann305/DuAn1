@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.duan1.database.DBHelper;
 import com.example.duan1.model.Account;
@@ -19,9 +20,9 @@ public class AccountDAO {
         dbHelper = new DBHelper(context);
     }
 
-    public Account getID(String id, String TABLE) {
+    public Account getEmail(String email, String TABLE) {
         String sql = "SELECT * FROM " + TABLE + " WHERE email = ?";
-        List<Account> list = getData(sql, id);
+        List<Account> list = getData(sql,TABLE, email);
         if (list.size() > 0) {
             return list.get(0);
         }
@@ -38,11 +39,16 @@ public class AccountDAO {
     }
 
     public boolean insert(Account object) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String sql = "INSERT INTO " + DBHelper.TABLE_ACCOUNT_CUSTOMER + " VALUES(?,?,?)";
-        db.execSQL(sql, new String[]{object.getEmail(), object.getPassword(), object.getRole()});
-        if(db != null) {
-            db.close();
+        try{
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            String sql = "INSERT INTO " + DBHelper.TABLE_ACCOUNT_CUSTOMER + " VALUES(?,?)";
+            db.execSQL(sql, new String[]{object.getEmail(), object.getPassword()});
+            if(db != null) {
+                db.close();
+            }
+        }catch (Exception e){
+            Log.d("Error", e.toString());
+            return false;
         }
         return true;
     }
@@ -61,9 +67,9 @@ public class AccountDAO {
         return true;
     }
 
-    public boolean updatee(Account object, String id) {
+    public boolean updatee(Account object, String id, String TABLE) {
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
-        String sql = "UPDATE " + DBHelper.TABLE_ACCOUNT_CUSTOMER + " SET password = ? WHERE email = ?";
+        String sql = "UPDATE " + TABLE + " SET password = ? WHERE email = ?";
         sqLiteDatabase.execSQL(sql, new String[]{object.getPassword(), id});
         if(sqLiteDatabase != null) {
             sqLiteDatabase.close();
