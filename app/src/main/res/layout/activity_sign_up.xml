@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content">
 
                 <CheckBox
-                    android:id="@+id/cb_remember_password"
+                    android:id="@+id/cb_agree"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Agree with Terms &amp; Conditions"
