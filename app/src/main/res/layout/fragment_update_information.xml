@@ -16,6 +16,7 @@
             android:layout_gravity="center_horizontal"
             />
         <EditText
+            android:id="@+id/edtName_up_em"
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="35dp"
@@ -26,6 +27,7 @@
             android:textSize="14sp"
             />
         <EditText
+            android:id="@+id/edtPhone"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="35dp"
@@ -35,6 +37,7 @@
             android:textSize="14sp"
             />
         <EditText
+            android:id="@+id/edtAddress"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="35dp"
@@ -44,6 +47,7 @@
             android:textSize="14sp"
             />
         <EditText
+            android:id="@+id/edtEmail"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="35dp"
@@ -51,17 +55,37 @@
             android:hint="Tài khoản"
             android:paddingLeft="15dp"
             android:textSize="14sp"
-            />
+            android:inputType="none"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
         <EditText
+            android:id="@+id/edtCitizen"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:background="#CCD8D7D7"
             android:hint="CCCD"
             android:paddingLeft="15dp"
+            android:inputType="none"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:textSize="14sp"
+            />
+        <EditText
+            android:id="@+id/edtDate"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="#CCD8D7D7"
+            android:hint="Ngày vào làm: "
+            android:paddingLeft="15dp"
+            android:inputType="none"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:textSize="14sp"
             />
         <Button
+            android:id="@+id/btnSave"
             android:layout_marginTop="50dp"
             android:layout_width="match_parent"
             android:layout_height="35dp"

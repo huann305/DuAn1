@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="10dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#00000000">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,37 +38,11 @@
         android:paddingHorizontal="20dp">
 
         <EditText
-            android:id="@+id/tvHoTen_add_em"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Họ tên: "
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/tvSDT_add_em"
+            android:id="@+id/edtEmail_add_em"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:hint="SDT"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
-        <EditText
-            android:id="@+id/tvDiaChi_add_em"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:hint="Địa chỉ"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
-        <EditText
-            android:id="@+id/tvTaiKhoan_add_em"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:hint="Tài khoản"
+            android:hint="Tài khoản: "
             android:textColor="@color/black"
             android:textSize="15sp" />
 
@@ -79,13 +54,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Trạng thái"
+                android:layout_gravity="center"
+                android:text="Chức vụ"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:padding="5dp"/>
 
             <Spinner
-                android:id="@+id/spnTrangThai_add_em"
+                android:id="@+id/spnRole_add_em"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -93,14 +69,6 @@
                 android:padding="10dp"/>
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/tvCCCD_add_em"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:hint="CCCD"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
     </LinearLayout>
 
     <LinearLayout

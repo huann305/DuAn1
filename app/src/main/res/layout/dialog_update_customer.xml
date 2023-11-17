@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="10dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#00000000">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
-            android:text="Cập nhật Nhân Viên"
+            android:text="Cập nhật Khách hàng"
             android:textColor="@color/white"
             android:textSize="20sp" />
     </LinearLayout>
@@ -36,7 +37,7 @@
         android:paddingHorizontal="20dp">
 
         <EditText
-            android:id="@+id/edtHoTen_up_em"
+            android:id="@+id/edtName_up_cus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Họ tên: "
@@ -44,10 +45,11 @@
             android:textSize="18sp"
             android:inputType="none"
             android:focusable="false"
-            android:focusableInTouchMode="false"/>
+            android:focusableInTouchMode="false"
+            android:enabled="true"/>
 
         <EditText
-            android:id="@+id/edtSDT_up_em"
+            android:id="@+id/edtPhone_up_cus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -59,7 +61,7 @@
             android:focusableInTouchMode="false"/>
 
         <EditText
-            android:id="@+id/edtDiaChi_up_em"
+            android:id="@+id/edtAddress_up_cus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -71,7 +73,7 @@
             android:focusableInTouchMode="false"/>
 
         <EditText
-            android:id="@+id/edtTaiKhoan_up_em"
+            android:id="@+id/edtEmail_up_cus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -81,7 +83,17 @@
             android:inputType="none"
             android:focusable="false"
             android:focusableInTouchMode="false"/>
-
+        <EditText
+            android:id="@+id/edtBirthday_up_em"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="Ngày sinh: "
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:inputType="none"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -90,30 +102,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:text="Trạng thái"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:layout_gravity="center"/>
 
             <Spinner
-                android:id="@+id/spnTrangThai_up_em"
+                android:id="@+id/spnStatus_up_cus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp" />
+                android:layout_marginLeft="10dp"
+                android:padding="10dp"/>
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/edtCCCD_up_em"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:hint="CCCD"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:inputType="none"
-            android:focusable="false"
-            android:focusableInTouchMode="false"/>
     </LinearLayout>
 
     <LinearLayout
@@ -123,7 +125,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnHuy_up_em"
+            android:id="@+id/btnCancel_up_cus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -133,7 +135,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/btnLuu_up_em"
+            android:id="@+id/btnSave_up_cus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

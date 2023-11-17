@@ -45,11 +45,18 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Employee employee = list.get(position);
         holder.binding.tvTaiKhoanEm.setText("Email: " + employee.getEmail());
-        holder.binding.tvHoTenEm.setText("Họ tên: " + employee.getName());
-        holder.binding.tvSDTEm.setText("SĐT: " + employee.getPhone());
-        holder.binding.tvDiaChiEm.setText("Địa chỉ: " + employee.getAddress());
-        holder.binding.tvCCCDEm.setText("CCCD: " + employee.getCitizenshipID());
-        holder.binding.tvTrangThaiEm.setText("Trạng thái: " + employee.getStatus());
+        holder.binding.tvHoTenEm.setText("Họ tên: " + (employee.getName() == null ? "" : employee.getName()));
+        holder.binding.tvSDTEm.setText("SĐT: " + (employee.getPhone() == null ? "" : employee.getPhone()));
+        holder.binding.tvDiaChiEm.setText("Địa chỉ: " + (employee.getAddress() == null ? "" : employee.getAddress()));
+        holder.binding.tvCCCDEm.setText("CCCD: " + (employee.getCitizenshipID() == null ? "" : employee.getCitizenshipID()));
+        holder.binding.tvTrangThaiEm.setText(employee.getStatus());
+        holder.binding.tvNgayVaoLamEm.setText("Ngày vào làm: " + employee.getDate());
+
+        if (employee.getStatus().equals("active")) {
+            holder.binding.shapeStatusCus.setBackgroundColor(context.getResources().getColor(R.color.active));
+        } else {
+            holder.binding.shapeStatusCus.setBackgroundColor(context.getResources().getColor(R.color.inactive));
+        }
 
         holder.binding.ivUpdate.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -65,6 +72,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
             EditText edtCCCD = view.findViewById(R.id.edtCCCD_up_em);
             Spinner spinnerTrangThai = view.findViewById(R.id.spnTrangThai_up_em);
             Button btnUpdate = view.findViewById(R.id.btnLuu_up_em);
+            Button btnCancel = view.findViewById(R.id.btnHuy_up_em);
 
             edtHoTen.setText(employee.getName());
             edtEmail.setText(employee.getEmail());
@@ -73,8 +81,8 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
             edtCCCD.setText(employee.getCitizenshipID());
 
             List<String> data = new ArrayList<>();
-            data.add("Đang làm việc");
-            data.add("Đã nghỉ việc");
+            data.add("active");
+            data.add("inactive");
 
             // Tạo Adapter để đổ dữ liệu vào Spinner
             ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, data);
@@ -102,8 +110,17 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
                     Toast.makeText(context, "Update employee fail", Toast.LENGTH_SHORT).show();
                 }
             });
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alertDialog.dismiss();
+                }
+            });
+
             alertDialog.show();
         });
+
+
     }
 
     @Override
