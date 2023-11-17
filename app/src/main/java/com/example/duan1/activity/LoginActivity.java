@@ -74,10 +74,12 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         }
         if (type.equals(Utils.SHOP)) {
             binding.llSignUp.setVisibility(View.GONE);
+            binding.edtEmail.setText("admin@gmail.com");
+            binding.edtPassword.setText("password1");
+        }else {
+            binding.edtEmail.setText("customer1@gmail.com");
+            binding.edtPassword.setText("password1");
         }
-        binding.edtEmail.setText(type);
-        binding.edtPassword.setText(type);
         Toast.makeText(this, type, Toast.LENGTH_SHORT).show();
-
     }
 }
