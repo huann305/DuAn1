@@ -1,7 +1,7 @@
 package com.example.duan1.model;
 
 public class Customer {
-    private String id;
+    private int id;
     private String email;
     private String name;
     private String phone;
@@ -9,11 +9,11 @@ public class Customer {
     private String birthday;
     private String status;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -65,7 +65,7 @@ public class Customer {
         this.status = status;
     }
 
-    public Customer(String id, String email, String name, String phone, String address, String birthday, String status) {
+    public Customer(int id, String email, String name, String phone, String address, String birthday, String status) {
         this.id = id;
         this.email = email;
         this.name = name;
