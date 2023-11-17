@@ -1,11 +1,13 @@
 package com.example.duan1.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.duan1.database.DBHelper;
 import com.example.duan1.model.Account;
+import com.example.duan1.model.Customer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,20 @@ public class AccountDAO {
         db.execSQL(sql, new String[]{object.getEmail(), object.getPassword(), object.getRole()});
         if(db != null) {
             db.close();
+        }
+        return true;
+    }
+
+    public boolean insertEmployee(Account object) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        try{
+            String sql = "INSERT INTO " + DBHelper.TABLE_ACCOUNT_SHOP  + " (email, password, role) " + " VALUES(?,?,?)";
+            db.execSQL(sql, new String[]{object.getEmail(), "chicken", object.getRole()});
+            if(db != null) {
+                db.close();
+            }
+        }catch (Exception e){
+            return false;
         }
         return true;
     }
