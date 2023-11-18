@@ -42,7 +42,6 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
     public void onBindViewHolder(@NonNull BillViewHolder holder, int position) {
         BillDetail billDetail = list.get(position);
 
-
         Bill bill = billDAO.getID(billDetail.getIdBill());
         Product product = productDAO.getID(billDetail.getIdProduct());
 

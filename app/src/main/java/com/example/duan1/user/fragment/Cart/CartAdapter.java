@@ -24,7 +24,8 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
     private Context context;
     private ArrayList<Cart> list;
 
-    public abstract void click(int totalPrice, int totalQuantity);
+    public abstract void click(int totalPrice);
+    public abstract void clickBtnReduce();
 
     public CartAdapter(Context context, ArrayList<Cart> list) {
         this.context = context;
@@ -76,6 +77,7 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
                         list.clear();
                         list.addAll(cartDAO.getAllCart());
                         notifyDataSetChanged();
+                        clickBtnReduce();
                     }
                 }
             });
@@ -89,24 +91,17 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
         for (Cart item : list) {
             totalPrice += item.getPrice() * item.getQuantity();
         }
-        int totalQuantity = 0;
-        for (Cart item : list) {
-            totalQuantity += item.getQuantity();
-        }
-        click(totalPrice, totalQuantity);
+        click(totalPrice);
 
         holder.binding.btnAgument.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CartDAO cartDAO = new CartDAO(context);
                 if (cartDAO.augmentQuantity(list.get(holder.getAdapterPosition()))) {
-                    Toast.makeText(context, "Tăng số lượng sản phẩm thành công", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "Tăng số lượng sản phẩm thất bại ", Toast.LENGTH_SHORT).show();
+                    list.clear();
+                    list.addAll(cartDAO.getAllCart());
+                    notifyDataSetChanged();
                 }
-                list.clear();
-                list.addAll(cartDAO.getAllCart());
-                notifyDataSetChanged();
             }
         });
         holder.binding.btnReduce.setOnClickListener(new View.OnClickListener() {
@@ -114,13 +109,10 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
             public void onClick(View view) {
                 CartDAO cartDAO = new CartDAO(context);
                 if (cartDAO.reduceQuantity(list.get(holder.getAdapterPosition()))) {
-                    Toast.makeText(context, "Giảm số lượng sản phẩm thành công", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "Giảm số lượng sản phẩm thất bại ", Toast.LENGTH_SHORT).show();
+                    list.clear();
+                    list.addAll(cartDAO.getAllCart());
+                    notifyDataSetChanged();
                 }
-                list.clear();
-                list.addAll(cartDAO.getAllCart());
-                notifyDataSetChanged();
             }
         });
 
@@ -134,15 +126,10 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
                 for (Cart item : list) {
                     totalPrice += item.getPrice() * item.getQuantity();
                 }
-                int totalQuantity = 0;
-                for (Cart item : list) {
-                    totalQuantity += item.getQuantity();
-                }
-                click(totalPrice, totalQuantity);
+                click(totalPrice);
             }
             @Override
             public void afterTextChanged(Editable editable) {
-
             }
         });
     }

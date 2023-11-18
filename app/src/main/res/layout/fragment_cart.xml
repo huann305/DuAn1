@@ -3,11 +3,52 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tvCartEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Giỏ hàng trống"
+            android:visibility="gone"
+            android:textSize="26sp"/>
+
+        <RelativeLayout
+            android:id="@+id/scanQR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Số bàn: "
+                android:layout_centerVertical="true"/>
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quét mã QR để nhập số bàn"
+                android:layout_toEndOf="@+id/tv1"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/btnQR"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="5dp"
+                android:layout_marginHorizontal="20dp"
+                android:background="#CECECE"/>
+            <ImageView
+                android:id="@+id/btnQR"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_qr"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/rccCart"/>
+            android:id="@+id/rccCart"
+            android:layout_below="@+id/scanQR"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

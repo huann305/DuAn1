@@ -1,6 +1,7 @@
 package com.example.duan1.user.fragment.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1.R;
+import com.example.duan1.activity.DetailProductActivity;
 import com.example.duan1.dao.CartDAO;
 import com.example.duan1.dao.ProductDAO;
 import com.example.duan1.model.Product;
@@ -45,6 +47,16 @@ public abstract class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeV
         holder.tvQuantitySold.setText(product.getQuantitySold() + " đã bán");
 
         holder.layout.setOnClickListener(v -> onItemClick(position));
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent intent = new Intent(view.getContext(), DetailProductActivity.class);
+                intent.putExtra("product_id", product.getId());
+                view.getContext().startActivity(intent);
+                return false;
+            }
+        });
+
 
         holder.btnAddCart.setOnClickListener(new View.OnClickListener() {
             @Override

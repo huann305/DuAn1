@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.duan1.database.DBHelper;
+import com.example.duan1.model.Cart;
 import com.example.duan1.model.Product;
 
 import java.util.ArrayList;
@@ -68,5 +69,26 @@ public class ProductDAO {
             db.close();
         }
         return list;
+    }
+
+    //tăng số lượng đã bán
+    public boolean updateQuantitySold(Cart cart){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        //lấy ra cart --> từ id của cart --> sản phẩm --> số lượng đã bán ht = sl cart + sl đã bán ban đầu
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DBHelper.TABLE_PRODUCT + " WHERE id = ?", new String[]{String.valueOf(cart.getIdProduct())});
+        if(cursor.getCount() > 0){
+            cursor.moveToFirst();
+            int quantitySold = cursor.getInt(4);
+            quantitySold += cart.getQuantity();
+            db.execSQL("UPDATE " + DBHelper.TABLE_PRODUCT + " SET quantitySold = ? WHERE id = ?", new String[]{String.valueOf(quantitySold), String.valueOf(cursor.getInt(0))});
+        }
+        if (cursor != null){
+            cursor.close();
+        }
+        if (db != null){
+            db.close();
+        }
+        return true;
     }
 }
