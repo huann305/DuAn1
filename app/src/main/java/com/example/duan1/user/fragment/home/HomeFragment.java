@@ -46,7 +46,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeCustomerBinding> {
                 Intent intent = new Intent(getContext(), DetailProductActivity.class);
                 intent.putExtra("product_id", list.get(position).getId());
                 startActivity(intent);
-                Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
             }
         });
     }
