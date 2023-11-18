@@ -40,6 +40,12 @@ public class DetailProductActivity extends BaseActivity<ActivityDetailProductBin
                 }
             }
         });
+        binding.btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override
