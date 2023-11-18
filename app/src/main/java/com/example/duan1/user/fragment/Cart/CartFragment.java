@@ -1,6 +1,11 @@
 package com.example.duan1.user.fragment.Cart;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.duan1.R;
+import com.example.duan1.Utils;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.dao.CartDAO;
 import com.example.duan1.dao.ProductDAO;
@@ -21,6 +27,7 @@ import com.example.duan1.databinding.FragmentCartBinding;
 import com.example.duan1.model.Bill;
 import com.example.duan1.model.Cart;
 import com.example.duan1.model.Product;
+import com.example.duan1.qrcode.QRScanActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,47 +89,77 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         //nếu giỏ hàng trống k cho đặt hàng
         cartEmpty();
 
-//        if(binding.tvAddress.getText().toString().equals("Quét mã QR để nhập số bàn")){
-//            binding.btnOrder.setEnabled(false);
-//        }
+        Log.d("TAGG", binding.tvAddress.getText().toString());
+        if(binding.tvAddress.getText().toString().equals("Quét mã QR để nhập số bàn")){
+            binding.btnOrder.setEnabled(false);
+            binding.btnOrder.setBackgroundColor(Color.parseColor("#ccc"));
+            Log.d("Clicked", "false");
+        }else {
+            binding.btnOrder.setEnabled(true);
+            Log.d("Clicked", "true");
+            binding.btnOrder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    LayoutInflater inflater = getLayoutInflater();
+                    View view1 = inflater.inflate(R.layout.dialog_choose_method, null);
+                    builder.setView(view1);
+                    AlertDialog alertDialog = builder.create();
 
-        //đặt hàng
-        binding.btnOrder.setOnClickListener(new View.OnClickListener() {
+                    TextView tvZaloPay = view1.findViewById(R.id.tvZaloPay);
+                    TextView tvCash = view1.findViewById(R.id.tvCash);
+                    TextView tvBank = view1.findViewById(R.id.tvBank);
+                    tvZaloPay.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            onSuccess();
+                            alertDialog.dismiss();
+                        }
+                    });
+                    tvCash.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            onSuccess();
+                            alertDialog.dismiss();
+                        }
+                    });
+                    tvBank.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            onSuccess();
+                            alertDialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+                }
+            });
+        }
+
+        binding.btnQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                LayoutInflater inflater = getLayoutInflater();
-                View view1 = inflater.inflate(R.layout.dialog_choose_method, null);
-                builder.setView(view1);
-                AlertDialog alertDialog = builder.create();
-
-                TextView tvZaloPay = view1.findViewById(R.id.tvZaloPay);
-                TextView tvCash = view1.findViewById(R.id.tvCash);
-                TextView tvBank = view1.findViewById(R.id.tvBank);
-                tvZaloPay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onSuccess();
-                        alertDialog.dismiss();
-                    }
-                });
-                tvCash.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onSuccess();
-                        alertDialog.dismiss();
-                    }
-                });
-                tvBank.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onSuccess();
-                        alertDialog.dismiss();
-                    }
-                });
-                alertDialog.show();
+                startActivity(new Intent(getContext(), QRScanActivity.class));
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Utils.QR, getContext().MODE_PRIVATE);
+        String qr = sharedPreferences.getString(Utils.QR, "");
+        if (!qr.equals("")) {
+            binding.tvAddress.setText(qr);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Utils.QR, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Utils.QR, "");
+        editor.apply();
     }
 
     private void onSuccess() {
@@ -142,9 +179,9 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
     private void cartEmpty() {
         if (list.size() == 0) {
             binding.tvCartEmpty.setVisibility(View.VISIBLE);
-            binding.btnOrder.setVisibility(View.GONE);
+            binding.llBottom.setVisibility(View.GONE);
         } else {
-            binding.btnOrder.setVisibility(View.VISIBLE);
+            binding.llBottom.setVisibility(View.VISIBLE);
             binding.tvCartEmpty.setVisibility(View.GONE);
         }
         binding.tvSum.setText("Tổng tiền: " + "0" + " Đ");

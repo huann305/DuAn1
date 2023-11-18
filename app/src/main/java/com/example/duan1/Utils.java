@@ -6,4 +6,5 @@ public class Utils {
     public static final String TYPE = "type";
     public static final String EMAIL = "email";
     public static final String ROLE = "role";
+    public static final String QR = "qr";
 }
