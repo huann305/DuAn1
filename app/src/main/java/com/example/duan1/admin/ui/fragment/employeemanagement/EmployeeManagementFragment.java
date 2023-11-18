@@ -103,7 +103,7 @@ public class EmployeeManagementFragment extends BaseFragment<FragmentEmployeeMan
                 String role = spnRole.getSelectedItem().toString();
 
                  if(email.isEmpty()) {
-                     Toast.makeText(getContext(), "Email khong duoc de trong", Toast.LENGTH_SHORT).show();
+                     Toast.makeText(getContext(), "Không để trống Email", Toast.LENGTH_SHORT).show();
                      return;
                  }
                 AccountDAO accountDAO = new AccountDAO(getContext());
@@ -117,20 +117,19 @@ public class EmployeeManagementFragment extends BaseFragment<FragmentEmployeeMan
                     employee.setDate(formattedDate);
 
                     if(employeeDAO.insert(employee)){;
-                        Toast.makeText(getContext(), "Add employee succ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Thêm nhân viên thành công", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
                         loadData();
                     }else{
-                        Toast.makeText(getContext(), "Add employee fail", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Thêm nhân viên thất bại", Toast.LENGTH_SHORT).show();
                     }
                 }else {
-                    Toast.makeText(getContext(), "Email is exist", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Email đã tồn tại", Toast.LENGTH_SHORT).show();
                     alertDialog.dismiss();
                 }
             });
             btnHuy.setOnClickListener(v1 -> alertDialog.dismiss());
             alertDialog.show();
         });
-
     }
 }

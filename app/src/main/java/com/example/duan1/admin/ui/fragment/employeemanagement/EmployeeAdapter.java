@@ -103,11 +103,11 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
                 EmployeeDAO employeeDAO = new EmployeeDAO(context);
                 employee.setStatus(spinnerTrangThai.getSelectedItem().toString());
                 if(employeeDAO.updateStatus(employee, String.valueOf(employee.getId()))) {
-                    Toast.makeText(context, "Update employee succ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                     notifyDataSetChanged();
                     alertDialog.dismiss();
                 }else {
-                    Toast.makeText(context, "Update employee fail", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
                 }
             });
             btnCancel.setOnClickListener(new View.OnClickListener() {

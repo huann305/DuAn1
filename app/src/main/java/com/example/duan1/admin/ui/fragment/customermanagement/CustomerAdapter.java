@@ -98,11 +98,11 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
 
                    CustomerDAO customerDAO = new CustomerDAO(context);
                    if(customerDAO.updateStatus(customer, String.valueOf(customer.getId()))) {
-                       Toast.makeText(context, "Update succ", Toast.LENGTH_SHORT).show();
+                       Toast.makeText(context, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                        notifyDataSetChanged();
                        alertDialog.dismiss();
                    }else {
-                       Toast.makeText(context, "Update fail", Toast.LENGTH_SHORT).show();
+                       Toast.makeText(context, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
                    }
                 }
             });

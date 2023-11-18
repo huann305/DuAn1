@@ -12,8 +12,8 @@
             android:id="@+id/ivImageProduct"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/improduct1" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/imgpr" />
 
         <TextView
             android:id="@+id/tvProductName"

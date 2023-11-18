@@ -13,8 +13,8 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center_vertical"
-            android:scaleType="fitXY"
-            android:src="@drawable/chicken1" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/imgpr" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -55,9 +55,7 @@
             <LinearLayout
                 android:layout_width="100dp"
                 android:layout_height="25dp"
-                android:background="@drawable/bg_btnsl"
-                >
-
+                android:background="@drawable/bg_btnsl">
                 <Button
                     android:id="@+id/btnReduce"
                     android:layout_width="0dp"
