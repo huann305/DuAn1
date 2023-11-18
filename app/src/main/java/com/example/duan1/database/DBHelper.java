@@ -16,6 +16,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_PRODUCT = "product";
     public static final String TABLE_PRODUCT_DETAIL = "product_detail";
     public static final String TABLE_EMPLOYEE = "employee";
+    public static final String TABLE_CART = "cart";
 
     public DBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, 1);
@@ -143,6 +144,23 @@ public class DBHelper extends SQLiteOpenHelper {
                 "(4, 'admin@gmail.com', 'Employee 4', '8765432109', 'Address 4', '8765432109', 'inactive', '2022-04-04')";
 
         sqLiteDatabase.execSQL(INSERT_EMPLOYEE_DATA);
+
+        String CRETATE_TABLE_CART = "CREATE TABLE " + TABLE_CART + " (" +
+                "id  INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "idProduct INTEGER REFERENCES " + TABLE_PRODUCT + "(id)," +
+                "name TEXT REFERENCES " + TABLE_PRODUCT + "(name)," +
+                //"image BLOB REFERENCES " + TABLE_PRODUCT + "(image)," +
+                "quantity INTEGER," +
+                "price INTEGER REFERENCES " + TABLE_PRODUCT + "(price)" + ")";
+        sqLiteDatabase.execSQL(CRETATE_TABLE_CART);
+
+        //Initialize data for the cart table
+        String INSERT_CART_DATA = "INSERT INTO " + TABLE_CART + " (idProduct, name, quantity, price) VALUES " +
+                        "(1, 'Product 1', 1, 10), " +
+                        "(2, 'Product 2', 2, 15), " +
+                        "(3, 'Product 3', 1, 20)";
+        sqLiteDatabase.execSQL(INSERT_CART_DATA);
+
     }
 
     @Override
