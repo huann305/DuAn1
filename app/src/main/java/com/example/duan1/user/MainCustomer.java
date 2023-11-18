@@ -13,6 +13,7 @@ import com.example.duan1.admin.ui.activity.BaseActivity;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.admin.ui.fragment.updateinformation.UpdateInformationFragment;
 import com.example.duan1.databinding.ActivityMainCustomerBinding;
+import com.example.duan1.user.fragment.Cart.CartFragment;
 import com.example.duan1.user.fragment.changepass.ChangePasswordFragment;
 import com.example.duan1.user.fragment.home.HomeFragment;
 import com.example.duan1.user.fragment.bill.BillFragment;
@@ -65,7 +66,10 @@ public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
                 finish();
             } else if (item.getItemId() == R.id.nav_order_placed) {
                 Toast.makeText(this, "Chức năng đang cập nhật", Toast.LENGTH_SHORT).show();
+            } else if (item.getItemId() == R.id.nav_cart) {
+                fragment = CartFragment.newInstance();
             }
+
             if (fragment != null) {
                 BaseFragment.add(MainCustomer.this, fragment);
                 binding.tvTitle.setText(fragment.getTAG());

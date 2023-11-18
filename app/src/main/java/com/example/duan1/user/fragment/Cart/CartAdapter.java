@@ -1,0 +1,150 @@
+package com.example.duan1.user.fragment.Cart;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.duan1.dao.CartDAO;
+import com.example.duan1.databinding.ItemCartBinding;
+import com.example.duan1.model.Cart;
+
+import java.util.ArrayList;
+
+public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
+    private Context context;
+    private ArrayList<Cart> list;
+
+    public abstract void click(int totalPrice);
+    public abstract void clickBtnReduce();
+
+    public CartAdapter(Context context, ArrayList<Cart> list) {
+        this.context = context;
+        this.list = list;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ItemCartBinding binding = ItemCartBinding.inflate(LayoutInflater.from(context), parent, false);
+        return new CartAdapter.ViewHolder(binding);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Cart cart = list.get(position);
+        holder.binding.tvName.setText(cart.getName());
+        holder.binding.tvPrice.setText(cart.getPrice() + " Đ");
+        holder.binding.tvQuantity.setText("" + cart.getQuantity());
+
+        //nếu số lượng = 0 thì k giảm đc nữa
+        if (list.get(holder.getLayoutPosition()).getQuantity() == 0) {
+            holder.binding.btnReduce.setEnabled(false);
+        } else
+            holder.binding.btnReduce.setEnabled(true);
+
+        //nếu số lượng của sản phẩm bị giảm về 0 thì hiện thông báo xóa sản phẩm
+        if (list.get(holder.getLayoutPosition()).getQuantity() == 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setMessage("Bạn chắc chắn muốn xóa sản phẩm");
+            CartDAO cartDAO = new CartDAO(context);
+
+            builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if(cartDAO.augmentQuantity(list.get(holder.getAdapterPosition()))){
+                        list.clear();
+                        list.addAll(cartDAO.getAllCart());
+                        notifyDataSetChanged();
+                    }
+                }
+            });
+
+            builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if (cartDAO.deleteCart(list.get(holder.getAdapterPosition()).getId())) {
+                        Toast.makeText(context, "Xóa sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                        list.clear();
+                        list.addAll(cartDAO.getAllCart());
+                        notifyDataSetChanged();
+                        clickBtnReduce();
+                    }
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setCancelable(false);
+            alertDialog.show();
+        }
+
+        //tính tổng tiền
+        int totalPrice = 0;
+        for (Cart item : list) {
+            totalPrice += item.getPrice() * item.getQuantity();
+        }
+        click(totalPrice);
+
+        holder.binding.btnAgument.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CartDAO cartDAO = new CartDAO(context);
+                if (cartDAO.augmentQuantity(list.get(holder.getAdapterPosition()))) {
+                    list.clear();
+                    list.addAll(cartDAO.getAllCart());
+                    notifyDataSetChanged();
+                }
+            }
+        });
+        holder.binding.btnReduce.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CartDAO cartDAO = new CartDAO(context);
+                if (cartDAO.reduceQuantity(list.get(holder.getAdapterPosition()))) {
+                    list.clear();
+                    list.addAll(cartDAO.getAllCart());
+                    notifyDataSetChanged();
+                }
+            }
+        });
+
+        holder.binding.tvQuantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                int totalPrice = 0;
+                for (Cart item : list) {
+                    totalPrice += item.getPrice() * item.getQuantity();
+                }
+                click(totalPrice);
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private ItemCartBinding binding;
+
+        public ViewHolder(@NonNull ItemCartBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+    }
+}

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.duan1.R;
+import com.example.duan1.activity.DetailProductActivity;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.dao.CustomerDAO;
 import com.example.duan1.dao.ProductDAO;
@@ -42,9 +43,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeCustomerBinding> {
         binding.rcvHomePage1.setAdapter(new HomeAdapter(list) {
             @Override
             public void onItemClick(int position) {
-//                Intent intent = new Intent(getContext(), ProductDetailActivity.class);
-//                intent.putExtra("id", list.get(position).getId());
-//                startActivity(intent);
+                Intent intent = new Intent(getContext(), DetailProductActivity.class);
+                intent.putExtra("product_id", list.get(position).getId());
+                startActivity(intent);
                 Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
             }
         });
@@ -56,7 +57,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeCustomerBinding> {
         productDAO = new ProductDAO(getContext());
 
         list = productDAO.getAll();
-        Log.d("TAGG", "initData: " + list.get(0).getName());
     }
 
     @Override
