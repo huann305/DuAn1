@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.duan1.BillStatus;
 import com.example.duan1.R;
 import com.example.duan1.Utils;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
@@ -186,7 +187,8 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         bill.setId(billDAO.getAll().size() + 1);
         bill.setIdCustomer("" + customer.getId());
         bill.setShippingAddress("1");
-        bill.setStatus("Đang chờ");
+        bill.setStatus(BillStatus.WAITING);
+        bill.setIdEmployee(null);
 
         //lấy thời gian hiện tại
         Date date = new Date();
@@ -201,7 +203,6 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
             for (Cart cart : list) {
                 BillDetail billDetail = new BillDetail();
                 billDetail.setIdBill(bill.getId());
-                Log.i("BillDetail", bill.getId() + "");
                 billDetail.setIdProduct(cart.getIdProduct());
                 billDetail.setQuantity(cart.getQuantity());
                 billDetail.setPrice(cart.getPrice() * cart.getQuantity());

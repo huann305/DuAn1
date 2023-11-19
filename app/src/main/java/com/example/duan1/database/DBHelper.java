@@ -77,9 +77,22 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_BILL);
         //Initialize data for the bill table
         String INSERT_BILL_DATA = "INSERT INTO " + TABLE_BILL + " (idEmployee, idCustomer, date, shippingAddress, status) VALUES " +
-                "('employee1', 'customer1', '2022-01-01', '123 Main St', 'active'), " +
-                "('employee2', 'customer2', '2022-02-02', '456 Elm St', 'active'), " +
-                "('employee3', 'customer3', '2022-03-03', '789 Oak St', 'inactive')";
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('2', '1', '2022-02-02', '456 Elm St', 'Đang làm'), " +
+                "('2', '3', '2022-02-02', '456 Elm St', 'Đã hoàn thành'), " +
+                "('3', '2', '2022-03-03', '789 Oak St', 'Đang chờ xác nhận')";
         sqLiteDatabase.execSQL(INSERT_BILL_DATA);
 
         String CREATE_TABLE_BILL_DETAIL = "CREATE TABLE " + TABLE_BILL_DETAIL + " (" +

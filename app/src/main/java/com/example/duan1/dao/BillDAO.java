@@ -28,6 +28,33 @@ public class BillDAO {
         }
         return null;
     }
+    public List<Bill> getAllWithStatus(String status){
+        String sql = "SELECT * FROM " + DBHelper.TABLE_BILL +" WHERE status = ?";
+        List<Bill> list = getData(sql, new String[]{status});
+        if (list.size() > 0){
+            return list;
+        }
+        return null;
+    }
+
+    public boolean updateStatus(String status, String id){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String sql = "UPDATE " + DBHelper.TABLE_BILL + " SET status = ? WHERE id = ?";
+        db.execSQL(sql, new String[]{status, String.valueOf(id)});
+        if (db != null){
+            db.close();
+        }
+        return true;
+    }
+    public boolean addEmployeeToBill(String id, String idEmployee){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String sql = "UPDATE " + DBHelper.TABLE_BILL + " SET idEmployee = ? WHERE id = ?";
+        db.execSQL(sql, new String[]{idEmployee, String.valueOf(id)});
+        if (db != null){
+            db.close();
+        }
+        return true;
+    }
 
     public int getTotal(String fromDate, String toDate){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
