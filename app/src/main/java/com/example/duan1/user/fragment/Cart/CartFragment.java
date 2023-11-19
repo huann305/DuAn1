@@ -219,6 +219,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         list.addAll(cartDAO.getAllCartCus(email));
         cartEmpty();
         adapter.notifyDataSetChanged();
+        binding.tvAddress.setText("Quét mã QR để nhập số bàn");
         Toast.makeText(getContext(), "Đặt hàng thành công", Toast.LENGTH_SHORT).show();
     }
 
