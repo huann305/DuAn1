@@ -85,7 +85,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String CREATE_TABLE_BILL_DETAIL = "CREATE TABLE " + TABLE_BILL_DETAIL + " (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "idProduct INTEGER, " +
-                "idBill INTEGER, " +
+                "idBill INTEGER REFERENCES " + TABLE_BILL + "(id), " +
                 "quantity INTEGER, " +
                 "price INTEGER, " +
                 "note TEXT" +

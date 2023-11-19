@@ -1,5 +1,6 @@
 package com.example.duan1.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -36,23 +37,14 @@ public class BillDAO {
 
     public boolean insert(Bill object){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String sql = "INSERT INTO " + DBHelper.TABLE_BILL + " VALUES(?,?,?,?,?,?)";
-        db.execSQL(sql, new String[]{String.valueOf(object.getId()), object.getIdEmployee(), object.getIdCustomer(), object.getDate(), object.getShippingAddress(), object.getStatus()});
+        String sql = "INSERT INTO " + DBHelper.TABLE_BILL + "(idEmployee, idCustomer, date, shippingAddress, status) " + " VALUES(?,?,?,?,?)";
+        db.execSQL(sql, new String[]{ object.getIdEmployee(), object.getIdCustomer(), object.getDate(), object.getShippingAddress(), object.getStatus()});
         if (db != null){
             db.close();
         }
         return true;
     }
 
-    public boolean insertNA(Bill object){
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String sql = "INSERT INTO " + DBHelper.TABLE_BILL + " VALUES(?,?,?,?,?)";
-        db.execSQL(sql, new String[]{object.getIdEmployee(), object.getIdCustomer(), object.getDate(), object.getShippingAddress(), object.getStatus()});
-        if (db != null){
-            db.close();
-        }
-        return true;
-    }
 
     public boolean updatee(Bill object){
         SQLiteDatabase db = dbHelper.getWritableDatabase();

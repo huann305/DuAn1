@@ -65,6 +65,10 @@ public class BillDetail {
         this.note = note;
     }
 
+    public BillDetail() {
+
+    }
+
     @Override
     public String toString() {
         return "BillDetail{" +

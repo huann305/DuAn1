@@ -3,6 +3,7 @@ package com.example.duan1.dao;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.duan1.database.DBHelper;
 import com.example.duan1.model.BillDetail;
@@ -36,12 +37,20 @@ public class BillDetailDAO {
 
     public boolean insert(BillDetail object){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String sql = "INSERT INTO " + DBHelper.TABLE_BILL_DETAIL + " VALUES(?,?,?,?,?,?)";
-        db.execSQL(sql, new String[]{String.valueOf(object.getId()), String.valueOf(object.getIdBill()), String.valueOf(object.getIdProduct()), String.valueOf(object.getQuantity()), String.valueOf(object.getPrice()), object.getNote()});
+        String sql = "INSERT INTO " + DBHelper.TABLE_BILL_DETAIL + "( idBill, idProduct, quantity, price, note) " + " VALUES(?,?,?,?,?)";
+        db.execSQL(sql, new String[]{ String.valueOf(object.getIdBill()), String.valueOf(object.getIdProduct()), String.valueOf(object.getQuantity()), String.valueOf(object.getPrice()), object.getNote()});
+        Log.i("TAG", "Giá: " + object.getPrice());
         if (db != null){
             db.close();
         }
         return true;
+    }
+
+    public int getTotalPrice(int idBill){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT SUM(price) FROM " + DBHelper.TABLE_BILL_DETAIL + " WHERE idBill = ?", new String[]{String.valueOf(idBill)});
+        c.moveToFirst();
+        return c.getInt(0);
     }
 
     private List<BillDetail> getData(String sql, String...selectionArgs){

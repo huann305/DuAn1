@@ -18,17 +18,22 @@ import android.widget.Toast;
 import com.example.duan1.R;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.dao.BillDAO;
+import com.example.duan1.dao.BillDetailDAO;
 import com.example.duan1.dao.CartDAO;
 import com.example.duan1.dao.CustomerDAO;
 import com.example.duan1.dao.ProductDAO;
 import com.example.duan1.databinding.FragmentCartBinding;
 import com.example.duan1.model.Bill;
+import com.example.duan1.model.BillDetail;
 import com.example.duan1.model.Cart;
 import com.example.duan1.model.Customer;
 import com.example.duan1.model.Product;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class CartFragment extends BaseFragment<FragmentCartBinding> {
     public static String TAG = "Giỏ hàng";
@@ -137,6 +142,43 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
             productDAO.updateQuantitySold(cart);
             cartDAO.deleteCart(cart.getId());
         }
+        //tạo đơn hàng
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", "");
+        CustomerDAO customerDAO = new CustomerDAO(getContext());
+        Customer customer = customerDAO.getByEmail(email);
+
+        BillDAO billDAO = new BillDAO(getContext());
+
+        Bill bill = new Bill();
+        bill.setId(billDAO.getAll().size() + 1);
+        bill.setIdCustomer("" + customer.getId());
+        bill.setShippingAddress("1");
+        bill.setStatus("Đang chờ");
+
+        //lấy thời gian hiện tại
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String dateString = simpleDateFormat.format(date);
+        bill.setDate(dateString);
+
+
+        BillDetailDAO billDetailDAO = new BillDetailDAO(getContext());
+        if(billDAO.insert(bill)){
+            //tạo hóa đơn chi tiết
+            for (Cart cart : list) {
+                BillDetail billDetail = new BillDetail();
+                billDetail.setIdBill(bill.getId());
+                Log.i("BillDetail", bill.getId() + "");
+                billDetail.setIdProduct(cart.getIdProduct());
+                billDetail.setQuantity(cart.getQuantity());
+                billDetail.setPrice(cart.getPrice() * cart.getQuantity());
+
+                // Lưu hóa đơn chi tiết vào cơ sở dữ liệu
+                billDetailDAO.insert(billDetail);
+            }
+        }
+
 
         list.clear();
         list.addAll(cartDAO.getAllCart());

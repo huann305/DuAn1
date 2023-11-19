@@ -35,13 +35,13 @@ public class BillFragment extends BaseFragment<FragmentOrderCustomerBinding> {
         binding.rcv.setAdapter(new BillAdapter(list, getContext()));
     }
 
-    BillDetailDAO billDetailDAO;
-    List<BillDetail> list;
+    BillDAO billDAO;
+    List<Bill> list;
     @Override
     protected void initData() {
 
-        billDetailDAO = new BillDetailDAO(getContext());
-        list = billDetailDAO.getAll();
+        billDAO = new BillDAO(getContext());
+        list = billDAO.getAll();
     }
 
     @Override
