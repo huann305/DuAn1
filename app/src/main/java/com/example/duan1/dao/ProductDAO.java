@@ -3,14 +3,19 @@ package com.example.duan1.dao;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.example.duan1.database.DBHelper;
+import com.example.duan1.model.Cart;
 import com.example.duan1.model.Product;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAO {
+    Context context;
     private DBHelper dbHelper;
     public ProductDAO(Context context){
         this.dbHelper = new DBHelper(context);
@@ -36,6 +41,7 @@ public class ProductDAO {
 
     public boolean insert(Product product){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+
         String sql = "INSERT INTO " + DBHelper.TABLE_PRODUCT + "(name, image, price, quantitySold, status)" + " VALUES(?,?,?,?,?)";
         db.execSQL(sql, new String[]{String.valueOf(product.getName()), product.getImage(), String.valueOf(product.getPrice()), String.valueOf(product.getQuantitySold()), product.getStatus()});
         if (db != null){
@@ -68,5 +74,30 @@ public class ProductDAO {
             db.close();
         }
         return list;
+    }
+    private byte[] getByteArrayFromImage(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+    //tăng số lượng đã bán
+    public boolean updateQuantitySold(Cart cart){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        //lấy ra cart --> từ id của cart --> sản phẩm --> số lượng đã bán ht = sl cart + sl đã bán ban đầu
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DBHelper.TABLE_PRODUCT + " WHERE id = ?", new String[]{String.valueOf(cart.getIdProduct())});
+        if(cursor.getCount() > 0){
+            cursor.moveToFirst();
+            int quantitySold = cursor.getInt(4);
+            quantitySold += cart.getQuantity();
+            db.execSQL("UPDATE " + DBHelper.TABLE_PRODUCT + " SET quantitySold = ? WHERE id = ?", new String[]{String.valueOf(quantitySold), String.valueOf(cursor.getInt(0))});
+        }
+        if (cursor != null){
+            cursor.close();
+        }
+        if (db != null){
+            db.close();
+        }
+        return true;
     }
 }

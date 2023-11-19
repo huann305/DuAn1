@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.duan1.R;
 import com.example.duan1.dao.ProductDAO;
 import com.example.duan1.databinding.ItemProductManagerBinding;
+import com.example.duan1.model.Cart;
 import com.example.duan1.model.Product;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class AdapterProductManagement extends RecyclerView.Adapter<AdapterProduc
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product product = list.get(position);
         holder.binding.tvTitleProduct.setText(product.getName());
-        holder.binding.tvPriceProduct.setText("Đơn giá: "+product.getPrice()+"");
+        holder.binding.tvPriceProduct.setText("Đơn giá: "+product.getPrice()+" VND");
         holder.binding.tvQuantityProduct.setText("Số lượng: "+product.getQuantitySold()+"");
         holder.binding.tvStatusProduct.setText("Trạng thái: "+product.getStatus());
 
@@ -53,20 +54,17 @@ public class AdapterProductManagement extends RecyclerView.Adapter<AdapterProduc
                 builder.create();
                 AlertDialog alertDialog = builder.create();
 
-                EditText edtid = view.findViewById(R.id.edt_id_updatepro);
                 EditText edtTenSP = view.findViewById(R.id.edt_title_updatepro);
                 EditText edtDonGia = view.findViewById(R.id.edt_price_updatepro);
                 Spinner spinnerTrangThai = view.findViewById(R.id.spn_updatepro);
                 Button btnUpdate = view.findViewById(R.id.btn_submit_updatepro);
                 Button btnCancel = view.findViewById(R.id.btn_canupdatepro);
 
-                edtid.setText(String.valueOf(product.getId()));
-                edtTenSP.setText(product.getName());
-                edtDonGia.setText(String.valueOf(product.getPrice()));
+
 
                 List<String> data = new ArrayList<>();
-                data.add("Đồ ăn");
-                data.add("Nước uống");
+                data.add("Còn hàng");
+                data.add("Hết hàng");
 
                 // Tạo Adapter để đổ dữ liệu vào Spinner
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, data);
@@ -76,8 +74,11 @@ public class AdapterProductManagement extends RecyclerView.Adapter<AdapterProduc
 
                 // Gán Adapter cho Spinner
                 spinnerTrangThai.setAdapter(adapter);
+            edtTenSP.setText(product.getName());
+            edtDonGia.setText(String.valueOf(product.getPrice()));
+            spinnerTrangThai.setSelection(data.indexOf(product.getStatus()));
 
-                if(product.getStatus().equals("Đồ ăn")) {
+                if(product.getStatus().equals("Còn hàng")) {
                     spinnerTrangThai.setSelection(0);
                 } else {
                     spinnerTrangThai.setSelection(1);
@@ -85,7 +86,13 @@ public class AdapterProductManagement extends RecyclerView.Adapter<AdapterProduc
 
                 btnUpdate.setOnClickListener(v1 -> {
                     ProductDAO productDAO = new ProductDAO(context);
-                    product.setStatus(spinnerTrangThai.getSelectedItem().toString());
+                    String status = spinnerTrangThai.getSelectedItem().toString();
+                    String name = edtTenSP.getText().toString();
+                    String gia = edtDonGia.getText().toString();
+                    product.setStatus(status);
+                    product.setName(name);
+                    product.setPrice(Integer.parseInt(gia));
+
                     if(productDAO.updatee(product, product.getId())) {
                         Toast.makeText(context, "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
                         notifyDataSetChanged();

@@ -69,7 +69,6 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
             builder.setView(view);
             AlertDialog alertDialog = builder.create();
 
-            EditText edtId = view.findViewById(R.id.edt_id_addpro);
             EditText edtName = view.findViewById(R.id.edt_name_addpro);
             EditText edtPrice = view.findViewById(R.id.edt_price_addpro);
             Spinner spnRole = view.findViewById(R.id.spn_addpro);
@@ -90,14 +89,18 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
 
             btnThem.setOnClickListener(v1 -> {
                 Product product = new Product();
-                String id = edtId.getText().toString();
                 String name = edtName.getText().toString();
                 String price = edtPrice.getText().toString();
+                String status = spnRole.getSelectedItem().toString();
 
-                if(id.isEmpty() || name.isEmpty() || price.isEmpty()) {
+
+                if( name.isEmpty() || price.isEmpty()) {
                     Toast.makeText(getContext(), "Các trươờng không được để trống", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                product.setName(name);
+                product.setPrice(Integer.parseInt(price));
+                product.setStatus(status);
                     if(productDAO.insert(product)){;
                         Toast.makeText(getContext(), "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
