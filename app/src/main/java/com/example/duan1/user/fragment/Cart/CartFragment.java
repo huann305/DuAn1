@@ -1,6 +1,8 @@
 package com.example.duan1.user.fragment.Cart;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,11 +17,14 @@ import android.widget.Toast;
 
 import com.example.duan1.R;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
+import com.example.duan1.dao.BillDAO;
 import com.example.duan1.dao.CartDAO;
+import com.example.duan1.dao.CustomerDAO;
 import com.example.duan1.dao.ProductDAO;
 import com.example.duan1.databinding.FragmentCartBinding;
 import com.example.duan1.model.Bill;
 import com.example.duan1.model.Cart;
+import com.example.duan1.model.Customer;
 import com.example.duan1.model.Product;
 
 import java.util.ArrayList;
@@ -132,6 +137,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
             productDAO.updateQuantitySold(cart);
             cartDAO.deleteCart(cart.getId());
         }
+
         list.clear();
         list.addAll(cartDAO.getAllCart());
         cartEmpty();

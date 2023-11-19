@@ -49,18 +49,18 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                     }
                 } else if (type.equals(Utils.SHOP)) {
                     if(accountDAO.checkLogin(binding.edtEmail.getText().toString(), binding.edtPassword.getText().toString(), DBHelper.TABLE_ACCOUNT_SHOP)) {
-                        SharedPreferences sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("email", binding.edtEmail.getText().toString());
-                        editor.putString("password", binding.edtPassword.getText().toString());
-                        editor.commit();
-
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finishAffinity();
                     }else{
                         Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
                     }
                 }
+                SharedPreferences sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("email", binding.edtEmail.getText().toString());
+                editor.putString("password", binding.edtPassword.getText().toString());
+                editor.commit();
+
             }
         });
     }

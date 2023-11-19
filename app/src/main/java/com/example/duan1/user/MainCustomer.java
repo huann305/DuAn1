@@ -17,6 +17,7 @@ import com.example.duan1.user.fragment.Cart.CartFragment;
 import com.example.duan1.user.fragment.changepass.ChangePasswordFragment;
 import com.example.duan1.user.fragment.home.HomeFragment;
 import com.example.duan1.user.fragment.bill.BillFragment;
+import com.example.duan1.user.fragment.updateinfo.UpdateInfoCustomerFragment;
 
 public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
 
@@ -58,7 +59,7 @@ public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
             } else if (item.getItemId() == R.id.nav_order) {
                 fragment = BillFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_update_profile) {
-                fragment = UpdateInformationFragment.newInstance();
+                fragment = UpdateInfoCustomerFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_change_password) {
                 fragment = ChangePasswordFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_logout) {

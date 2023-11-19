@@ -44,6 +44,16 @@ public class BillDAO {
         return true;
     }
 
+    public boolean insertNA(Bill object){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String sql = "INSERT INTO " + DBHelper.TABLE_BILL + " VALUES(?,?,?,?,?)";
+        db.execSQL(sql, new String[]{object.getIdEmployee(), object.getIdCustomer(), object.getDate(), object.getShippingAddress(), object.getStatus()});
+        if (db != null){
+            db.close();
+        }
+        return true;
+    }
+
     public boolean updatee(Bill object){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String sql = "UPDATE " + DBHelper.TABLE_BILL + " SET idEmployee = ?, idCustomer = ?, date = ?, shippingAddress = ?, status = ? WHERE id = ?";

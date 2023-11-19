@@ -62,10 +62,10 @@ public class CustomerDAO {
         }
         return true;
     }
-    public boolean updatee(Customer object, String id) {
+    public boolean updateInfo(Customer object, String email) {
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
-        String sql = "UPDATE " + DBHelper.TABLE_CUSTOMER + " SET status = ? WHERE id = ?";
-        sqLiteDatabase.execSQL(sql, new String[]{object.getStatus(), id});
+        String sql = "UPDATE " + DBHelper.TABLE_CUSTOMER + " SET name = ?, phone = ?, address = ?, birthday = ? WHERE email = ?";
+        sqLiteDatabase.execSQL(sql, new String[]{object.getName(), object.getPhone(), object.getAddress(), object.getBirthday(), email});
         if (sqLiteDatabase != null) {
             sqLiteDatabase.close();
         }
