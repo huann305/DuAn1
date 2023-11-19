@@ -7,10 +7,20 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <ImageButton
+            android:id="@+id/btnFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/filter"
+            android:backgroundTint="@color/white"
+            />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rccEmployee"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_below="@id/btnFilter"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fltAdd_em"

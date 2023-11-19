@@ -27,6 +27,15 @@ public class EmployeeDAO {
         }
         return null;
     }
+
+    public List<Employee> getAllByStatus(String status) {
+        String sql = "SELECT * FROM " + DBHelper.TABLE_EMPLOYEE + " WHERE status = ?";
+        List<Employee> list = getData(sql, status);
+        if (list.size() > 0) {
+            return list;
+        }
+        return null;
+    }
     public Employee getID(String id) {
         String sql = "SELECT * FROM " + DBHelper.TABLE_EMPLOYEE + " WHERE email = ?";
         List<Employee> list = getData(sql, id);

@@ -27,6 +27,15 @@ public class CustomerDAO {
         }
         return null;
     }
+
+    public List<Customer> getAllByStatus(String status) {
+        String sql = "SELECT * FROM " + DBHelper.TABLE_CUSTOMER + " WHERE status = ?";
+        List<Customer> list = getData(sql, status);
+        if (list.size() > 0) {
+            return list;
+        }
+        return null;
+    }
     public Customer getID(String id) {
         String sql = "SELECT * FROM " + DBHelper.TABLE_CUSTOMER + " WHERE id = ?";
         List<Customer> list = getData(sql, id);

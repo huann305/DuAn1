@@ -2,11 +2,15 @@ package com.example.duan1.admin.ui.fragment.customermanagement;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1.R;
+import com.example.duan1.admin.ui.fragment.employeemanagement.EmployeeAdapter;
 import com.example.duan1.dao.CustomerDAO;
 import com.example.duan1.databinding.FragmentCustomerManagementBinding;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
@@ -36,7 +40,7 @@ public class CustomerManagementFragment extends BaseFragment<FragmentCustomerMan
 
     @Override
     protected void initEvent() {
-
+        filterStatus();
     }
 
     @Override
@@ -56,5 +60,42 @@ public class CustomerManagementFragment extends BaseFragment<FragmentCustomerMan
         list = customerDAO.getAll();
         adapter = new CustomerAdapter(getContext(), list);
         binding.rccCustomer.setAdapter(adapter);
+    }
+
+    public void filterStatus(){
+        binding.btnFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Tạo PopupMenu và liên kết với nút
+                PopupMenu popupMenu = new PopupMenu(getContext(), binding.btnFilter);
+                popupMenu.getMenuInflater().inflate(R.menu.menu_filter, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        if (menuItem.getItemId() == R.id.active) {
+                            list = customerDAO.getAllByStatus("active");
+                            adapter = new CustomerAdapter(getContext(), list);
+                            binding.rccCustomer.setAdapter(adapter);
+                            return true;
+                        } else if (menuItem.getItemId() == R.id.inactive) {
+                            list = customerDAO.getAllByStatus("inactive");
+                            adapter = new CustomerAdapter(getContext(), list);
+                            binding.rccCustomer.setAdapter(adapter);
+                            return true;
+                        }else if (menuItem.getItemId() == R.id.all) {
+                            list = customerDAO.getAll();
+                            adapter = new CustomerAdapter(getContext(), list);
+                            binding.rccCustomer.setAdapter(adapter);
+                            return true;
+                        }
+
+                        return false;
+                    }
+                });
+                // Hiển thị PopupMenu
+                popupMenu.show();
+            }
+        });
     }
 }
