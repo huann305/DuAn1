@@ -94,7 +94,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tổng đơn hàng: 2"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:id="@+id/tv_tongdonhang"
@@ -104,7 +103,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tổng tiền"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:id="@+id/tv_tongtien"

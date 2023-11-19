@@ -37,8 +37,19 @@ public class EmployeeDAO {
         return null;
     }
     public Employee getID(String id) {
-        String sql = "SELECT * FROM " + DBHelper.TABLE_EMPLOYEE + " WHERE email = ?";
-        List<Employee> list = getData(sql, id);
+        String sql = "SELECT * FROM " + DBHelper.TABLE_EMPLOYEE + " WHERE id = ?";
+        List<Employee> list = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor c = db.rawQuery(sql, new String[]{id});
+        while (c.moveToNext()) {
+            list.add(new Employee(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7)));
+        }
+        if (c != null) {
+            c.close();
+        }
+        if (db != null) {
+            db.close();
+        }
         if (list.size() > 0) {
             return list.get(0);
         }

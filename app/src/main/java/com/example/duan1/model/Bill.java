@@ -75,7 +75,27 @@ public class Bill {
         this.status = status;
         this.email = email;
     }
+    public Bill(int id, String idEmployee, String idCustomer, String date, String shippingAddress, String status) {
+        this.id = id;
+        this.idEmployee = idEmployee;
+        this.idCustomer = idCustomer;
+        this.date = date;
+        this.shippingAddress = shippingAddress;
+        this.status = status;
+    }
 
     public Bill() {
+    }
+
+    @Override
+    public String toString() {
+        return "Bill{" +
+                "id=" + id +
+                ", idEmployee='" + idEmployee + '\'' +
+                ", idCustomer='" + idCustomer + '\'' +
+                ", date='" + date + '\'' +
+                ", shippingAddress='" + shippingAddress + '\'' +
+                ", status='" + status + '\'' +
+                '}';
     }
 }

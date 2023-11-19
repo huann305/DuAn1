@@ -5,21 +5,14 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.duan1.R;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
-import com.example.duan1.admin.ui.fragment.updateinformation.UpdateInformationFragment;
 import com.example.duan1.dao.CustomerDAO;
-import com.example.duan1.dao.EmployeeDAO;
 import com.example.duan1.databinding.FragmentUpdateInfoCustomerBinding;
 import com.example.duan1.model.Customer;
-import com.example.duan1.model.Employee;
 
 public class UpdateInfoCustomerFragment extends BaseFragment<FragmentUpdateInfoCustomerBinding> {
 
@@ -44,14 +37,14 @@ public class UpdateInfoCustomerFragment extends BaseFragment<FragmentUpdateInfoC
 
     @Override
     protected void initData() {
-loatData();
+loadData();
     }
 
     @Override
     public String getTAG() {
-        return null;
+        return "Cập nhật thông tin";
     }
-    public void loatData() {
+    public void loadData() {
         CustomerDAO customerDAO = new CustomerDAO(getContext());
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("USER", MODE_PRIVATE);
         String emailData = sharedPreferences.getString("email", "");

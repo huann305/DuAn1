@@ -56,7 +56,7 @@ public class BillDetail {
         this.note = note;
     }
 
-    public BillDetail(int id, int idBill, int idProduct, int quantity, int price, String note) {
+    public BillDetail(int id, int idProduct, int idBill, int quantity, int price, String note) {
         this.id = id;
         this.idBill = idBill;
         this.idProduct = idProduct;

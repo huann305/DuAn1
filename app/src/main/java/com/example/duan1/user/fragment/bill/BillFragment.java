@@ -14,6 +14,7 @@ import com.example.duan1.databinding.FragmentOrderCustomerBinding;
 import com.example.duan1.model.Bill;
 import com.example.duan1.model.BillDetail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BillFragment extends BaseFragment<FragmentOrderCustomerBinding> {
@@ -41,6 +42,7 @@ public class BillFragment extends BaseFragment<FragmentOrderCustomerBinding> {
     List<Bill> list;
     @Override
     protected void initData() {
+        list = new ArrayList<>();
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "");
         billDAO = new BillDAO(getContext());
