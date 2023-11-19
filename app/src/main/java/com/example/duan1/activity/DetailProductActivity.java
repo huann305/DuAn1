@@ -3,6 +3,7 @@ package com.example.duan1.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ public class DetailProductActivity extends BaseActivity<ActivityDetailProductBin
     Product product;
     int productId;
 
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_detail_product;
@@ -28,12 +30,14 @@ public class DetailProductActivity extends BaseActivity<ActivityDetailProductBin
 
     @Override
     protected void initEvent() {
+        SharedPreferences sharedPreferences = getSharedPreferences("USER", Context.MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", "");
         binding.btnAddCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 CartDAO cartDAO = new CartDAO(DetailProductActivity.this);
-                if (cartDAO.insertToCart(product)) {
+                if (cartDAO.insertToCart(product, email)) {
                     Toast.makeText(DetailProductActivity.this, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(DetailProductActivity.this, "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();

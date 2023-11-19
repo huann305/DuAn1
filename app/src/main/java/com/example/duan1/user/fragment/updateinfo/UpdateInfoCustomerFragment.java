@@ -32,7 +32,6 @@ public class UpdateInfoCustomerFragment extends BaseFragment<FragmentUpdateInfoC
         return fragment;
     }
 
-
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_update_info_customer;
@@ -62,7 +61,6 @@ loatData();
         binding.edtEmail.setText(customer.getEmail());
         binding.edtAddress.setText(customer.getAddress());
         binding.edtBirthday.setText(customer.getBirthday());
-        binding.edtStatus.setText(customer.getStatus());
 
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override

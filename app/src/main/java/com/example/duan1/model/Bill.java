@@ -7,6 +7,8 @@ public class Bill {
     private String date;
     private String shippingAddress;
     private String status;
+    private String email;
+
 
     public int getId() {
         return id;
@@ -56,13 +58,22 @@ public class Bill {
         this.status = status;
     }
 
-    public Bill(int id, String idEmployee, String idCustomer, String date, String shippingAddress, String status) {
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Bill(int id, String idEmployee, String idCustomer, String date, String shippingAddress, String status, String email) {
         this.id = id;
         this.idEmployee = idEmployee;
         this.idCustomer = idCustomer;
         this.date = date;
         this.shippingAddress = shippingAddress;
         this.status = status;
+        this.email = email;
     }
 
     public Bill() {

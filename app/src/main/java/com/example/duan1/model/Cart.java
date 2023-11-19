@@ -7,15 +7,26 @@ public class Cart {
     private int quantity;
     private int price;
 
-    public Cart(int id, int idProduct, String name, int quantity, int price) {
+    private String emailCus;
+
+    public Cart(int id, int idProduct, String name, int quantity, int price, String emailCus) {
         this.id = id;
         this.idProduct = idProduct;
         this.name = name;
         this.quantity = quantity;
         this.price = price;
+        this.emailCus = emailCus;
     }
 
     public Cart() {
+    }
+
+    public String getEmailCus() {
+        return emailCus;
+    }
+
+    public void setEmailCus(String emailCus) {
+        this.emailCus = emailCus;
     }
 
     public int getId() {

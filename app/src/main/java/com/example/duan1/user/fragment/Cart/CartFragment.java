@@ -48,6 +48,8 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
     Button btnOrder;
     //TextView tvTotalPrice;
 
+
+
     public static CartFragment newInstance() {
         Bundle args = new Bundle();
         CartFragment fragment = new CartFragment();
@@ -76,11 +78,13 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
     }
 
     public void loatData() {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", "");
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         binding.rccCart.setLayoutManager(linearLayoutManager);
 
         cartDAO = new CartDAO(getContext());
-        list = cartDAO.getAllCart();
+        list = cartDAO.getAllCartCus(email);
         adapter = new CartAdapter(getContext(), list) {
             @Override
             public void click(int totalPrice) {
@@ -88,7 +92,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
             }
             @Override
             public void clickBtnReduce() {
-                list = cartDAO.getAllCart();
+                list = cartDAO.getAllCartCus(email);
                 cartEmpty();
             }
         };
@@ -168,15 +172,15 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
     }
 
     private void onSuccess() {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", "");
         //tăng số lượng đã bán
         ProductDAO productDAO = new ProductDAO(getContext());
         for (Cart cart : list) {
             productDAO.updateQuantitySold(cart);
-            cartDAO.deleteCart(cart.getId());
+            cartDAO.deleteCart(cart.getId(), email);
         }
         //tạo đơn hàng
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
-        String email = sharedPreferences.getString("email", "");
         CustomerDAO customerDAO = new CustomerDAO(getContext());
         Customer customer = customerDAO.getByEmail(email);
 
@@ -187,6 +191,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         bill.setIdCustomer("" + customer.getId());
         bill.setShippingAddress("1");
         bill.setStatus("Đang chờ");
+        bill.setEmail(email);
 
         //lấy thời gian hiện tại
         Date date = new Date();
@@ -194,9 +199,8 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         String dateString = simpleDateFormat.format(date);
         bill.setDate(dateString);
 
-
         BillDetailDAO billDetailDAO = new BillDetailDAO(getContext());
-        if(billDAO.insert(bill)){
+        if(billDAO.insertCus(bill)){
             //tạo hóa đơn chi tiết
             for (Cart cart : list) {
                 BillDetail billDetail = new BillDetail();
@@ -206,14 +210,13 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
                 billDetail.setQuantity(cart.getQuantity());
                 billDetail.setPrice(cart.getPrice() * cart.getQuantity());
 
+
                 // Lưu hóa đơn chi tiết vào cơ sở dữ liệu
                 billDetailDAO.insert(billDetail);
             }
         }
-
-
         list.clear();
-        list.addAll(cartDAO.getAllCart());
+        list.addAll(cartDAO.getAllCartCus(email));
         cartEmpty();
         adapter.notifyDataSetChanged();
         Toast.makeText(getContext(), "Đặt hàng thành công", Toast.LENGTH_SHORT).show();

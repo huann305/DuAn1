@@ -1,6 +1,7 @@
 package com.example.duan1.user.fragment.bill;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.example.duan1.dao.BillDAO;
 import com.example.duan1.dao.BillDetailDAO;
 import com.example.duan1.dao.EmployeeDAO;
 import com.example.duan1.dao.ProductDAO;
+import com.example.duan1.database.DBHelper;
 import com.example.duan1.model.Bill;
 import com.example.duan1.model.BillDetail;
 import com.example.duan1.model.Product;
@@ -23,14 +25,17 @@ import com.example.duan1.model.Product;
 import java.util.List;
 
 public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder> {
-    List<Bill> list;
+    private Context context;
+    private List<Bill> list;
     BillDAO billDAO;
     ProductDAO productDAO;
     EmployeeDAO employeeDAO;
     BillDetailDAO billDetailDAO;
 
+
     public BillAdapter(List<Bill> list, Context context) {
         this.list = list;
+        this.context = context;
         billDAO = new BillDAO(context);
         productDAO = new ProductDAO(context);
         employeeDAO = new EmployeeDAO(context);
@@ -43,17 +48,16 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
         return new BillViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order_placed, parent, false));
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull BillViewHolder holder, int position) {
         Bill bill = list.get(position);
         holder.tvIdBill.setText("Mã hóa đơn: " + String.valueOf(bill.getId()));
         //holder.tvNameEmployee.setText("Tên nhân viên: " + employeeDAO.getID(bill.getIdEmployee()).getName());
         holder.tvTotalPrice.setText("Tổng tiền: " + billDetailDAO.getTotalPrice(bill.getId()));
+        Log.i("tongtien", String.valueOf(billDetailDAO.getTotalPrice(bill.getId())));
         holder.tvDate.setText(bill.getDate());
         holder.tvAddress.setText(bill.getShippingAddress());
         holder.tvStatus.setText("Trạng thái: " + bill.getStatus());
-
     }
 
     @Override

@@ -40,7 +40,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeCustomerBinding> {
     protected void initEvent() {
         binding.rcvHomePage1.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
-        binding.rcvHomePage1.setAdapter(new HomeAdapter(list) {
+        binding.rcvHomePage1.setAdapter(new HomeAdapter(getContext(), list) {
             @Override
             public void onItemClick(int position) {
                 Intent intent = new Intent(getContext(), DetailProductActivity.class);

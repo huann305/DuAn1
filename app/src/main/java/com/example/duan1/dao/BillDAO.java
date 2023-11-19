@@ -25,6 +25,14 @@ public class BillDAO {
         }
         return null;
     }
+    public List<Bill> getAllCus(String email){
+        String sql = "SELECT * FROM " + DBHelper.TABLE_BILL + " WHERE emailCus = ? ";
+        List<Bill> list = getData(sql, email);
+        if (list.size() > 0){
+            return list;
+        }
+        return null;
+    }
 
     public Bill getID(int id){
         String sql = "SELECT * FROM " + DBHelper.TABLE_BILL + " WHERE id = ?";
@@ -35,10 +43,10 @@ public class BillDAO {
         return null;
     }
 
-    public boolean insert(Bill object){
+    public boolean insertCus(Bill object){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String sql = "INSERT INTO " + DBHelper.TABLE_BILL + "(idEmployee, idCustomer, date, shippingAddress, status) " + " VALUES(?,?,?,?,?)";
-        db.execSQL(sql, new String[]{ object.getIdEmployee(), object.getIdCustomer(), object.getDate(), object.getShippingAddress(), object.getStatus()});
+        String sql = "INSERT INTO " + DBHelper.TABLE_BILL + "(idEmployee, idCustomer, date, shippingAddress, status, emailCus)"  + " VALUES(?,?,?,?,?,?)";
+        db.execSQL(sql, new String[]{String.valueOf(object.getIdEmployee()), object.getIdCustomer(), object.getDate(), object.getShippingAddress(), object.getStatus(), object.getEmail()});
         if (db != null){
             db.close();
         }
@@ -72,7 +80,7 @@ public class BillDAO {
 
         Cursor c = db.rawQuery(sql, selectionArgs);
         while (c.moveToNext()){
-            list.add(new Bill(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5)));
+            list.add(new Bill(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6)));
         }
         if (c != null){
             c.close();
