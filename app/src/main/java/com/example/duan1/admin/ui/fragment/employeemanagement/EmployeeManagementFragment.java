@@ -52,7 +52,7 @@ public class EmployeeManagementFragment extends BaseFragment<FragmentEmployeeMan
     }
 
     @Override
-    protected void initView() {
+    protected void initEvent() {
     }
     @Override
     protected void initData() {

@@ -37,7 +37,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeCustomerBinding> {
     List<Product> list;
     ProductDAO productDAO;
     @Override
-    protected void initView() {
+    protected void initEvent() {
         binding.rcvHomePage1.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
         binding.rcvHomePage1.setAdapter(new HomeAdapter(list) {

@@ -44,7 +44,7 @@ public class ChangePasswordFragment extends BaseFragment<FragmentChangePasswordB
     }
 
     @Override
-    protected void initView() {
+    protected void initEvent() {
 
     }
 

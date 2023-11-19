@@ -52,7 +52,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
     }
 
     @Override
-    protected void initView() {
+    protected void initEvent() {
 
     }
 

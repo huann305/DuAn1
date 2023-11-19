@@ -22,7 +22,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
     }
 
     @Override
-    protected void initView() {
+    protected void initEvent() {
 
     }
 

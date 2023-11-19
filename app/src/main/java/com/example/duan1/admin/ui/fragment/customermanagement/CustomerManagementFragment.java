@@ -35,7 +35,7 @@ public class CustomerManagementFragment extends BaseFragment<FragmentCustomerMan
     }
 
     @Override
-    protected void initView() {
+    protected void initEvent() {
 
     }
 

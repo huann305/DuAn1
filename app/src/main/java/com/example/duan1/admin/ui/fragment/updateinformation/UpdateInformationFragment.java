@@ -33,7 +33,7 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
     }
 
     @Override
-    protected void initView() {
+    protected void initEvent() {
 
     }
 

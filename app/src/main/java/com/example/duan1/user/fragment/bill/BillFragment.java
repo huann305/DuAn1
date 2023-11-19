@@ -30,7 +30,7 @@ public class BillFragment extends BaseFragment<FragmentOrderCustomerBinding> {
     }
 
     @Override
-    protected void initView() {
+    protected void initEvent() {
         binding.rcv.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rcv.setAdapter(new BillAdapter(list, getContext()));
     }
