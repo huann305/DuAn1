@@ -55,17 +55,17 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         binding.navView.setNavigationItemSelectedListener(item -> {
             BaseFragment fragment = null;
             if(item.getItemId() == R.id.nav_statistics){
-                 fragment = StatisticsFragment.newInstance();
+                fragment = StatisticsFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_product_management) {
-                 fragment = ProductManagementFragment.newInstance();
+                fragment = ProductManagementFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_employee_management) {
-                 fragment = EmployeeManagementFragment.newInstance();
+                fragment = EmployeeManagementFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_customer_management) {
-                 fragment = CustomerManagementFragment.newInstance();
+                fragment = CustomerManagementFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_order_management) {
-                 fragment = OrderManagementFragment.newInstance();
+                fragment = OrderManagementFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_update_profile) {
-                 fragment = UpdateInformationFragment.newInstance();
+                fragment = UpdateInformationFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_change_password) {
                 fragment = ChangePasswordFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_logout) {

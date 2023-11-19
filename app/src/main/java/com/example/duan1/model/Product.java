@@ -56,6 +56,9 @@ public class Product {
         this.status = status;
     }
 
+    public Product() {
+    }
+
     public Product(int id, String name, String image, int price, int quantitySold, String status) {
         this.id = id;
         this.name = name;
