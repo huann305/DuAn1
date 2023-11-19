@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.duan1.database.DBHelper;
 import com.example.duan1.model.Bill;
@@ -13,8 +14,10 @@ import java.util.List;
 
 public class BillDAO {
     private DBHelper dbHelper;
+    BillDetailDAO billDetailDAO;
     public BillDAO(Context context){
         this.dbHelper = new DBHelper(context);
+        billDetailDAO = new BillDetailDAO(context);
     }
 
     public List<Bill> getAll(){
@@ -24,6 +27,51 @@ public class BillDAO {
             return list;
         }
         return null;
+    }
+
+    public int getTotal(String fromDate, String toDate){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String sql = "SELECT * FROM " + DBHelper.TABLE_BILL + " WHERE date BETWEEN ? AND ?";
+        List<Bill> list = new ArrayList<>();
+
+        Cursor c = db.rawQuery(sql, new String[]{fromDate, toDate});
+        while (c.moveToNext()){
+            list.add(new Bill(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5)));
+        }
+        if (c != null){
+            c.close();
+        }
+        if (db != null){
+            db.close();
+        }
+        if (list.size() > 0){
+            int total = 0;
+            for (Bill bill : list){
+                total += billDetailDAO.getTotalPrice(bill.getId());
+            }
+            return total;
+        }
+        return 0;
+    }
+    public int getTotalOrder(String fromDate, String toDate){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String sql = "SELECT * FROM " + DBHelper.TABLE_BILL + " WHERE date BETWEEN ? AND ?";
+        List<Bill> list = new ArrayList<>();
+
+        Cursor c = db.rawQuery(sql, new String[]{fromDate, toDate});
+        while (c.moveToNext()){
+            list.add(new Bill(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5)));
+        }
+        if (c != null){
+            c.close();
+        }
+        if (db != null){
+            db.close();
+        }
+        if (list.size() > 0){
+            return list.size();
+        }
+        return 0;
     }
 
     public Bill getID(int id){

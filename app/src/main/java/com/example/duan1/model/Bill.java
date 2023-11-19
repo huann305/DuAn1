@@ -67,4 +67,16 @@ public class Bill {
 
     public Bill() {
     }
+
+    @Override
+    public String toString() {
+        return "Bill{" +
+                "id=" + id +
+                ", idEmployee='" + idEmployee + '\'' +
+                ", idCustomer='" + idCustomer + '\'' +
+                ", date='" + date + '\'' +
+                ", shippingAddress='" + shippingAddress + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }
