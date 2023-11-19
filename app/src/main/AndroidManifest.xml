@@ -47,6 +47,9 @@
             android:name=".activity.SignUpActivity"
             android:exported="false"></activity>
         <activity
+            android:name=".activity.DetailProductActivity"
+            android:exported="false"></activity>
+        <activity
             android:name=".qrcode.CaptureAct"
             android:exported="false"
             android:screenOrientation="portrait"
