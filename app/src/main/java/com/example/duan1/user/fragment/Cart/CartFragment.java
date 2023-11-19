@@ -5,7 +5,6 @@ import static android.content.Context.MODE_PRIVATE;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -92,53 +91,54 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         Log.d("TAGG", binding.tvAddress.getText().toString());
         if(binding.tvAddress.getText().toString().equals("Quét mã QR để nhập số bàn")){
             binding.btnOrder.setEnabled(false);
-            binding.btnOrder.setBackgroundColor(Color.parseColor("#ccc"));
             Log.d("Clicked", "false");
         }else {
             binding.btnOrder.setEnabled(true);
             Log.d("Clicked", "true");
-            binding.btnOrder.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    LayoutInflater inflater = getLayoutInflater();
-                    View view1 = inflater.inflate(R.layout.dialog_choose_method, null);
-                    builder.setView(view1);
-                    AlertDialog alertDialog = builder.create();
-
-                    TextView tvZaloPay = view1.findViewById(R.id.tvZaloPay);
-                    TextView tvCash = view1.findViewById(R.id.tvCash);
-                    TextView tvBank = view1.findViewById(R.id.tvBank);
-                    tvZaloPay.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            onSuccess();
-                            alertDialog.dismiss();
-                        }
-                    });
-                    tvCash.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            onSuccess();
-                            alertDialog.dismiss();
-                        }
-                    });
-                    tvBank.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            onSuccess();
-                            alertDialog.dismiss();
-                        }
-                    });
-                    alertDialog.show();
-                }
-            });
         }
 
         binding.btnQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getContext(), QRScanActivity.class));
+            }
+        });
+
+        //đặt hàng
+        binding.btnOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                LayoutInflater inflater = getLayoutInflater();
+                View view1 = inflater.inflate(R.layout.dialog_choose_method, null);
+                builder.setView(view1);
+                AlertDialog alertDialog = builder.create();
+
+                TextView tvZaloPay = view1.findViewById(R.id.tvZaloPay);
+                TextView tvCash = view1.findViewById(R.id.tvCash);
+                TextView tvBank = view1.findViewById(R.id.tvBank);
+                tvZaloPay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onSuccess();
+                        alertDialog.dismiss();
+                    }
+                });
+                tvCash.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onSuccess();
+                        alertDialog.dismiss();
+                    }
+                });
+                tvBank.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onSuccess();
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog.show();
             }
         });
     }

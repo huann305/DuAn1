@@ -141,7 +141,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 "(1, 'employee1@gmail.com', 'Employee 1', '1234567890', 'Address 1', '1234567890', 'active', '2022-01-01'), " +
                 "(2, 'employee2@gmail.com', 'Employee 2', '0987654321', 'Address 2', '0987654321', 'active', '2022-02-02'), " +
                 "(3, 'employee3@gmail.com', 'Employee 3', '9876543210', 'Address 3', '9876543210', 'inactive', '2022-03-03')," +
-                "(4, 'admin@gmail.com', 'Admin', '8765432109', 'Address 4', '8765432109', 'inactive', '2022-04-04')";
+                "(4, 'admin@gmail.com', 'Admin', '8765432109', 'Address 4', '8765432109', 'active', '2022-04-04')";
 
         sqLiteDatabase.execSQL(INSERT_EMPLOYEE_DATA);
 

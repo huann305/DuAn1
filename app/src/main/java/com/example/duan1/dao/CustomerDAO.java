@@ -35,6 +35,15 @@ public class CustomerDAO {
         }
         return null;
     }
+
+    public String getStatus(String email){
+        String sql = "SELECT * FROM " + DBHelper.TABLE_CUSTOMER + " WHERE email = ?";
+        List<Customer> list = getData(sql, email);
+        if (list.size() > 0) {
+            return list.get(0).getStatus();
+        }
+        return null;
+    }
     public Customer getByEmail(String email) {
         String sql = "SELECT * FROM " + DBHelper.TABLE_CUSTOMER + " WHERE email = ?";
         List<Customer> list = getData(sql, email);

@@ -11,6 +11,8 @@ import com.example.duan1.R;
 import com.example.duan1.Utils;
 import com.example.duan1.admin.ui.activity.BaseActivity;
 import com.example.duan1.dao.AccountDAO;
+import com.example.duan1.dao.CustomerDAO;
+import com.example.duan1.dao.EmployeeDAO;
 import com.example.duan1.databinding.ActivityLoginBinding;
 
 import com.example.duan1.model.Account;
@@ -42,6 +44,12 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
             public void onClick(View view) {
                 if(type.equals(Utils.CUSTOM)){
                     if(accountDAO.checkLogin(binding.edtEmail.getText().toString(), binding.edtPassword.getText().toString(), DBHelper.TABLE_ACCOUNT_CUSTOMER)){
+
+                        if(new CustomerDAO(LoginActivity.this).getStatus(binding.edtEmail.getText().toString()).equals("inactive")) {
+                            Toast.makeText(LoginActivity.this, "Tài khoản của bạn đã bị khóa", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         SharedPreferences sharedPreferences = getSharedPreferences(Utils.EMAIL, MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString(Utils.EMAIL, binding.edtEmail.getText().toString());
@@ -56,7 +64,10 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                     }
                 } else if (type.equals(Utils.SHOP)) {
                     if(accountDAO.checkLogin(binding.edtEmail.getText().toString(), binding.edtPassword.getText().toString(), DBHelper.TABLE_ACCOUNT_SHOP)) {
-
+                        if(new EmployeeDAO(LoginActivity.this).getStatus(binding.edtEmail.getText().toString()).equals("inactive")) {
+                            Toast.makeText(LoginActivity.this, "Tài khoản của bạn đã bị khóa", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         SharedPreferences sharedPreferences = getSharedPreferences(Utils.EMAIL, MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString(Utils.EMAIL, binding.edtEmail.getText().toString());

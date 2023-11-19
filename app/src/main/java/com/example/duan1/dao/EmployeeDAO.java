@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.duan1.database.DBHelper;
 import com.example.duan1.model.Account;
+import com.example.duan1.model.Customer;
 import com.example.duan1.model.Employee;
 
 import java.net.PortUnreachableException;
@@ -84,6 +85,14 @@ public class EmployeeDAO {
         }
         return true;
 
+    }
+    public String getStatus(String email){
+        String sql = "SELECT * FROM " + DBHelper.TABLE_EMPLOYEE + " WHERE email = ?";
+        List<Employee> list = getData(sql, email);
+        if (list.size() > 0) {
+            return list.get(0).getStatus();
+        }
+        return null;
     }
     private List<Employee> getData(String sql, String... selectionArgs) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
