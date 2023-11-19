@@ -13,21 +13,22 @@ import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.duan1.MainActivity;
 import com.example.duan1.R;
 
 public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
     protected B binding;
     protected abstract int getLayoutId();
-    protected abstract void initView();
+    protected abstract void initEvent();
     protected abstract void initData();
+
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
         initData();
-        initView();
+        initEvent();
         return binding.getRoot();
     }
     public static void add(AppCompatActivity appCompatActivity, Fragment fragment) {

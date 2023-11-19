@@ -23,7 +23,7 @@ public class OrderManagementFragment extends BaseFragment<FragmentOrderManagemen
     }
 
     @Override
-    protected void initView() {
+    protected void initEvent() {
 
     }
 

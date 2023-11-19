@@ -13,9 +13,11 @@ import com.example.duan1.admin.ui.activity.BaseActivity;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.admin.ui.fragment.updateinformation.UpdateInformationFragment;
 import com.example.duan1.databinding.ActivityMainCustomerBinding;
+import com.example.duan1.user.fragment.Cart.CartFragment;
 import com.example.duan1.user.fragment.changepass.ChangePasswordFragment;
 import com.example.duan1.user.fragment.home.HomeFragment;
-import com.example.duan1.user.fragment.order.OrderFragment;
+import com.example.duan1.user.fragment.bill.BillFragment;
+import com.example.duan1.user.fragment.updateinfo.UpdateInfoCustomerFragment;
 
 public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
 
@@ -55,15 +57,20 @@ public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
             if (item.getItemId() == R.id.nav_home_page) {
                 fragment = HomeFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_order) {
-                fragment = OrderFragment.newInstance();
+                fragment = BillFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_update_profile) {
-                fragment = UpdateInformationFragment.newInstance();
+                fragment = UpdateInfoCustomerFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_change_password) {
                 fragment = ChangePasswordFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_logout) {
                 startActivity(new Intent(MainCustomer.this, ChooseActivity.class));
                 finish();
+            } else if (item.getItemId() == R.id.nav_order_placed) {
+                Toast.makeText(this, "Chức năng đang cập nhật", Toast.LENGTH_SHORT).show();
+            } else if (item.getItemId() == R.id.nav_cart) {
+                fragment = CartFragment.newInstance();
             }
+
             if (fragment != null) {
                 BaseFragment.add(MainCustomer.this, fragment);
                 binding.tvTitle.setText(fragment.getTAG());

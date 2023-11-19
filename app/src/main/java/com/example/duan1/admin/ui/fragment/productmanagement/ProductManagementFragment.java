@@ -28,7 +28,6 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
     public static String TAG = "Quản lý sản phẩm";
 
     public static ProductManagementFragment newInstance() {
-
         Bundle args = new Bundle();
 
         ProductManagementFragment fragment = new ProductManagementFragment();
@@ -41,7 +40,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
     }
 
     @Override
-    protected void initView() {
+    protected void initEvent() {
 
     }
 

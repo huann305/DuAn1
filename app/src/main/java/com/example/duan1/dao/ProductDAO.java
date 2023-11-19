@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.duan1.database.DBHelper;
-import com.example.duan1.model.Employee;
 import com.example.duan1.model.Product;
 
 import java.util.ArrayList;
@@ -51,15 +50,6 @@ public class ProductDAO {
         db.execSQL(sql, new String[]{product.getName(), product.getImage(), String.valueOf(product.getPrice()), String.valueOf(product.getQuantitySold()), product.getStatus(), String.valueOf(id)});
         if (db != null){
             db.close();
-        }
-        return true;
-    }
-    public boolean updateStatusPro(Product object, String id) {
-        SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
-        String sql = "UPDATE " + DBHelper.TABLE_PRODUCT + " SET status = ? WHERE name = ?";
-        sqLiteDatabase.execSQL(sql, new String[]{object.getStatus(), id});
-        if (sqLiteDatabase != null) {
-            sqLiteDatabase.close();
         }
         return true;
     }

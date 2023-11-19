@@ -64,4 +64,7 @@ public class Bill {
         this.shippingAddress = shippingAddress;
         this.status = status;
     }
+
+    public Bill() {
+    }
 }

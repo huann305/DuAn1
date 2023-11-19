@@ -1,122 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginHorizontal="10dp"
     android:orientation="vertical">
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="45dp"
-       android:background="@drawable/top"
-       >
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="Cập nhật Nhân Viên"
-           android:textColor="@color/white"
-           android:textSize="20sp"
-           android:layout_gravity="center_vertical"
-           android:layout_marginLeft="20dp"
-           />
-   </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/top">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:text="Cập nhật Nhân Viên"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </LinearLayout>
+
     <ImageView
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:layout_width="85dp"
         android:layout_height="85dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/baseline_person_24"
-        />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/baseline_person_24" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:paddingHorizontal="70dp"
-        android:layout_height="wrap_content">
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Họ tên: Nguyễn văn A"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        />
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp">
+
+        <EditText
+            android:id="@+id/edtHoTen_up_em"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SDT"
+            android:hint="Họ tên: "
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:inputType="none"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
+
+        <EditText
+            android:id="@+id/edtSDT_up_em"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="SDT"
             android:textColor="@color/black"
             android:textSize="15sp"
-            />
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
+            android:inputType="none"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
+
+        <EditText
+            android:id="@+id/edtDiaChi_up_em"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Địa chỉ"
+            android:layout_marginTop="5dp"
+            android:hint="Địa chỉ: "
             android:textColor="@color/black"
             android:textSize="15sp"
-            />
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
+            android:inputType="none"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
+
+        <EditText
+            android:id="@+id/edtTaiKhoan_up_em"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tài khoaản"
+            android:layout_marginTop="5dp"
+            android:hint="Tài khoaản"
             android:textColor="@color/black"
             android:textSize="15sp"
-            />
+            android:inputType="none"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
+
             <TextView
-                android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:text="Trạng thái"
                 android:textColor="@color/black"
-                android:textSize="15sp"
-                />
+                android:textSize="15sp" />
+
             <Spinner
+                android:id="@+id/spnTrangThai_up_em"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_gravity="center_vertical"
-                />
+                android:layout_marginLeft="10dp" />
         </LinearLayout>
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
+
+        <EditText
+            android:id="@+id/edtCCCD_up_em"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="CCCD"
+            android:layout_marginTop="5dp"
+            android:hint="CCCD"
             android:textColor="@color/black"
             android:textSize="15sp"
-            />
+            android:inputType="none"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
     </LinearLayout>
+
     <LinearLayout
-        android:layout_marginTop="40dp"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:orientation="horizontal"
-        >
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal">
+
         <Button
+            android:id="@+id/btnHuy_up_em"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/bottom"
             android:text="Hủy"
-            android:textStyle="bold"
             android:textSize="18sp"
-            android:layout_weight="1"
-            />
+            android:textStyle="bold" />
+
         <Button
+            android:id="@+id/btnLuu_up_em"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/bottom2"
             android:text="Lưu"
-            android:textStyle="bold"
-            android:textSize="18sp"
             android:textColor="@color/white"
-            android:layout_weight="1"
-            />
+            android:textSize="18sp"
+            android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

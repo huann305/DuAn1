@@ -15,10 +15,11 @@
         android:textSize="21sp"
         />
     <TextView
+        android:id="@+id/tvBank"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:textColor="@color/black"
-        android:text="Thanh toán tại quầy"
+        android:text="Chuyển khoản"
         android:background="@color/white"
         android:gravity="center"
         android:textSize="18sp"
@@ -29,13 +30,29 @@
         android:background="#dadada"
         />
     <TextView
+        android:id="@+id/tvCash"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:textColor="@color/black"
-        android:text="Thanh toán qua ZaloPay"
+        android:text="Thanh toán bằng tiền mặt"
         android:background="@color/white"
         android:gravity="center"
         android:textSize="18sp"
         />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#dadada"
+        />
+    <TextView
+        android:id="@+id/tvZaloPay"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="Thanh toán qua ZaloPay"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
 
 </LinearLayout>
