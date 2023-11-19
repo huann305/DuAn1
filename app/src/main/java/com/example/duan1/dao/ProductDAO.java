@@ -75,11 +75,7 @@ public class ProductDAO {
         }
         return list;
     }
-    private byte[] getByteArrayFromImage(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream);
-        return byteArrayOutputStream.toByteArray();
-    }
+
     //tăng số lượng đã bán
     public boolean updateQuantitySold(Cart cart){
         SQLiteDatabase db = dbHelper.getWritableDatabase();

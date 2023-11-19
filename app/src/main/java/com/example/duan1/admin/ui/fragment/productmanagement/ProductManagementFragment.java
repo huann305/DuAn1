@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,8 @@ import com.example.duan1.databinding.FragmentProductManagementBinding;
 import com.example.duan1.model.Product;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ProductManagementFragment extends BaseFragment<FragmentProductManagementBinding> {
@@ -46,8 +49,11 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
 
     @Override
     protected void initData() {
+
+    item();
         loadData();
         addProduct();
+
     }
     @Override
     public String getTAG() {
@@ -60,6 +66,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
         list = productDAO.getAll();
         adapter = new AdapterProductManagement(getContext(), list);
         binding.rcvProduct.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
     public void addProduct(){
         binding.fltAddPro.setOnClickListener(v -> {
@@ -77,8 +84,8 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
 
             // Tạo danh sách dữ liệu
             List<String> data = new ArrayList<>();
-            data.add("Đồ ăn");
-            data.add("Nước Uống");
+            data.add("Còn hàng");
+            data.add("Hết hàng");
 
             // Tạo Adapter để đổ dữ liệu vào Spinner
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, data);
@@ -115,6 +122,40 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
         });
 
     }
+    public void item() {
+        List<String> data = new ArrayList<>();
+        data.add("Chọn sắp xếp");
+        data.add("Sắp xếp tăng dần");
+        data.add("Sắp xếp giảm dần");
 
+        // Tạo Adapter để đổ dữ liệu vào Spinner
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, data);
+
+        // Định dạng Spinner
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Gán Adapter cho Spinner
+        binding.spinnerProduct.setAdapter(adapter1);
+        binding.spinnerProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (data.get(i).equals("Sắp xếp tăng dần")){
+                    adapter.sort2();
+                    Toast.makeText(getContext(), "Đã sắp xếp tăng dần", Toast.LENGTH_SHORT).show();
+                    adapter.notifyDataSetChanged();
+                }else
+                if (data.get(i).equals("Sắp xếp giảm dần")){
+                    adapter.sort1();
+                    Toast.makeText(getContext(), "Đã sắp xếp giảm dần", Toast.LENGTH_SHORT).show();
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
 
 }

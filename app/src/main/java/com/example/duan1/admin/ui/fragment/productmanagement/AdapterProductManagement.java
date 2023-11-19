@@ -21,6 +21,8 @@ import com.example.duan1.model.Cart;
 import com.example.duan1.model.Product;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class AdapterProductManagement extends RecyclerView.Adapter<AdapterProductManagement.ViewHolder>{
@@ -112,6 +114,38 @@ public class AdapterProductManagement extends RecyclerView.Adapter<AdapterProduc
 
         });
 
+    }
+    public void sort2(){
+        Collections.sort(list, new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                if (o1.getPrice() > o2.getPrice()){
+//                    Toast.makeText(context, "Đã sắp xếp tăng dần", Toast.LENGTH_SHORT).show();
+                    notifyDataSetChanged();
+                    return 1;
+                }else {
+                    if (o1.getPrice() == o2.getPrice()){
+                        return 0;
+                    }else return -1;
+                }
+            }
+        });
+    }
+    public void sort1(){
+        Collections.sort(list, new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                if (o1.getPrice() < o2.getPrice()){
+//                    Toast.makeText(context, "Đã sắp xếp giảm dần", Toast.LENGTH_SHORT).show();
+                    notifyDataSetChanged();
+                    return 1;
+                }else {
+                    if (o1.getPrice() == o2.getPrice()){
+                        return 0;
+                    }else return -1;
+                }
+            }
+        });
     }
 
     @Override
