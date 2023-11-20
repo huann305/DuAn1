@@ -26,7 +26,7 @@ public class ProductDetailDAO {
     }
 
     public ProductDetail getID(int id){
-        String sql = "SELECT * FROM " + DBHelper.TABLE_PRODUCT_DETAIL + " WHERE id = ?";
+        String sql = "SELECT * FROM " + DBHelper.TABLE_PRODUCT_DETAIL + " WHERE idProduct = ?";
         List<ProductDetail> list = getData(sql, String.valueOf(id));
         if (list.size() > 0){
             return list.get(0);
@@ -34,10 +34,10 @@ public class ProductDetailDAO {
         return null;
     }
 
-    public boolean insert(ProductDetail product){
+    public boolean insert(int id, String description){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String sql = "INSERT INTO " + DBHelper.TABLE_PRODUCT_DETAIL+ "(idProduct, description)" + " VALUES(?,?)";
-        db.execSQL(sql, new String[]{String.valueOf(product.getIdProduct()), String.valueOf(product.getDescription())});
+        db.execSQL(sql, new String[]{String.valueOf(id), String.valueOf(description)});
         if (db != null){
             db.close();
         }

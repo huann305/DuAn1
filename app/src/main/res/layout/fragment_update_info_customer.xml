@@ -68,19 +68,6 @@
             android:paddingLeft="15dp"
             android:textSize="14sp"
             />
-        <EditText
-            android:id="@+id/edtStatus"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="#CCD8D7D7"
-            android:hint="Trạng thái: "
-            android:paddingLeft="15dp"
-            android:inputType="none"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:textSize="14sp"
-            />
         <Button
             android:id="@+id/btnSave"
             android:layout_marginTop="50dp"

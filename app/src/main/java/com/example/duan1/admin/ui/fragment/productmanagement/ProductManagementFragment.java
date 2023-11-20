@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.duan1.R;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.dao.ProductDAO;
+import com.example.duan1.dao.ProductDetailDAO;
 import com.example.duan1.databinding.FragmentProductManagementBinding;
 import com.example.duan1.model.Product;
 
@@ -109,6 +110,10 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 product.setPrice(Integer.parseInt(price));
                 product.setStatus(status);
                     if(productDAO.insert(product)){;
+
+                        ProductDetailDAO productDetailDAO = new ProductDetailDAO(getContext());
+                        productDetailDAO.insert(list.size()+1, "description");
+
                         Toast.makeText(getContext(), "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
                         loadData();

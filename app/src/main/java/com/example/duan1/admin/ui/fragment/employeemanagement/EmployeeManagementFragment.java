@@ -3,11 +3,13 @@ package com.example.duan1.admin.ui.fragment.employeemanagement;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +48,7 @@ public class EmployeeManagementFragment extends BaseFragment<FragmentEmployeeMan
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_employee_management;
@@ -53,24 +56,30 @@ public class EmployeeManagementFragment extends BaseFragment<FragmentEmployeeMan
 
     @Override
     protected void initEvent() {
+        addEmployee();
+        filterStatus();
     }
+
     @Override
     protected void initData() {
         loadData();
-        addEmployee();
     }
+
     @Override
     public String getTAG() {
         return TAG;
     }
-    public  void loadData() {
+
+    public void loadData() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         binding.rccEmployee.setLayoutManager(linearLayoutManager);
         employeeDAO = new EmployeeDAO(getContext());
         list = employeeDAO.getAll();
         adapter = new EmployeeAdapter(getContext(), list);
         binding.rccEmployee.setAdapter(adapter);
+
     }
+
     public void addEmployee() {
         binding.fltAddEm.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -86,7 +95,6 @@ public class EmployeeManagementFragment extends BaseFragment<FragmentEmployeeMan
 
             // Tạo danh sách dữ liệu
             List<String> data = new ArrayList<>();
-            data.add("admin");
             data.add("employeeSp");
             data.add("employeeChef");
 
@@ -102,12 +110,12 @@ public class EmployeeManagementFragment extends BaseFragment<FragmentEmployeeMan
                 String email = edtEmail.getText().toString();
                 String role = spnRole.getSelectedItem().toString();
 
-                 if(email.isEmpty()) {
-                     Toast.makeText(getContext(), "Không để trống Email", Toast.LENGTH_SHORT).show();
-                     return;
-                 }
+                if (email.isEmpty()) {
+                    Toast.makeText(getContext(), "Không để trống Email", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 AccountDAO accountDAO = new AccountDAO(getContext());
-                if(accountDAO.insertEmployee(new Account(email, "chicken", role))) {
+                if (accountDAO.insertEmployee(new Account(email, "chicken", role))) {
                     employee.setEmail(email);
                     //get current date
                     Date currentDate = new Date();
@@ -116,14 +124,15 @@ public class EmployeeManagementFragment extends BaseFragment<FragmentEmployeeMan
 
                     employee.setDate(formattedDate);
 
-                    if(employeeDAO.insert(employee)){;
+                    if (employeeDAO.insert(employee)) {
+                        ;
                         Toast.makeText(getContext(), "Thêm nhân viên thành công", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
                         loadData();
-                    }else{
+                    } else {
                         Toast.makeText(getContext(), "Thêm nhân viên thất bại", Toast.LENGTH_SHORT).show();
                     }
-                }else {
+                } else {
                     Toast.makeText(getContext(), "Email đã tồn tại", Toast.LENGTH_SHORT).show();
                     alertDialog.dismiss();
                 }
@@ -132,4 +141,42 @@ public class EmployeeManagementFragment extends BaseFragment<FragmentEmployeeMan
             alertDialog.show();
         });
     }
+
+    public void filterStatus() {
+        binding.btnFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(getContext(), binding.btnFilter);
+
+                popupMenu.getMenuInflater().inflate(R.menu.menu_filter, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        if (menuItem.getItemId() == R.id.active) {
+                            list = employeeDAO.getAllByStatus("active");
+                            adapter = new EmployeeAdapter(getContext(), list);
+                            binding.rccEmployee.setAdapter(adapter);
+                            return true;
+                        } else if (menuItem.getItemId() == R.id.inactive) {
+                            list = employeeDAO.getAllByStatus("inactive");
+                            adapter = new EmployeeAdapter(getContext(), list);
+                            binding.rccEmployee.setAdapter(adapter);
+                            return true;
+                        }else if (menuItem.getItemId() == R.id.all) {
+                            list = employeeDAO.getAll();
+                            adapter = new EmployeeAdapter(getContext(), list);
+                            binding.rccEmployee.setAdapter(adapter);
+                            return true;
+                        }
+
+                        return false;
+                    }
+                });
+                // Hiển thị PopupMenu
+                popupMenu.show();
+            }
+        });
+    }
 }
+

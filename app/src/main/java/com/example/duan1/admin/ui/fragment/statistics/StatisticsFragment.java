@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.example.duan1.R;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
+import com.example.duan1.dao.BillDAO;
 import com.example.duan1.databinding.FragmentStatisticsBinding;
 
 import java.util.Calendar;
@@ -38,7 +39,7 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
         chooseDate(binding.edttuNgay, binding.edttuNgay);
 
         binding.btndoanhThu.setOnClickListener(v -> {
-            if(binding.edttuNgay.getText().toString().equals("") || binding.edtdenNgay.getText().toString().equals("")){
+            if (binding.edttuNgay.getText().toString().equals("") || binding.edtdenNgay.getText().toString().equals("")) {
                 binding.edttuNgay.setError("Không được để trống");
                 binding.edtdenNgay.setError("Không được để trống");
                 Toast.makeText(getContext(), "Chưa chọn ngày", Toast.LENGTH_SHORT).show();
@@ -49,18 +50,33 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
 
             int result = tuNgay.compareTo(denNgay);
 
-            if (result <= 0) {
-                Toast.makeText(getContext(), "true", Toast.LENGTH_SHORT).show();
-            } else {
+            if (result > 0) {
                 Toast.makeText(getContext(), "Ngày bắt đầu phải trước hoặc cùng ngày kết thúc", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            BillDAO billDAO = new BillDAO(getContext());
+            binding.tvTongtien.setText("Tổng doanh thu: "+billDAO.getTotal(tuNgay, denNgay) + "");
+            binding.tvTongdonhang.setText("Tổng đơn hàng: "+billDAO.getTotalOrder(tuNgay, denNgay) + "");
         });
     }
 
     private void chooseDate(View view1, EditText editText) {
         view1.setOnClickListener(v -> {
             DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (view, year, month, dayOfMonth) -> {
-                editText.setText(year + "/" + (month + 1) + "/" + dayOfMonth);
+
+                if (dayOfMonth < 10) {
+                    editText.setText(year + "-" + (month + 1) + "-0" + dayOfMonth);
+                }
+                if (month + 1 < 10) {
+                    editText.setText(year + "-0" + (month + 1) + "-" + dayOfMonth);
+                }
+                if (dayOfMonth < 10 && month + 1 < 10) {
+                    editText.setText(year + "-0" + (month + 1) + "-0" + dayOfMonth);
+                }
+                if (dayOfMonth >= 10 && month + 1 >= 10) {
+                    editText.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+                }
             }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
             datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
             datePickerDialog.show();

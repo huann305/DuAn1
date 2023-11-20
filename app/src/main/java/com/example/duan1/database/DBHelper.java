@@ -19,7 +19,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_CART = "cart";
 
     public DBHelper(@Nullable Context context) {
-        super(context, DB_NAME, null, 1);
+        super(context, DB_NAME, null, 2);
     }
 
     @Override
@@ -72,14 +72,28 @@ public class DBHelper extends SQLiteOpenHelper {
                 "idCustomer TEXT, " +
                 "date TEXT, " +
                 "shippingAddress TEXT, " +
-                "status TEXT" +
+                "status TEXT," +
+                "emailCus TEXT REFERENCES " + TABLE_CUSTOMER + "(email)" + "" +
                 ")";
         sqLiteDatabase.execSQL(CREATE_TABLE_BILL);
         //Initialize data for the bill table
         String INSERT_BILL_DATA = "INSERT INTO " + TABLE_BILL + " (idEmployee, idCustomer, date, shippingAddress, status) VALUES " +
-                "('employee1', 'customer1', '2022-01-01', '123 Main St', 'active'), " +
-                "('employee2', 'customer2', '2022-02-02', '456 Elm St', 'active'), " +
-                "('employee3', 'customer3', '2022-03-03', '789 Oak St', 'inactive')";
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ xác nhận'), " +
+                "('2', '1', '2022-02-02', '456 Elm St', 'Đang làm'), " +
+                "('2', '3', '2022-02-02', '456 Elm St', 'Đã hoàn thành'), " +
+                "('3', '2', '2022-03-03', '789 Oak St', 'Đang chờ xác nhận')";
         sqLiteDatabase.execSQL(INSERT_BILL_DATA);
 
         String CREATE_TABLE_BILL_DETAIL = "CREATE TABLE " + TABLE_BILL_DETAIL + " (" +
@@ -120,10 +134,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 ")";
         sqLiteDatabase.execSQL(CREATE_TABLE_PRODUCT_DETAIL);
         //Initialize data for the product_detail table
-        String INSERT_PRODUCT_DETAIL_DATA = "INSERT INTO " + TABLE_PRODUCT_DETAIL + " (idProduct, description) VALUES " +
-                        "('product1', 'Description 1'), " +
-                        "('product2', 'Description 2'), " +
-                        "('product3', 'Description 3')";
+        String INSERT_PRODUCT_DETAIL_DATA = "INSERT INTO " + TABLE_PRODUCT_DETAIL + "(idProduct, description) VALUES " +
+                        "(1, 'Description 1'), " +
+                        "(2, 'Description 2'), " +
+                        "(3, 'Description 3')";
         sqLiteDatabase.execSQL(INSERT_PRODUCT_DETAIL_DATA);
 
         String CREATE_TABLE_EMPLOYEE = "CREATE TABLE " + TABLE_EMPLOYEE + " (" +
@@ -145,22 +159,22 @@ public class DBHelper extends SQLiteOpenHelper {
 
         sqLiteDatabase.execSQL(INSERT_EMPLOYEE_DATA);
 
-        String CRETATE_TABLE_CART = "CREATE TABLE " + TABLE_CART + " (" +
+        String CREATE_TABLE_CART = "CREATE TABLE " + TABLE_CART + " (" +
                 "id  INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "idProduct INTEGER REFERENCES " + TABLE_PRODUCT + "(id)," +
                 "name TEXT REFERENCES " + TABLE_PRODUCT + "(name)," +
                 //"image BLOB REFERENCES " + TABLE_PRODUCT + "(image)," +
                 "quantity INTEGER," +
-                "price INTEGER REFERENCES " + TABLE_PRODUCT + "(price)" + ")";
-        sqLiteDatabase.execSQL(CRETATE_TABLE_CART);
+                "price INTEGER REFERENCES " + TABLE_PRODUCT + "(price), " +
+                "emailCus TEXT REFERENCES " + TABLE_CUSTOMER + "(email)" + ")";
+        sqLiteDatabase.execSQL(CREATE_TABLE_CART);
 
         //Initialize data for the cart table
-        String INSERT_CART_DATA = "INSERT INTO " + TABLE_CART + " (idProduct, name, quantity, price) VALUES " +
-                        "(1, 'Product 1', 1, 10), " +
-                        "(2, 'Product 2', 2, 15), " +
-                        "(3, 'Product 3', 1, 20)";
+        String INSERT_CART_DATA = "INSERT INTO " + TABLE_CART + " (idProduct, name, quantity, price, emailCus) VALUES " +
+                        "(1, 'Product 1', 1, 10, 'customer1@gmail'), " +
+                        "(2, 'Product 2', 2, 15, 'customer2@gmail'), " +
+                        "(3, 'Product 3', 1, 20, 'customer1@gmail')";
         sqLiteDatabase.execSQL(INSERT_CART_DATA);
-
     }
 
     @Override
@@ -171,6 +185,9 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCT);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCT_DETAIL);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_EMPLOYEE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_CART);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ACCOUNT_SHOP);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ACCOUNT_CUSTOMER);
         onCreate(sqLiteDatabase);
     }
 }

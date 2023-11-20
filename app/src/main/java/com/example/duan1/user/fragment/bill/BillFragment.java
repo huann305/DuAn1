@@ -1,5 +1,7 @@
 package com.example.duan1.user.fragment.bill;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +14,7 @@ import com.example.duan1.databinding.FragmentOrderCustomerBinding;
 import com.example.duan1.model.Bill;
 import com.example.duan1.model.BillDetail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BillFragment extends BaseFragment<FragmentOrderCustomerBinding> {
@@ -24,6 +27,7 @@ public class BillFragment extends BaseFragment<FragmentOrderCustomerBinding> {
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_order_customer;
@@ -34,14 +38,15 @@ public class BillFragment extends BaseFragment<FragmentOrderCustomerBinding> {
         binding.rcv.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rcv.setAdapter(new BillAdapter(list, getContext()));
     }
-
     BillDAO billDAO;
     List<Bill> list;
     @Override
     protected void initData() {
-
+        list = new ArrayList<>();
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", "");
         billDAO = new BillDAO(getContext());
-        list = billDAO.getAll();
+        list = billDAO.getAllCus(email);
     }
 
     @Override

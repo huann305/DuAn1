@@ -3,6 +3,7 @@ package com.example.duan1.user.fragment.Cart;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -41,6 +42,9 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("USER", Context.MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", "");
+
         Cart cart = list.get(position);
         holder.binding.tvName.setText(cart.getName());
         holder.binding.tvPrice.setText(cart.getPrice() + " Đ");
@@ -61,9 +65,9 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
             builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    if(cartDAO.augmentQuantity(list.get(holder.getAdapterPosition()))){
+                    if(cartDAO.augmentQuantity(list.get(holder.getAdapterPosition()), email)){
                         list.clear();
-                        list.addAll(cartDAO.getAllCart());
+                        list.addAll(cartDAO.getAllCartCus(email));
                         notifyDataSetChanged();
                     }
                 }
@@ -72,10 +76,10 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
             builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    if (cartDAO.deleteCart(list.get(holder.getAdapterPosition()).getId())) {
+                    if (cartDAO.deleteCart(list.get(holder.getAdapterPosition()).getId(), email)) {
                         Toast.makeText(context, "Xóa sản phẩm thành công", Toast.LENGTH_SHORT).show();
                         list.clear();
-                        list.addAll(cartDAO.getAllCart());
+                        list.addAll(cartDAO.getAllCartCus(email));
                         notifyDataSetChanged();
                         clickBtnReduce();
                     }
@@ -97,9 +101,9 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
             @Override
             public void onClick(View view) {
                 CartDAO cartDAO = new CartDAO(context);
-                if (cartDAO.augmentQuantity(list.get(holder.getAdapterPosition()))) {
+                if (cartDAO.augmentQuantity(list.get(holder.getAdapterPosition()), email)) {
                     list.clear();
-                    list.addAll(cartDAO.getAllCart());
+                    list.addAll(cartDAO.getAllCartCus(email));
                     notifyDataSetChanged();
                 }
             }
@@ -108,9 +112,9 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
             @Override
             public void onClick(View view) {
                 CartDAO cartDAO = new CartDAO(context);
-                if (cartDAO.reduceQuantity(list.get(holder.getAdapterPosition()))) {
+                if (cartDAO.reduceQuantity(list.get(holder.getAdapterPosition()), email)) {
                     list.clear();
-                    list.addAll(cartDAO.getAllCart());
+                    list.addAll(cartDAO.getAllCartCus(email));
                     notifyDataSetChanged();
                 }
             }

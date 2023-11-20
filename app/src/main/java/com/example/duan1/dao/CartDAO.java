@@ -21,21 +21,34 @@ public class CartDAO {
     public ArrayList<Cart> getAllCart() {
         SQLiteDatabase sqLiteDatabase = dbhelper.getReadableDatabase();
         ArrayList<Cart> list = new ArrayList<>();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM cart", null);
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + DBHelper.TABLE_CART + "", null);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             do {
-                list.add(new Cart(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4)));
+                list.add(new Cart(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4), cursor.getString(5)));
             } while (cursor.moveToNext());
         }
         return list;
     }
 
-    public boolean insertToCart(Product product) {
+    public ArrayList<Cart> getAllCartCus(String email) {
+        SQLiteDatabase sqLiteDatabase = dbhelper.getReadableDatabase();
+        ArrayList<Cart> list = new ArrayList<>();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + DBHelper.TABLE_CART + " WHERE emailCus = ? ", new String[]{email});
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            do {
+                list.add(new Cart(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4), cursor.getString(5) ));
+            } while (cursor.moveToNext());
+        }
+        return list;
+    }
+
+    public boolean insertToCart(Product product, String email) {
         // Mở cơ sở dữ liệu để ghi
         SQLiteDatabase database = dbhelper.getWritableDatabase();
         // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
-        Cursor cursor = database.rawQuery("SELECT * FROM cart WHERE name = ?", new String[]{product.getName()});
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DBHelper.TABLE_CART + " WHERE name = ? AND emailCus = ?", new String[]{product.getName(), email});
         long check;
 
         if (cursor.getCount() > 0) {
@@ -46,7 +59,7 @@ public class CartDAO {
 
             ContentValues values = new ContentValues();
             values.put("quantity", currentQuantity);
-            check = database.update(DBHelper.TABLE_CART, values, "name = ?", new String[]{product.getName()});
+            check = database.update(DBHelper.TABLE_CART, values, "name = ? AND emailCus = ?", new String[]{product.getName(), email});
 
         } else {
             // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
@@ -56,7 +69,8 @@ public class CartDAO {
             values.put("name", product.getName());
             values.put("quantity", quantity);
             values.put("price", product.getPrice());
-            check = database.insert(DBHelper.TABLE_CART, null, values);
+            values.put("emailCus", email);
+            check = database.insert(DBHelper.TABLE_CART, null , values);
         }
         if (check == -1) {
             return false;
@@ -65,36 +79,36 @@ public class CartDAO {
     }
 
     //tăng sản phẩm bằng btn trong giỏ hàng, tăng số lượng sản phẩm trong giỏ hàng
-    public boolean augmentQuantity(Cart cart) {
+    public boolean augmentQuantity(Cart cart, String email) {
         SQLiteDatabase sqLiteDatabase = dbhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         int quantity = cart.getQuantity();
         quantity++;
         contentValues.put("quantity", quantity);
-        long check = sqLiteDatabase.update(DBHelper.TABLE_CART, contentValues, "id = ?", new String[]{String.valueOf(cart.getId())});
+        long check = sqLiteDatabase.update(DBHelper.TABLE_CART, contentValues, "id = ? AND emailCus = ?", new String[]{String.valueOf(cart.getId()), email});
         if (check == -1) {
             return false;
         }
         return true;
     }
 
-    public boolean reduceQuantity(Cart cart) {
+    public boolean reduceQuantity(Cart cart, String email) {
         SQLiteDatabase sqLiteDatabase = dbhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         int quantity = cart.getQuantity();
         quantity--;
         contentValues.put("quantity", quantity);
-        long check = sqLiteDatabase.update(DBHelper.TABLE_CART, contentValues, "id = ?", new String[]{String.valueOf(cart.getId())});
+        long check = sqLiteDatabase.update(DBHelper.TABLE_CART, contentValues, "id = ? AND emailCus = ?", new String[]{String.valueOf(cart.getId()), email});
         if (check == -1) {
             return false;
         }
         return true;
     }
-    public boolean deleteCart(int id){
+    public boolean deleteCart(int id, String email){
         SQLiteDatabase sqLiteDatabase = dbhelper.getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT id FROM cart WHERE id = ?", new String[]{String.valueOf(id)});
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT id FROM cart WHERE id = ? AND emailCus = ?", new String[]{String.valueOf(id), email});
         if(cursor.getCount() != 0){
-            long check = sqLiteDatabase.delete(DBHelper.TABLE_CART, "id = ?", new String[]{String.valueOf(id)});
+            long check = sqLiteDatabase.delete(DBHelper.TABLE_CART, "id = ? AND emailCus = ?", new String[]{String.valueOf(id), email});
             if (check == -1) {
                 return false;
             } else

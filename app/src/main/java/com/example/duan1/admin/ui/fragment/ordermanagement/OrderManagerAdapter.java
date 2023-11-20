@@ -1,7 +1,6 @@
-package com.example.duan1.user.fragment.bill;
+package com.example.duan1.admin.ui.fragment.ordermanagement;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,25 +16,24 @@ import com.example.duan1.dao.BillDAO;
 import com.example.duan1.dao.BillDetailDAO;
 import com.example.duan1.dao.EmployeeDAO;
 import com.example.duan1.dao.ProductDAO;
-import com.example.duan1.database.DBHelper;
 import com.example.duan1.model.Bill;
-import com.example.duan1.model.BillDetail;
-import com.example.duan1.model.Product;
 
 import java.util.List;
 
-public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder> {
-    private Context context;
-    private List<Bill> list;
+public abstract class OrderManagerAdapter extends RecyclerView.Adapter<OrderManagerAdapter.BillViewHolder> {
+    List<Bill> list;
     BillDAO billDAO;
     ProductDAO productDAO;
     EmployeeDAO employeeDAO;
     BillDetailDAO billDetailDAO;
 
-
-    public BillAdapter(List<Bill> list, Context context) {
+    public void setData(List<Bill> list){
         this.list = list;
-        this.context = context;
+    }
+    public abstract void onItemClick(int position);
+
+    public OrderManagerAdapter(List<Bill> list, Context context) {
+        this.list = list;
         billDAO = new BillDAO(context);
         productDAO = new ProductDAO(context);
         employeeDAO = new EmployeeDAO(context);
@@ -48,6 +46,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
         return new BillViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order_placed, parent, false));
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull BillViewHolder holder, int position) {
         Bill bill = list.get(position);
@@ -58,10 +57,15 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
             holder.tvNameEmployee.setText("Nhân viên: ");
         }
         holder.tvTotalPrice.setText("Tổng tiền: " + billDetailDAO.getTotalPrice(bill.getId()));
-        Log.i("tongtien", String.valueOf(billDetailDAO.getTotalPrice(bill.getId())));
-        holder.tvDate.setText(bill.getDate());
-        holder.tvAddress.setText(bill.getShippingAddress());
+        holder.llDate.setVisibility(View.GONE);
+        holder.llAddress.setVisibility(View.GONE);
         holder.tvStatus.setText("Trạng thái: " + bill.getStatus());
+        holder.llItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClick(holder.getAdapterPosition());
+            }
+        });
     }
 
     @Override
@@ -75,6 +79,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
     public class BillViewHolder extends RecyclerView.ViewHolder{
         ImageView img;
         TextView tvIdBill, tvNameEmployee, tvTotalPrice, tvDate, tvAddress, tvStatus;
+        View llDate, llAddress, llItem;
         public BillViewHolder(@NonNull View itemView) {
             super(itemView);
             img = itemView.findViewById(R.id.img);
@@ -84,6 +89,9 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
             tvDate = itemView.findViewById(R.id.tvDate);
             tvAddress = itemView.findViewById(R.id.tvAddress);
             tvStatus = itemView.findViewById(R.id.tvStatus);
+            llDate = itemView.findViewById(R.id.llDate);
+            llAddress = itemView.findViewById(R.id.llAddress);
+            llItem = itemView.findViewById(R.id.llItem);
         }
     }
 }

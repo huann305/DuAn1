@@ -1,7 +1,10 @@
 package com.example.duan1.user.fragment.home;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +25,16 @@ import com.example.duan1.model.Product;
 import java.util.List;
 
 public abstract class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
+    private Context context;
+    private List<Product> list;
 
-    List<Product> list;
 
-    public HomeAdapter(List<Product> list) {
+    public HomeAdapter(Context context, List<Product> list) {
+        this.context = context;
         this.list = list;
     }
+
+
 
     @NonNull
     @Override
@@ -37,8 +44,9 @@ public abstract class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeV
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("USER", Context.MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", "");
         Product product = list.get(position);
-
         if (product.getImage() != null) {
 //            holder.imgProduct.setImageBitmap(product.getImage());
         }
@@ -47,13 +55,12 @@ public abstract class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeV
         holder.tvQuantitySold.setText(product.getQuantitySold() + " đã bán");
 
         holder.layout.setOnClickListener(v -> onItemClick(position));
-
         holder.btnAddCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Context context = view.getContext();
                 CartDAO cartDAO = new CartDAO(context);
-                if(cartDAO.insertToCart(list.get(holder.getAdapterPosition()))){
+                if(cartDAO.insertToCart(list.get(holder.getAdapterPosition()), email)){
                     Toast.makeText(context, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(context, "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
