@@ -37,10 +37,10 @@ public class BillDetailAdapter extends RecyclerView.Adapter<BillDetailAdapter.Bi
     public void onBindViewHolder(@NonNull BillDetailViewHolder holder, int position) {
         BillDetail detail = list.get(position);
 
-        Log.d("TAG", "onBindViewHolder: " + detail.getIdProduct());
         holder.tvName.setText("Tên: " + (productDAO.getID(detail.getIdProduct()) != null ? productDAO.getID(detail.getIdProduct()).getName() : ""));
-        holder.tvPrice.setText("Giá: " + detail.getPrice());
+        holder.tvPrice.setText("Giá: " + detail.getPrice() + " VNĐ");
         holder.tvQuantity.setText("Số lượng: " + detail.getQuantity());
+        holder.tvTotal.setText("Thành tiền: " + (detail.getQuantity() * detail.getPrice()) + " VNĐ");
     }
 
     @Override
@@ -50,7 +50,7 @@ public class BillDetailAdapter extends RecyclerView.Adapter<BillDetailAdapter.Bi
 
     public class BillDetailViewHolder extends RecyclerView.ViewHolder{
         ImageView img;
-        TextView tvName, tvPrice, tvQuantity;
+        TextView tvName, tvPrice, tvQuantity, tvTotal;
 
         public BillDetailViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -58,6 +58,7 @@ public class BillDetailAdapter extends RecyclerView.Adapter<BillDetailAdapter.Bi
             tvName = itemView.findViewById(R.id.tv_name);
             tvPrice = itemView.findViewById(R.id.tv_price);
             tvQuantity = itemView.findViewById(R.id.tv_quantity);
+            tvTotal = itemView.findViewById(R.id.tv_total);
         }
     }
 }

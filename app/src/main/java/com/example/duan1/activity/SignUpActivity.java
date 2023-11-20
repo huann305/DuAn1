@@ -46,7 +46,7 @@ public class SignUpActivity extends BaseActivity<ActivitySignUpBinding> {
                 showToast("Email không hợp lệ");
                 return;
             }
-            if(binding.cbAgree.isChecked()) {
+            if(!binding.cbAgree.isChecked()) {
                 showToast("Bạn phải đồng ý điều khoản");
                 return;
             }

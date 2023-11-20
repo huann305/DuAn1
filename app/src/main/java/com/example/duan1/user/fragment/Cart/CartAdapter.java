@@ -28,6 +28,8 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
     public abstract void click(int totalPrice);
     public abstract void clickBtnReduce();
 
+    public abstract void onItemClick(int position);
+
     public CartAdapter(Context context, ArrayList<Cart> list) {
         this.context = context;
         this.list = list;
@@ -120,6 +122,12 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
             }
         });
 
+        holder.binding.llLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClick(holder.getAdapterPosition());
+            }
+        });
         holder.binding.tvQuantity.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

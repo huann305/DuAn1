@@ -24,7 +24,7 @@ import com.example.duan1.model.Product;
 
 import java.util.List;
 
-public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder> {
+public abstract class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder> {
     private Context context;
     private List<Bill> list;
     BillDAO billDAO;
@@ -62,7 +62,16 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
         holder.tvDate.setText(bill.getDate());
         holder.tvAddress.setText(bill.getShippingAddress());
         holder.tvStatus.setText("Trạng thái: " + bill.getStatus());
+
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClick(bill.getId());
+            }
+        });
     }
+
+    public abstract void onItemClick(int id);
 
     @Override
     public int getItemCount() {
@@ -75,6 +84,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
     public class BillViewHolder extends RecyclerView.ViewHolder{
         ImageView img;
         TextView tvIdBill, tvNameEmployee, tvTotalPrice, tvDate, tvAddress, tvStatus;
+        View layout;
         public BillViewHolder(@NonNull View itemView) {
             super(itemView);
             img = itemView.findViewById(R.id.img);
@@ -84,6 +94,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
             tvDate = itemView.findViewById(R.id.tvDate);
             tvAddress = itemView.findViewById(R.id.tvAddress);
             tvStatus = itemView.findViewById(R.id.tvStatus);
+            layout = itemView.findViewById(R.id.llItem);
         }
     }
 }
