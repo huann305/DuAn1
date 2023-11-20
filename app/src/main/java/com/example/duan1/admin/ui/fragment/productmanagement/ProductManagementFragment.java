@@ -79,6 +79,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
 
             EditText edtName = view.findViewById(R.id.edt_name_addpro);
             EditText edtPrice = view.findViewById(R.id.edt_price_addpro);
+            EditText edtmota = view.findViewById(R.id.edt_mota_addpro);
             Spinner spnRole = view.findViewById(R.id.spn_addpro);
             Button btnThem = view.findViewById(R.id.btn_submit_addpro);
             Button btnHuy = view.findViewById(R.id.btn_canaddpro);
@@ -100,9 +101,10 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 String name = edtName.getText().toString();
                 String price = edtPrice.getText().toString();
                 String status = spnRole.getSelectedItem().toString();
+                String mota = edtmota.getText().toString();
 
 
-                if( name.isEmpty() || price.isEmpty()) {
+                if( name.isEmpty() || price.isEmpty()|| mota.isEmpty()) {
                     Toast.makeText(getContext(), "Các trươờng không được để trống", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -112,7 +114,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                     if(productDAO.insert(product)){;
 
                         ProductDetailDAO productDetailDAO = new ProductDetailDAO(getContext());
-                        productDetailDAO.insert(list.size()+1, "description");
+                        productDetailDAO.insert(list.size()+1, mota);
 
                         Toast.makeText(getContext(), "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();

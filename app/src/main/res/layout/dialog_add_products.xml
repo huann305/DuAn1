@@ -28,14 +28,7 @@
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
         android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/edt_id_addpro"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nhập mã sản phẩm"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            />
+
         <EditText
             android:id="@+id/edt_name_addpro"
             android:layout_marginTop="5dp"
@@ -51,6 +44,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nhập đơn giá"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            />
+        <EditText
+            android:id="@+id/edt_mota_addpro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập mô tả sản phẩm"
             android:textColor="@color/black"
             android:textSize="18sp"
             />
@@ -74,6 +75,7 @@
                 android:layout_marginLeft="10dp"
                 />
         </LinearLayout>
+
 
         <TextView
             android:layout_marginTop="10dp"

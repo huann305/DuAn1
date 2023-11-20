@@ -34,4 +34,7 @@ public class ProductDetail {
         this.idProduct = idProduct;
         this.description = description;
     }
+
+    public ProductDetail() {
+    }
 }

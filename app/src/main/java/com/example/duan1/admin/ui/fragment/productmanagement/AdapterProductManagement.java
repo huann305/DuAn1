@@ -2,23 +2,29 @@ package com.example.duan1.admin.ui.fragment.productmanagement;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.duan1.R;
+import com.example.duan1.activity.ChooseImage;
 import com.example.duan1.dao.ProductDAO;
+import com.example.duan1.dao.ProductDetailDAO;
 import com.example.duan1.databinding.ItemProductManagerBinding;
 import com.example.duan1.model.Cart;
 import com.example.duan1.model.Product;
+import com.example.duan1.model.ProductDetail;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,6 +54,7 @@ public class AdapterProductManagement extends RecyclerView.Adapter<AdapterProduc
         holder.binding.tvPriceProduct.setText("Đơn giá: "+product.getPrice()+" VND");
         holder.binding.tvQuantityProduct.setText("Số lượng: "+product.getQuantitySold()+"");
         holder.binding.tvStatusProduct.setText("Trạng thái: "+product.getStatus());
+        Glide.with(context).load(product.getImage()).into(holder.binding.imgePro);
 
         holder.binding.ivUpdateProduct.setOnClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -58,11 +65,13 @@ public class AdapterProductManagement extends RecyclerView.Adapter<AdapterProduc
 
                 EditText edtTenSP = view.findViewById(R.id.edt_title_updatepro);
                 EditText edtDonGia = view.findViewById(R.id.edt_price_updatepro);
+                EditText edtmota = view.findViewById(R.id.edt_mota_updatepro);
+                ImageView img = view.findViewById(R.id.img_proup);
                 Spinner spinnerTrangThai = view.findViewById(R.id.spn_updatepro);
                 Button btnUpdate = view.findViewById(R.id.btn_submit_updatepro);
                 Button btnCancel = view.findViewById(R.id.btn_canupdatepro);
 
-
+            ProductDetail productDetail = new ProductDetail();
 
                 List<String> data = new ArrayList<>();
                 data.add("Còn hàng");
@@ -79,6 +88,15 @@ public class AdapterProductManagement extends RecyclerView.Adapter<AdapterProduc
             edtTenSP.setText(product.getName());
             edtDonGia.setText(String.valueOf(product.getPrice()));
             spinnerTrangThai.setSelection(data.indexOf(product.getStatus()));
+            edtmota.setText( productDetail.getDescription());
+            img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ChooseImage.class);
+                    context.startActivity(intent);
+
+                }
+            });
 
                 if(product.getStatus().equals("Còn hàng")) {
                     spinnerTrangThai.setSelection(0);
@@ -91,11 +109,16 @@ public class AdapterProductManagement extends RecyclerView.Adapter<AdapterProduc
                     String status = spinnerTrangThai.getSelectedItem().toString();
                     String name = edtTenSP.getText().toString();
                     String gia = edtDonGia.getText().toString();
+                    String mota = edtmota.getText().toString();
                     product.setStatus(status);
                     product.setName(name);
                     product.setPrice(Integer.parseInt(gia));
+                    productDetail.setDescription(mota);
 
                     if(productDAO.updatee(product, product.getId())) {
+
+                        ProductDetailDAO productDetailDAO = new ProductDetailDAO(context);
+                        productDetailDAO.update(productDetail);
                         Toast.makeText(context, "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
                         notifyDataSetChanged();
                         alertDialog.dismiss();

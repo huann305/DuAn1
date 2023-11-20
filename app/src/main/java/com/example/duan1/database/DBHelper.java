@@ -115,7 +115,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String CREATE_TABLE_PRODUCT = "CREATE TABLE " + TABLE_PRODUCT + " (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name TEXT, " +
-                "image BLOB, " +
+                "image TEXT, " +
                 "price INTEGER, " +
                 "quantitySold INTEGER, " +
                 "status TEXT)";
