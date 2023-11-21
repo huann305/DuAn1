@@ -4,6 +4,7 @@ import static android.app.Activity.RESULT_OK;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,6 +16,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,12 +57,11 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
     List<Product> list;
     AdapterProductManagement adapter;
     String filePath = "";
-    ImageView ivImagePro, ivUpdate;
+    ImageView ivImagePro;
     TextView tvStatusImage;
     String linkImage = "";
     int PERMISSION_CODE = 1;
-
-
+    View loading;
 
 
     public static String TAG = "Quản lý sản phẩm";
@@ -83,7 +85,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
 
     @Override
     protected void initData() {
-
+        requestPermission();
         loadData();
         addProduct();
     }
@@ -118,7 +120,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 Spinner spinnerTrangThai = view.findViewById(R.id.spn_updatepro);
                 Button btnUpdate = view.findViewById(R.id.btn_submit_updatepro);
                 Button btnCancel = view.findViewById(R.id.btn_canupdatepro);
-                ivUpdate = view.findViewById(R.id.iv_update_product);
+                ivImagePro = view.findViewById(R.id.iv_update_product);
                 TextView tvStatusImage_up = view.findViewById(R.id.tvStatusImage_up);
 
 
@@ -139,9 +141,9 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 spinnerTrangThai.setSelection(data.indexOf(product.getStatus()));
 
                 if(product.getImage() != null){
-                    Glide.with(getContext()).load(product.getImage()).into(ivUpdate);
+                    Glide.with(getContext()).load(product.getImage()).into(ivImagePro);
                 }else {
-                    Glide.with(getContext()).load(R.drawable.improduct1).into(ivUpdate);
+                    Glide.with(getContext()).load(R.drawable.improduct1).into(ivImagePro);
                 }
 
                 if (product.getStatus().equals("Còn hàng")) {
@@ -150,7 +152,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                     spinnerTrangThai.setSelection(1);
                 }
 
-                ivUpdate.setOnClickListener(new View.OnClickListener() {
+                ivImagePro.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         accessTheGallery();
@@ -167,7 +169,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                     product.setName(name);
                     product.setPrice(Integer.parseInt(gia));
 
-
+                    uploadToCloudinary(filePath, product, product.getId() + "");
 
                     if (productDAO.updatee(product, product.getId())) {
                         Toast.makeText(getContext(), "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
@@ -188,8 +190,6 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
             }
         };
         binding.rcvProduct.setAdapter(adapter);
-
-        requestPermission();
     }
     public void addProduct(){
         binding.fltAddPro.setOnClickListener(v -> {
@@ -227,7 +227,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 String statusImage = tvStatusImage.getText().toString();
 
 
-                if( name.isEmpty() || price.isEmpty() || !statusImage.equals("Upload thành công!")) {
+                if( name.isEmpty() || price.isEmpty()) {
                     Toast.makeText(getContext(), "Các trường không được để trống", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -236,16 +236,8 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 product.setStatus(status);
                 product.setImage("" + linkImage);
                 Log.i("TAG", "Link ảnh đây nàyyyy: " + linkImage);
-                    if(productDAO.insert(product)){;
-                        ProductDetailDAO productDetailDAO = new ProductDetailDAO(getContext());
-                        productDetailDAO.insert(list.size()+1, "description", product.getImage());
-                        Toast.makeText(getContext(), "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
-                        alertDialog.dismiss();
-                        loadData();
-                    }else{
-                        Toast.makeText(getContext(), "Thêm sản phẩm thất bại!", Toast.LENGTH_SHORT).show();
-                    }
-
+                uploadToCloudinary(filePath, product, null);
+                alertDialog.dismiss();
             });
             ivImagePro.setOnClickListener(v1 -> {
                 accessTheGallery();
@@ -280,9 +272,9 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                     //set picked image to the mProfile
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), result.getData().getData());
                     //hiển thị hình ảnh lên imgview
-                    ivUpdate.setImageBitmap(bitmap);
+                    ivImagePro.setImageBitmap(bitmap);
 
-                    uploadToCloudinary(filePath);
+//                    uploadToCloudinary(filePath);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -301,6 +293,27 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
         }
     }
 
+    private void updateProduct(Product product, String id){
+        product.setImage(linkImage);
+        if(productDAO.updatee(product, product.getId())){
+            Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+            loadData();
+        }else{
+            Toast.makeText(getContext(), "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void insertProduct(Product product){
+        product.setImage(linkImage);
+        if(productDAO.insert(product)){
+            Toast.makeText(getContext(), "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
+            loadData();
+            binding.rcvProduct.smoothScrollToPosition(list.size() - 1);
+        }else{
+            Toast.makeText(getContext(), "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     HashMap<String, String> config = new HashMap<>();
     private void configCloudinary() {
         try {
@@ -313,25 +326,32 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
         }
     }
 
-    private void uploadToCloudinary(String filePath) {
-        Log.d("A", "sign up uploadToCloudinary- ");
+    private void uploadToCloudinary(String filePath, Product product, String id) {
         MediaManager.get().upload(filePath).callback(new UploadCallback() {
             @Override
             public void onStart(String requestId) {
-                //tvStatusImage.setText("Bắt đầu upload");
+                binding.spinKit.setVisibility(View.VISIBLE);
+                binding.fltAddPro.setEnabled(false);
             }
 
             @Override
             public void onProgress(String requestId, long bytes, long totalBytes) {
-//                tvStatusImage.setText("Đang upload... ");
+
             }
 
             @Override
             public void onSuccess(String requestId, Map resultData) {
-//                tvStatusImage.setText("Upload thành công!");
-                //tvStatusImage.setText(":Upload ảnh thành công");
+                binding.spinKit.setVisibility(View.GONE);
+                binding.fltAddPro.setEnabled(true);
+
                 linkImage = resultData.get("url").toString();
                 Log.i("TAG", "linkImage nhaa: " + linkImage);
+
+                if(id != null){
+                    updateProduct(product, id);
+                }else{
+                    insertProduct(product);
+                }
             }
 
             @Override
