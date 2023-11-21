@@ -45,12 +45,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AdapterProductManagement extends RecyclerView.Adapter<AdapterProductManagement.ViewHolder> {
+public abstract class AdapterProductManagement extends RecyclerView.Adapter<AdapterProductManagement.ViewHolder> {
     private Context context;
     private List<Product> list;
     TextView tvStatusImage_up;
-    ImageView ivUpdate;
-
+    public abstract void click(int position);
     public AdapterProductManagement(Context context, List<Product> list) {
         this.context = context;
         this.list = list;
@@ -62,6 +61,7 @@ public class AdapterProductManagement extends RecyclerView.Adapter<AdapterProduc
         ItemProductManagerBinding binding = ItemProductManagerBinding.inflate(LayoutInflater.from(context), parent, false);
         return new ViewHolder(binding);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -84,82 +84,78 @@ public class AdapterProductManagement extends RecyclerView.Adapter<AdapterProduc
         });
 
         holder.binding.ivUpdateProduct.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            View view = LayoutInflater.from(context).inflate(R.layout.dialog_update_products, null);
-            builder.setView(view);
-            builder.create();
-            AlertDialog alertDialog = builder.create();
-
-            EditText edtTenSP = view.findViewById(R.id.edt_title_updatepro);
-            EditText edtDonGia = view.findViewById(R.id.edt_price_updatepro);
-            Spinner spinnerTrangThai = view.findViewById(R.id.spn_updatepro);
-            Button btnUpdate = view.findViewById(R.id.btn_submit_updatepro);
-            Button btnCancel = view.findViewById(R.id.btn_canupdatepro);
-            ivUpdate = view.findViewById(R.id.iv_update_product);
-            tvStatusImage_up = view.findViewById(R.id.tvStatusImage_up);
-
-            List<String> data = new ArrayList<>();
-            data.add("Còn hàng");
-            data.add("Hết hàng");
-
-            // Tạo Adapter để đổ dữ liệu vào Spinner
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, data);
-
-            // Định dạng Spinner
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-            // Gán Adapter cho Spinner
-            spinnerTrangThai.setAdapter(adapter);
-            edtTenSP.setText(product.getName());
-            edtDonGia.setText(String.valueOf(product.getPrice()));
-            spinnerTrangThai.setSelection(data.indexOf(product.getStatus()));
-
-            if(product.getImage() != null){
-                Glide.with(context).load(product.getImage()).into(ivUpdate);
-            }else {
-                Glide.with(context).load(R.drawable.improduct1).into(ivUpdate);
-            }
-
-            if (product.getStatus().equals("Còn hàng")) {
-                spinnerTrangThai.setSelection(0);
-            } else {
-                spinnerTrangThai.setSelection(1);
-            }
-
-            ivUpdate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                }
-            });
-
-            btnUpdate.setOnClickListener(v1 -> {
-                ProductDAO productDAO = new ProductDAO(context);
-                String status = spinnerTrangThai.getSelectedItem().toString();
-                String name = edtTenSP.getText().toString();
-                String gia = edtDonGia.getText().toString();
-                product.setStatus(status);
-                product.setName(name);
-                product.setPrice(Integer.parseInt(gia));
-
-
-                if (productDAO.updatee(product, product.getId())) {
-                    Toast.makeText(context, "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
-                    notifyDataSetChanged();
-                    alertDialog.dismiss();
-                } else {
-                    Toast.makeText(context, "Cập nhật sản phẩm thất bại", Toast.LENGTH_SHORT).show();
-                }
-            });
-            btnCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    alertDialog.dismiss();
-                }
-            });
-
-            alertDialog.show();
-
+            click(position);
+//            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//            View view = LayoutInflater.from(context).inflate(R.layout.dialog_update_products, null);
+//            builder.setView(view);
+//            builder.create();
+//            AlertDialog alertDialog = builder.create();
+//
+//            EditText edtTenSP = view.findViewById(R.id.edt_title_updatepro);
+//            EditText edtDonGia = view.findViewById(R.id.edt_price_updatepro);
+//            Spinner spinnerTrangThai = view.findViewById(R.id.spn_updatepro);
+//            Button btnUpdate = view.findViewById(R.id.btn_submit_updatepro);
+//            Button btnCancel = view.findViewById(R.id.btn_canupdatepro);
+//            ivUpdate = view.findViewById(R.id.iv_update_product);
+//            tvStatusImage_up = view.findViewById(R.id.tvStatusImage_up);
+//
+//            List<String> data = new ArrayList<>();
+//            data.add("Còn hàng");
+//            data.add("Hết hàng");
+//
+//            // Tạo Adapter để đổ dữ liệu vào Spinner
+//            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, data);
+//
+//            // Định dạng Spinner
+//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//            // Gán Adapter cho Spinner
+//            spinnerTrangThai.setAdapter(adapter);
+//            edtTenSP.setText(product.getName());
+//            edtDonGia.setText(String.valueOf(product.getPrice()));
+//            spinnerTrangThai.setSelection(data.indexOf(product.getStatus()));
+//
+//            if(product.getImage() != null){
+//                Glide.with(context).load(product.getImage()).into(ivUpdate);
+//            }else {
+//                Glide.with(context).load(R.drawable.improduct1).into(ivUpdate);
+//            }
+//
+//            if (product.getStatus().equals("Còn hàng")) {
+//                spinnerTrangThai.setSelection(0);
+//            } else {
+//                spinnerTrangThai.setSelection(1);
+//            }
+//
+//            ////
+//
+//            btnUpdate.setOnClickListener(v1 -> {
+//                ProductDAO productDAO = new ProductDAO(context);
+//                String status = spinnerTrangThai.getSelectedItem().toString();
+//                String name = edtTenSP.getText().toString();
+//                String gia = edtDonGia.getText().toString();
+//                product.setStatus(status);
+//                product.setName(name);
+//                product.setPrice(Integer.parseInt(gia));
+//
+//
+//                if (productDAO.updatee(product, product.getId())) {
+//                    Toast.makeText(context, "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
+//                    notifyDataSetChanged();
+//                    alertDialog.dismiss();
+//                } else {
+//                    Toast.makeText(context, "Cập nhật sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//            btnCancel.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    alertDialog.dismiss();
+//                }
+//            });
+//
+//            alertDialog.show();
+//
         });
     }
 
@@ -176,5 +172,6 @@ public class AdapterProductManagement extends RecyclerView.Adapter<AdapterProduc
             this.binding = binding;
         }
     }
+
 
 }

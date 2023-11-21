@@ -4,8 +4,10 @@ import static android.app.Activity.RESULT_OK;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -14,6 +16,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,8 +31,11 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
@@ -53,6 +60,8 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
     ImageView ivImagePro;
     TextView tvStatusImage;
     String linkImage = "";
+    int PERMISSION_CODE = 1;
+    View loading;
 
 
     public static String TAG = "Quản lý sản phẩm";
@@ -76,7 +85,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
 
     @Override
     protected void initData() {
-
+        requestPermission();
         loadData();
         addProduct();
     }
@@ -96,9 +105,91 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
         binding.rcvProduct.setLayoutManager(linearLayoutManager);
         productDAO = new ProductDAO(getContext());
         list = productDAO.getAll();
-        adapter = new AdapterProductManagement(getContext(), list);
-        binding.rcvProduct.setAdapter(adapter);
+        adapter = new AdapterProductManagement(getContext(), list) {
+            @Override
+            public void click(int position) {
+                Product product = list.get(position);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_update_products, null);
+                builder.setView(view);
+                builder.create();
+                AlertDialog alertDialog = builder.create();
 
+                EditText edtTenSP = view.findViewById(R.id.edt_title_updatepro);
+                EditText edtDonGia = view.findViewById(R.id.edt_price_updatepro);
+                Spinner spinnerTrangThai = view.findViewById(R.id.spn_updatepro);
+                Button btnUpdate = view.findViewById(R.id.btn_submit_updatepro);
+                Button btnCancel = view.findViewById(R.id.btn_canupdatepro);
+                ivImagePro = view.findViewById(R.id.iv_update_product);
+                TextView tvStatusImage_up = view.findViewById(R.id.tvStatusImage_up);
+
+
+                List<String> data = new ArrayList<>();
+                data.add("Còn hàng");
+                data.add("Hết hàng");
+
+                // Tạo Adapter để đổ dữ liệu vào Spinner
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, data);
+
+                // Định dạng Spinner
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                // Gán Adapter cho Spinner
+                spinnerTrangThai.setAdapter(adapter);
+                edtTenSP.setText(product.getName());
+                edtDonGia.setText(String.valueOf(product.getPrice()));
+                spinnerTrangThai.setSelection(data.indexOf(product.getStatus()));
+
+                if(product.getImage() != null){
+                    Glide.with(getContext()).load(product.getImage()).into(ivImagePro);
+                }else {
+                    Glide.with(getContext()).load(R.drawable.improduct1).into(ivImagePro);
+                }
+
+                if (product.getStatus().equals("Còn hàng")) {
+                    spinnerTrangThai.setSelection(0);
+                } else {
+                    spinnerTrangThai.setSelection(1);
+                }
+
+                ivImagePro.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        accessTheGallery();
+                        Toast.makeText(getContext(), "ahihi", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                btnUpdate.setOnClickListener(v1 -> {
+                    ProductDAO productDAO = new ProductDAO(getContext());
+                    String status = spinnerTrangThai.getSelectedItem().toString();
+                    String name = edtTenSP.getText().toString();
+                    String gia = edtDonGia.getText().toString();
+                    product.setStatus(status);
+                    product.setName(name);
+                    product.setPrice(Integer.parseInt(gia));
+
+                    uploadToCloudinary(filePath, product, product.getId() + "");
+
+                    if (productDAO.updatee(product, product.getId())) {
+                        Toast.makeText(getContext(), "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                        notifyDataSetChanged();
+                        alertDialog.dismiss();
+                    } else {
+                        Toast.makeText(getContext(), "Cập nhật sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
+                    }
+                });
+
+                alertDialog.show();
+            }
+        };
+        binding.rcvProduct.setAdapter(adapter);
     }
     public void addProduct(){
         binding.fltAddPro.setOnClickListener(v -> {
@@ -135,7 +226,8 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 String status = spnRole.getSelectedItem().toString();
                 String statusImage = tvStatusImage.getText().toString();
 
-                if( name.isEmpty() || price.isEmpty() || !statusImage.equals("Upload thành công!")) {
+
+                if( name.isEmpty() || price.isEmpty()) {
                     Toast.makeText(getContext(), "Các trường không được để trống", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -144,16 +236,8 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 product.setStatus(status);
                 product.setImage("" + linkImage);
                 Log.i("TAG", "Link ảnh đây nàyyyy: " + linkImage);
-                    if(productDAO.insert(product)){;
-                        ProductDetailDAO productDetailDAO = new ProductDetailDAO(getContext());
-                        productDetailDAO.insert(list.size()+1, "description", product.getImage());
-                        Toast.makeText(getContext(), "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
-                        alertDialog.dismiss();
-                        loadData();
-                    }else{
-                        Toast.makeText(getContext(), "Thêm sản phẩm thất bại!", Toast.LENGTH_SHORT).show();
-                    }
-
+                uploadToCloudinary(filePath, product, null);
+                alertDialog.dismiss();
             });
             ivImagePro.setOnClickListener(v1 -> {
                 accessTheGallery();
@@ -163,6 +247,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
             alertDialog.show();
         });
     }
+
 
     public void accessTheGallery() {
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -189,7 +274,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                     //hiển thị hình ảnh lên imgview
                     ivImagePro.setImageBitmap(bitmap);
 
-                    uploadToCloudinary(filePath);
+//                    uploadToCloudinary(filePath);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -208,6 +293,27 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
         }
     }
 
+    private void updateProduct(Product product, String id){
+        product.setImage(linkImage);
+        if(productDAO.updatee(product, product.getId())){
+            Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+            loadData();
+        }else{
+            Toast.makeText(getContext(), "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void insertProduct(Product product){
+        product.setImage(linkImage);
+        if(productDAO.insert(product)){
+            Toast.makeText(getContext(), "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
+            loadData();
+            binding.rcvProduct.smoothScrollToPosition(list.size() - 1);
+        }else{
+            Toast.makeText(getContext(), "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     HashMap<String, String> config = new HashMap<>();
     private void configCloudinary() {
         try {
@@ -220,37 +326,65 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
         }
     }
 
-    private void uploadToCloudinary(String filePath) {
-        Log.d("A", "sign up uploadToCloudinary- ");
+    private void uploadToCloudinary(String filePath, Product product, String id) {
         MediaManager.get().upload(filePath).callback(new UploadCallback() {
             @Override
             public void onStart(String requestId) {
-                tvStatusImage.setText("Bắt đầu upload");
+                binding.spinKit.setVisibility(View.VISIBLE);
+                binding.fltAddPro.setEnabled(false);
             }
 
             @Override
             public void onProgress(String requestId, long bytes, long totalBytes) {
-                tvStatusImage.setText("Đang upload... ");
+
             }
 
             @Override
             public void onSuccess(String requestId, Map resultData) {
-                tvStatusImage.setText("Upload thành công!");
-                //tvStatusImage.setText(":Upload ảnh thành công");
+                binding.spinKit.setVisibility(View.GONE);
+                binding.fltAddPro.setEnabled(true);
+
                 linkImage = resultData.get("url").toString();
                 Log.i("TAG", "linkImage nhaa: " + linkImage);
+
+                if(id != null){
+                    updateProduct(product, id);
+                }else{
+                    insertProduct(product);
+                }
             }
 
             @Override
             public void onError(String requestId, ErrorInfo error) {
-                tvStatusImage.setText("Lỗi " + error.getDescription());
+//                tvStatusImage.setText("Lỗi " + error.getDescription());
             }
 
             @Override
             public void onReschedule(String requestId, ErrorInfo error) {
-                tvStatusImage.setText("Reshedule " + error.getDescription());
+//                tvStatusImage.setText("Reshedule " + error.getDescription());
             }
         }).dispatch();
     }
+
+    private void requestPermission() {
+        if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(getContext(), "Cấp quyền thành công", Toast.LENGTH_SHORT).show();
+        } else {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getContext(), "Cấp quyền thành công", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
 }
