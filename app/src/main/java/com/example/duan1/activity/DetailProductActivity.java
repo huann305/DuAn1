@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.admin.ui.activity.BaseActivity;
 import com.example.duan1.dao.CartDAO;
@@ -66,6 +67,12 @@ public class DetailProductActivity extends BaseActivity<ActivityDetailProductBin
             binding.tvDiscreption.setText(productDetail.getDescription());
             binding.tvPrice.setText("Giá tiền :" +product.getPrice() + " VND");
             binding.tvQuantitySold.setText( product.getQuantitySold() + " đã bán");
+
+            if(product.getImage() != null){
+                Glide.with(this).load(product.getImage()).into(binding.ivImageProductDetail);
+            }else {
+                Glide.with(this).load(R.drawable.improduct1).into(binding.ivImageProductDetail);
+            }
         }
     }
 }

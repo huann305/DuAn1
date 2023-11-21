@@ -42,8 +42,8 @@ public class ProductDAO {
     public boolean insert(Product product){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        String sql = "INSERT INTO " + DBHelper.TABLE_PRODUCT + "(name, image, price, quantitySold, status)" + " VALUES(?,?,?,?,?)";
-        db.execSQL(sql, new String[]{String.valueOf(product.getName()), product.getImage(), String.valueOf(product.getPrice()), String.valueOf(product.getQuantitySold()), product.getStatus()});
+        String sql = "INSERT INTO " + DBHelper.TABLE_PRODUCT + "(name, price, quantitySold, status, image)" + " VALUES(?,?,?,?,?)";
+        db.execSQL(sql, new String[]{String.valueOf(product.getName()), String.valueOf(product.getPrice()), String.valueOf(product.getQuantitySold()), product.getStatus(), product.getImage()});
         if (db != null){
             db.close();
         }
@@ -65,7 +65,7 @@ public class ProductDAO {
 
         Cursor cursor = db.rawQuery(sql, selectionArgs);
         while (cursor.moveToNext()){
-            list.add(new Product(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4), cursor.getString(5)));
+            list.add(new Product(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getString(4), cursor.getString(5)));
         }
         if (cursor != null){
             cursor.close();

@@ -34,10 +34,10 @@ public class ProductDetailDAO {
         return null;
     }
 
-    public boolean insert(int id, String description){
+    public boolean insert(int id, String description, String image){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String sql = "INSERT INTO " + DBHelper.TABLE_PRODUCT_DETAIL+ "(idProduct, description)" + " VALUES(?,?)";
-        db.execSQL(sql, new String[]{String.valueOf(id), String.valueOf(description)});
+        String sql = "INSERT INTO " + DBHelper.TABLE_PRODUCT_DETAIL+ "(idProduct, description, image)" + " VALUES(?,?,?)";
+        db.execSQL(sql, new String[]{String.valueOf(id), String.valueOf(description), String.valueOf(image)});
         if (db != null){
             db.close();
         }
@@ -69,7 +69,7 @@ public class ProductDetailDAO {
 
         Cursor c = db.rawQuery(sql, selectionArgs);
         while (c.moveToNext()){
-            list.add(new ProductDetail(c.getInt(0), c.getInt(1), c.getString(2)));
+            list.add(new ProductDetail(c.getInt(0), c.getInt(1), c.getString(2), c.getString(3)));
         }
         if (c != null){
             c.close();

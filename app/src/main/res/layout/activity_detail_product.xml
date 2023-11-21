@@ -9,7 +9,7 @@
         tools:context=".activity.DetailProductActivity">
 
         <ImageView
-            android:id="@+id/ivImageProduct"
+            android:id="@+id/ivImageProductDetail"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:scaleType="centerCrop"
@@ -19,7 +19,7 @@
             android:id="@+id/tvProductName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ivImageProduct"
+            android:layout_below="@id/ivImageProductDetail"
             android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="12dp"

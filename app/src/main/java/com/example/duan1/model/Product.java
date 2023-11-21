@@ -3,10 +3,19 @@ package com.example.duan1.model;
 public class Product {
     private int id;
     private String name;
-    private String image;
     private int price;
     private int quantitySold;
     private String status;
+    private String image;
+
+    public Product(int id, String name, int price, int quantitySold, String status, String image) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.quantitySold = quantitySold;
+        this.status = status;
+        this.image = image;
+    }
 
     public int getId() {
         return id;
@@ -58,25 +67,14 @@ public class Product {
 
     public Product() {
     }
-
-    public Product(int id, String name, String image, int price, int quantitySold, String status) {
-        this.id = id;
-        this.name = name;
-        this.image = image;
-        this.price = price;
-        this.quantitySold = quantitySold;
-        this.status = status;
-    }
-
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", image='" + image + '\'' +
                 ", price=" + price +
                 ", quantitySold=" + quantitySold +
                 ", status='" + status + '\'' +
-                '}';
+                ", image='" + image + '\'' + "}";
     }
 }
