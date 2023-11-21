@@ -28,7 +28,7 @@
                      android:layout_width="130dp"
                      android:layout_height="130dp"
                      android:scaleType="centerCrop"
-                     android:src="@drawable/imgpr"
+                     android:src="@drawable/improduct1"
                      app:layout_constraintEnd_toEndOf="parent"
                      app:layout_constraintStart_toStartOf="parent"
                      app:layout_constraintTop_toTopOf="parent" />

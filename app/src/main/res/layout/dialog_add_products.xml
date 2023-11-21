@@ -84,13 +84,21 @@
             android:textSize="18sp"
             />
     </LinearLayout>
+
     <ImageView
-        android:layout_marginTop="10dp"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
-        android:layout_marginLeft="15dp"
-        android:src="@drawable/rectangle109"
-        />
+        android:id="@+id/ivImageProduct"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/baseline_image_search_24"
+        android:layout_marginTop="15dp"
+        android:scaleType="centerCrop"/>
+    <TextView
+        android:id="@+id/tvStatusImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"/>
+
     <LinearLayout
         android:layout_marginTop="40dp"
         android:layout_width="match_parent"

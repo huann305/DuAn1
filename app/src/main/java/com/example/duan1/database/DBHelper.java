@@ -44,9 +44,9 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_ACCOUNT_CUSTOMER);
         //Initialize data for the account_customer table
         String INSERT_ACCOUNT_CUSTOMER_DATA = "INSERT INTO " + TABLE_ACCOUNT_CUSTOMER + " (email, password) VALUES " +
-                        "('customer1@gmail.com', 'password1'), " +
-                        "('customer2@gmail.com', 'password2'), " +
-                        "('customer3@gmail.com', 'password3')";
+                "('customer1@gmail.com', 'password1'), " +
+                "('customer2@gmail.com', 'password2'), " +
+                "('customer3@gmail.com', 'password3')";
         sqLiteDatabase.execSQL(INSERT_ACCOUNT_CUSTOMER_DATA);
 
         String CREATE_TABLE_CUSTOMER = "CREATE TABLE " + TABLE_CUSTOMER + "(" +
@@ -107,37 +107,38 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_BILL_DETAIL);
         //Initialize data for the bill_detail table
         String INSERT_BILL_DETAIL_DATA = "INSERT INTO " + TABLE_BILL_DETAIL + " (idProduct, idBill, quantity, price, note) VALUES " +
-                        "(1, 1, 5, 10, 'Note 1'), " +
-                        "(2, 1, 3, 15, 'Note 2'), " +
-                        "(3, 2, 2, 20, 'Note 3')";
+                "(1, 1, 5, 10, 'Note 1'), " +
+                "(2, 1, 3, 15, 'Note 2'), " +
+                "(3, 2, 2, 20, 'Note 3')";
         sqLiteDatabase.execSQL(INSERT_BILL_DETAIL_DATA);
 
         String CREATE_TABLE_PRODUCT = "CREATE TABLE " + TABLE_PRODUCT + " (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name TEXT, " +
-                "image BLOB, " +
                 "price INTEGER, " +
                 "quantitySold INTEGER, " +
-                "status TEXT)";
+                "status TEXT, " +
+                "image TEXT" + ")";
         sqLiteDatabase.execSQL(CREATE_TABLE_PRODUCT);
         //Initialize data for the product table
-        String INSERT_PRODUCT_DATA = "INSERT INTO " + TABLE_PRODUCT + " (name, image, price, quantitySold, status) VALUES " +
-                "('Product 1', null, 10, 0, 'active'), " +
-                "('Product 2', null, 15, 0, 'active'), " +
-                "('Product 3', null, 20, 0, 'inactive')";
+        String INSERT_PRODUCT_DATA = "INSERT INTO " + TABLE_PRODUCT + " (name, image, price, quantitySold, status, image) VALUES " +
+                "('Product 1', null, 10, 0, 'active', ''), " +
+                "('Product 2', null, 15, 0, 'active', ''), " +
+                "('Product 3', null, 20, 0, 'inactive', '')";
         sqLiteDatabase.execSQL(INSERT_PRODUCT_DATA);
 
         String CREATE_TABLE_PRODUCT_DETAIL = "CREATE TABLE " + TABLE_PRODUCT_DETAIL + " (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "idProduct INTEGER, " +
-                "description TEXT" +
+                "description TEXT, " +
+                "image TEXT REFERENCES " + TABLE_PRODUCT + "(image)" +
                 ")";
         sqLiteDatabase.execSQL(CREATE_TABLE_PRODUCT_DETAIL);
         //Initialize data for the product_detail table
-        String INSERT_PRODUCT_DETAIL_DATA = "INSERT INTO " + TABLE_PRODUCT_DETAIL + "(idProduct, description) VALUES " +
-                        "(1, 'Description 1'), " +
-                        "(2, 'Description 2'), " +
-                        "(3, 'Description 3')";
+        String INSERT_PRODUCT_DETAIL_DATA = "INSERT INTO " + TABLE_PRODUCT_DETAIL + "(idProduct, description, image) VALUES " +
+                "(1, 'Description 1', ''), " +
+                "(2, 'Description 2', ''), " +
+                "(3, 'Description 3', '')";
         sqLiteDatabase.execSQL(INSERT_PRODUCT_DETAIL_DATA);
 
         String CREATE_TABLE_EMPLOYEE = "CREATE TABLE " + TABLE_EMPLOYEE + " (" +
@@ -148,7 +149,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 "address TEXT, " +
                 "citizenshipID TEXT, " +
                 "status TEXT, " +
-                "date TEXT"+ ")";
+                "date TEXT" + ")";
         sqLiteDatabase.execSQL(CREATE_TABLE_EMPLOYEE);
         //Initialize data for the employee table
         String INSERT_EMPLOYEE_DATA = "INSERT INTO " + TABLE_EMPLOYEE + " (id, email, name, phone, address, citizenshipID, status, date) VALUES " +
@@ -163,17 +164,17 @@ public class DBHelper extends SQLiteOpenHelper {
                 "id  INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "idProduct INTEGER REFERENCES " + TABLE_PRODUCT + "(id)," +
                 "name TEXT REFERENCES " + TABLE_PRODUCT + "(name)," +
-                //"image BLOB REFERENCES " + TABLE_PRODUCT + "(image)," +
                 "quantity INTEGER," +
                 "price INTEGER REFERENCES " + TABLE_PRODUCT + "(price), " +
-                "emailCus TEXT REFERENCES " + TABLE_CUSTOMER + "(email)" + ")";
+                "emailCus TEXT REFERENCES " + TABLE_CUSTOMER + "(email)," +
+                "image TEXT REFERENCES " + TABLE_PRODUCT + "(image)" + ")";
         sqLiteDatabase.execSQL(CREATE_TABLE_CART);
 
         //Initialize data for the cart table
-        String INSERT_CART_DATA = "INSERT INTO " + TABLE_CART + " (idProduct, name, quantity, price, emailCus) VALUES " +
-                        "(1, 'Product 1', 1, 10, 'customer1@gmail'), " +
-                        "(2, 'Product 2', 2, 15, 'customer2@gmail'), " +
-                        "(3, 'Product 3', 1, 20, 'customer1@gmail')";
+        String INSERT_CART_DATA = "INSERT INTO " + TABLE_CART + " (idProduct, name, quantity, price, emailCus, image) VALUES " +
+                "(1, 'Product 1', 1, 10, 'customer1@gmail', ''), " +
+                "(2, 'Product 2', 2, 15, 'customer2@gmail', ''), " +
+                "(3, 'Product 3', 1, 20, 'customer1@gmail', '')";
         sqLiteDatabase.execSQL(INSERT_CART_DATA);
     }
 

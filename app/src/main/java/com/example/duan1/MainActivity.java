@@ -1,10 +1,14 @@
 package com.example.duan1;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 
 import com.example.duan1.activity.ChooseActivity;
@@ -24,6 +28,7 @@ import com.example.duan1.user.fragment.changepass.ChangePasswordFragment;
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     private Boolean isExit = false;
+    int PERMISSION_CODE = 1;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -108,6 +113,26 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                     isExit = false;
                 }
             }, 3000L);
+        }
+    }
+
+    private void requestPermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Cấp quyền thành công", Toast.LENGTH_SHORT).show();
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Cấp quyền thành công", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "permission denied", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

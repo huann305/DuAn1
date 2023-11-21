@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.dao.BillDAO;
 import com.example.duan1.dao.BillDetailDAO;
@@ -58,6 +59,18 @@ public abstract class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillV
             holder.tvNameEmployee.setText("Nhân viên: ");
         }
         holder.tvTotalPrice.setText("Tổng tiền: " + billDetailDAO.getTotalPrice(bill.getId()));
+
+        BillDetailDAO billDetailDAO = new BillDetailDAO(context);
+        List<BillDetail> listBillDetail = billDetailDAO.getAllByIdBill(String.valueOf(bill.getId()));
+        int idPro = listBillDetail.get(0).getIdProduct();
+        Product product = productDAO.getID(idPro);
+
+        if(product.getImage() != null){
+            Glide.with(context).load(product.getImage()).into(holder.ivBill);
+        }else {
+            Glide.with(context).load(R.drawable.improduct1).into(holder.ivBill);
+        }
+
         Log.i("tongtien", String.valueOf(billDetailDAO.getTotalPrice(bill.getId())));
         holder.tvDate.setText(bill.getDate());
         holder.tvAddress.setText(bill.getShippingAddress());
@@ -82,12 +95,12 @@ public abstract class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillV
     }
 
     public class BillViewHolder extends RecyclerView.ViewHolder{
-        ImageView img;
+        ImageView ivBill;
         TextView tvIdBill, tvNameEmployee, tvTotalPrice, tvDate, tvAddress, tvStatus;
         View layout;
         public BillViewHolder(@NonNull View itemView) {
             super(itemView);
-            img = itemView.findViewById(R.id.img);
+            ivBill = itemView.findViewById(R.id.ivBill);
             tvIdBill = itemView.findViewById(R.id.tvIdBill);
             tvNameEmployee = itemView.findViewById(R.id.tvNameEmployee);
             tvTotalPrice = itemView.findViewById(R.id.tvTotalPrice);

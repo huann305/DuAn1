@@ -25,7 +25,7 @@ public class CartDAO {
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             do {
-                list.add(new Cart(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4), cursor.getString(5)));
+                list.add(new Cart(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4), cursor.getString(5), cursor.getString(6)));
             } while (cursor.moveToNext());
         }
         return list;
@@ -38,7 +38,7 @@ public class CartDAO {
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             do {
-                list.add(new Cart(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4), cursor.getString(5) ));
+                list.add(new Cart(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4), cursor.getString(5), cursor.getString(6)));
             } while (cursor.moveToNext());
         }
         return list;
@@ -59,6 +59,7 @@ public class CartDAO {
 
             ContentValues values = new ContentValues();
             values.put("quantity", currentQuantity);
+            values.put("image", product.getImage());
             check = database.update(DBHelper.TABLE_CART, values, "name = ? AND emailCus = ?", new String[]{product.getName(), email});
 
         } else {
@@ -70,6 +71,7 @@ public class CartDAO {
             values.put("quantity", quantity);
             values.put("price", product.getPrice());
             values.put("emailCus", email);
+            values.put("image", product.getImage());
             check = database.insert(DBHelper.TABLE_CART, null , values);
         }
         if (check == -1) {

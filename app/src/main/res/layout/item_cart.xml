@@ -11,11 +11,12 @@
         android:paddingVertical="10dp">
 
         <ImageView
+            android:id="@+id/ivImageCart"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"
-            android:src="@drawable/imgpr" />
+            android:src="@drawable/improduct1" />
 
         <LinearLayout
             android:layout_width="0dp"
