@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -27,8 +28,11 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
@@ -50,9 +54,12 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
     List<Product> list;
     AdapterProductManagement adapter;
     String filePath = "";
-    ImageView ivImagePro;
+    ImageView ivImagePro, ivUpdate;
     TextView tvStatusImage;
     String linkImage = "";
+    int PERMISSION_CODE = 1;
+
+
 
 
     public static String TAG = "Quản lý sản phẩm";
@@ -96,9 +103,93 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
         binding.rcvProduct.setLayoutManager(linearLayoutManager);
         productDAO = new ProductDAO(getContext());
         list = productDAO.getAll();
-        adapter = new AdapterProductManagement(getContext(), list);
+        adapter = new AdapterProductManagement(getContext(), list) {
+            @Override
+            public void click(int position) {
+                Product product = list.get(position);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_update_products, null);
+                builder.setView(view);
+                builder.create();
+                AlertDialog alertDialog = builder.create();
+
+                EditText edtTenSP = view.findViewById(R.id.edt_title_updatepro);
+                EditText edtDonGia = view.findViewById(R.id.edt_price_updatepro);
+                Spinner spinnerTrangThai = view.findViewById(R.id.spn_updatepro);
+                Button btnUpdate = view.findViewById(R.id.btn_submit_updatepro);
+                Button btnCancel = view.findViewById(R.id.btn_canupdatepro);
+                ivUpdate = view.findViewById(R.id.iv_update_product);
+                TextView tvStatusImage_up = view.findViewById(R.id.tvStatusImage_up);
+
+
+                List<String> data = new ArrayList<>();
+                data.add("Còn hàng");
+                data.add("Hết hàng");
+
+                // Tạo Adapter để đổ dữ liệu vào Spinner
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, data);
+
+                // Định dạng Spinner
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                // Gán Adapter cho Spinner
+                spinnerTrangThai.setAdapter(adapter);
+                edtTenSP.setText(product.getName());
+                edtDonGia.setText(String.valueOf(product.getPrice()));
+                spinnerTrangThai.setSelection(data.indexOf(product.getStatus()));
+
+                if(product.getImage() != null){
+                    Glide.with(getContext()).load(product.getImage()).into(ivUpdate);
+                }else {
+                    Glide.with(getContext()).load(R.drawable.improduct1).into(ivUpdate);
+                }
+
+                if (product.getStatus().equals("Còn hàng")) {
+                    spinnerTrangThai.setSelection(0);
+                } else {
+                    spinnerTrangThai.setSelection(1);
+                }
+
+                ivUpdate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        accessTheGallery();
+                        Toast.makeText(getContext(), "ahihi", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                btnUpdate.setOnClickListener(v1 -> {
+                    ProductDAO productDAO = new ProductDAO(getContext());
+                    String status = spinnerTrangThai.getSelectedItem().toString();
+                    String name = edtTenSP.getText().toString();
+                    String gia = edtDonGia.getText().toString();
+                    product.setStatus(status);
+                    product.setName(name);
+                    product.setPrice(Integer.parseInt(gia));
+
+
+
+                    if (productDAO.updatee(product, product.getId())) {
+                        Toast.makeText(getContext(), "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                        notifyDataSetChanged();
+                        alertDialog.dismiss();
+                    } else {
+                        Toast.makeText(getContext(), "Cập nhật sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
+                    }
+                });
+
+                alertDialog.show();
+            }
+        };
         binding.rcvProduct.setAdapter(adapter);
 
+        requestPermission();
     }
     public void addProduct(){
         binding.fltAddPro.setOnClickListener(v -> {
@@ -135,6 +226,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 String status = spnRole.getSelectedItem().toString();
                 String statusImage = tvStatusImage.getText().toString();
 
+
                 if( name.isEmpty() || price.isEmpty() || !statusImage.equals("Upload thành công!")) {
                     Toast.makeText(getContext(), "Các trường không được để trống", Toast.LENGTH_SHORT).show();
                     return;
@@ -164,6 +256,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
         });
     }
 
+
     public void accessTheGallery() {
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         i.setType("image/*");
@@ -187,7 +280,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                     //set picked image to the mProfile
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), result.getData().getData());
                     //hiển thị hình ảnh lên imgview
-                    ivImagePro.setImageBitmap(bitmap);
+                    ivUpdate.setImageBitmap(bitmap);
 
                     uploadToCloudinary(filePath);
                 } catch (IOException e) {
@@ -225,17 +318,17 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
         MediaManager.get().upload(filePath).callback(new UploadCallback() {
             @Override
             public void onStart(String requestId) {
-                tvStatusImage.setText("Bắt đầu upload");
+                //tvStatusImage.setText("Bắt đầu upload");
             }
 
             @Override
             public void onProgress(String requestId, long bytes, long totalBytes) {
-                tvStatusImage.setText("Đang upload... ");
+//                tvStatusImage.setText("Đang upload... ");
             }
 
             @Override
             public void onSuccess(String requestId, Map resultData) {
-                tvStatusImage.setText("Upload thành công!");
+//                tvStatusImage.setText("Upload thành công!");
                 //tvStatusImage.setText(":Upload ảnh thành công");
                 linkImage = resultData.get("url").toString();
                 Log.i("TAG", "linkImage nhaa: " + linkImage);
@@ -243,14 +336,35 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
 
             @Override
             public void onError(String requestId, ErrorInfo error) {
-                tvStatusImage.setText("Lỗi " + error.getDescription());
+//                tvStatusImage.setText("Lỗi " + error.getDescription());
             }
 
             @Override
             public void onReschedule(String requestId, ErrorInfo error) {
-                tvStatusImage.setText("Reshedule " + error.getDescription());
+//                tvStatusImage.setText("Reshedule " + error.getDescription());
             }
         }).dispatch();
     }
+
+    private void requestPermission() {
+        if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(getContext(), "Cấp quyền thành công", Toast.LENGTH_SHORT).show();
+        } else {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getContext(), "Cấp quyền thành công", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
 }
