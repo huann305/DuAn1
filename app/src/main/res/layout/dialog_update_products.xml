@@ -85,14 +85,25 @@
             />
     </LinearLayout>
     <ImageView
+        android:id="@+id/iv_update_product"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="centerCrop"
+        android:src="@drawable/improduct1"
+        android:layout_margin="10dp"
+        />
+    <TextView
+        android:id="@+id/tvStatusImage_up"
         android:layout_marginTop="10dp"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
-        android:layout_marginLeft="15dp"
-        android:src="@drawable/rectangle109"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#989898"
+        android:textSize="15sp"
+        android:layout_gravity="center_horizontal"
         />
     <LinearLayout
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal"

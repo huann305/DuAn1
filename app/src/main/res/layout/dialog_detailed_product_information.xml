@@ -7,7 +7,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:src="@drawable/rectangle110"
+        android:src="@drawable/chicken1"
         android:scaleType="fitXY"
         android:id="@+id/img_detalied"
         />

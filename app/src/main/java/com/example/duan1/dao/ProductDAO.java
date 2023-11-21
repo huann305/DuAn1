@@ -49,7 +49,6 @@ public class ProductDAO {
         }
         return true;
     }
-
     public boolean updatee(Product product, int id){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String sql = "UPDATE " + DBHelper.TABLE_PRODUCT + " SET name = ?, image = ?, price = ?, quantitySold = ?, status = ?" + " WHERE id = ?";

@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/imgpr" />
+            android:src="@drawable/improduct1" />
 
         <TextView
             android:id="@+id/tvProductName"
