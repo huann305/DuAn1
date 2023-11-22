@@ -46,7 +46,6 @@ import com.example.duan1.dao.ProductDAO;
 import com.example.duan1.dao.ProductDetailDAO;
 import com.example.duan1.databinding.FragmentProductManagementBinding;
 import com.example.duan1.model.Product;
-import com.example.duan1.model.ProductDetail;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,11 +59,9 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
     AdapterProductManagement adapter;
     String filePath = "";
     ImageView ivImagePro;
-    ProductDetailDAO productDetailDAO;
     TextView tvStatusImage;
     String linkImage = "";
     int PERMISSION_CODE = 1;
-    ProductDetail productDetail;
     View loading;
 
 
@@ -93,7 +90,6 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
         item1();
         loadData();
         addProduct();
-
     }
 
     @Override
@@ -123,7 +119,6 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
 
                 EditText edtTenSP = view.findViewById(R.id.edt_title_updatepro);
                 EditText edtDonGia = view.findViewById(R.id.edt_price_updatepro);
-                EditText edtmota = view.findViewById(R.id.edt_mota_uppro);
                 Spinner spinnerTrangThai = view.findViewById(R.id.spn_updatepro);
                 Button btnUpdate = view.findViewById(R.id.btn_submit_updatepro);
                 Button btnCancel = view.findViewById(R.id.btn_canupdatepro);
@@ -143,8 +138,6 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 // Gán Adapter cho Spinner
                 spinnerTrangThai.setAdapter(adapter);
                 edtTenSP.setText(product.getName());
-                 productDetail = new ProductDetail();
-                edtmota.setText(productDetail.getDescription());
                 edtDonGia.setText(String.valueOf(product.getPrice()));
                 spinnerTrangThai.setSelection(data.indexOf(product.getStatus()));
 
@@ -173,16 +166,13 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                     String status = spinnerTrangThai.getSelectedItem().toString();
                     String name = edtTenSP.getText().toString();
                     String gia = edtDonGia.getText().toString();
-                    String mota = edtmota.getText().toString();
                     product.setStatus(status);
                     product.setName(name);
                     product.setPrice(Integer.parseInt(gia));
-                    productDetail.setDescription(mota);
 
                     uploadToCloudinary(filePath, product, product.getId() + "");
 
                     if (productDAO.updatee(product, product.getId())) {
-                        product.setImage(linkImage);
                         Toast.makeText(getContext(), "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
                         notifyDataSetChanged();
                         alertDialog.dismiss();
@@ -212,7 +202,6 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
 
             EditText edtName = view.findViewById(R.id.edt_name_addpro);
             EditText edtPrice = view.findViewById(R.id.edt_price_addpro);
-            EditText edtmota = view.findViewById(R.id.edt_mota_addpro);
             Spinner spnRole = view.findViewById(R.id.spn_addpro);
             Button btnThem = view.findViewById(R.id.btn_submit_addpro);
             Button btnHuy = view.findViewById(R.id.btn_canaddpro);
@@ -221,8 +210,8 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
 
             // Tạo danh sách dữ liệu
             List<String> data = new ArrayList<>();
-            data.add("Còn hàng");
-            data.add("Hết hàng");
+            data.add("Đồ ăn");
+            data.add("Nước Uống");
 
             // Tạo Adapter để đổ dữ liệu vào Spinner
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, data);
@@ -237,10 +226,9 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 String price = edtPrice.getText().toString();
                 String status = spnRole.getSelectedItem().toString();
                 String statusImage = tvStatusImage.getText().toString();
-                String mota = edtmota.getText().toString();
 
 
-                if( name.isEmpty() || price.isEmpty() || mota.isEmpty()) {
+                if( name.isEmpty() || price.isEmpty()) {
                     Toast.makeText(getContext(), "Các trường không được để trống", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -249,8 +237,6 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 product.setStatus(status);
                 product.setImage("" + linkImage);
                 Log.i("TAG", "Link ảnh đây nàyyyy: " + linkImage);
-                productDetailDAO = new ProductDetailDAO(getContext());
-                productDetailDAO.insert(list.size()+1, mota, linkImage);
                 uploadToCloudinary(filePath, product, null);
                 alertDialog.dismiss();
             });
@@ -311,8 +297,6 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
     private void updateProduct(Product product, String id){
         product.setImage(linkImage);
         if(productDAO.updatee(product, product.getId())){
-            productDetailDAO = new ProductDetailDAO(getContext());
-            productDetailDAO.update(productDetail);
             Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
             loadData();
         }else{
@@ -437,7 +421,6 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
             }
         });
     }
-
 
 
 }
