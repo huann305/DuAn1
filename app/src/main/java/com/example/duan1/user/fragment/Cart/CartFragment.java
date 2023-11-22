@@ -198,9 +198,9 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         Bill bill = new Bill();
         bill.setId(billDAO.getAll().size() + 1);
         bill.setIdCustomer("" + customer.getId());
-        bill.setShippingAddress("1");
+        bill.setShippingAddress(binding.tvAddress.getText().toString());
         bill.setEmail(email);
-        bill.setStatus(BillStatus.WAITING);
+        bill.setStatus(BillStatus.CONFIRM);
         bill.setIdEmployee(null);
 
         //lấy thời gian hiện tại

@@ -1,19 +1,25 @@
-package com.example.duan1.admin.ui.fragment.ordermanagement;
+package com.example.duan1;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.duan1.BillStatus;
-import com.example.duan1.R;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.example.duan1.activity.BillDetailActivity;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
+import com.example.duan1.admin.ui.fragment.ordermanagement.OrderManagerAdapter;
+import com.example.duan1.admin.ui.fragment.ordermanagement.SendEvent;
+import com.example.duan1.admin.ui.fragment.ordermanagement.WaitingFragment;
 import com.example.duan1.dao.BillDAO;
-import com.example.duan1.databinding.FragmentWaitingBinding;
+import com.example.duan1.databinding.FragmentConfirmBinding;
 import com.example.duan1.model.Bill;
 
 import org.greenrobot.eventbus.EventBus;
@@ -22,37 +28,38 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-public class WaitingFragment extends BaseFragment<FragmentWaitingBinding> {
-    public static WaitingFragment newInstance() {
-
+public class ConfirmFragment extends BaseFragment<FragmentConfirmBinding> {
+    public static ConfirmFragment newInstance() {
         Bundle args = new Bundle();
-
-        WaitingFragment fragment = new WaitingFragment();
+        ConfirmFragment fragment = new ConfirmFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_waiting;
-    }
-
-    @Override
-    protected void initEvent() {
     }
 
     BillDAO billDAO;
     List<Bill> list;
     OrderManagerAdapter adapter;
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_confirm;
+    }
+
+    @Override
+    protected void initEvent() {
+
+    }
+
     @Override
     protected void initData() {
         billDAO = new BillDAO(getContext());
-        list = billDAO.getAllWithStatus(BillStatus.WAITING);
+        list = billDAO.getAllWithStatus(BillStatus.CONFIRM);
         adapter = new OrderManagerAdapter(list, getContext()) {
             @Override
             public void onItemClick(int position) {
                 Intent intent = new Intent(getContext(), BillDetailActivity.class);
                 intent.putExtra("id_bill", list.get(position).getId() + "");
-                intent.putExtra("text_btn", "Đang làm");
+                intent.putExtra("text_btn", "Đang chờ");
                 onPause();
                 startActivity(intent);
             }
@@ -61,10 +68,10 @@ public class WaitingFragment extends BaseFragment<FragmentWaitingBinding> {
         binding.rcv.setAdapter(adapter);
     }
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void loadData(SendEvent event){
-        list = billDAO.getAllWithStatus(BillStatus.WAITING);
+    public void loadData(SendEvent event) {
+        list = billDAO.getAllWithStatus(BillStatus.CONFIRM);
+        Toast.makeText(getContext(), list.size() + "", Toast.LENGTH_SHORT).show();
         adapter.setData(list);
         binding.rcv.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rcv.setAdapter(adapter);
@@ -73,9 +80,8 @@ public class WaitingFragment extends BaseFragment<FragmentWaitingBinding> {
 
     @Override
     public String getTAG() {
-        return "Đang chờ";
+        return "Đang chờ xác nhận";
     }
-
     @Override
     public void onDetach() {
         super.onDetach();
