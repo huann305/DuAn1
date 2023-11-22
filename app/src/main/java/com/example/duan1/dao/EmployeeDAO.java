@@ -42,7 +42,7 @@ public class EmployeeDAO {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor c = db.rawQuery(sql, new String[]{id});
         while (c.moveToNext()) {
-            list.add(new Employee(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7)));
+            list.add(new Employee(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8)));
         }
         if (c != null) {
             c.close();
@@ -61,7 +61,7 @@ public class EmployeeDAO {
         Cursor cursor = db.rawQuery("SELECT * FROM " + DBHelper.TABLE_EMPLOYEE + " WHERE email = ?", new String[]{email});
         if(cursor.getCount() != 0) {
             cursor.moveToFirst();
-            Employee employee = new Employee(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+            Employee employee = new Employee(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
             return employee;
         }
         return null;
@@ -69,8 +69,8 @@ public class EmployeeDAO {
 
     public boolean insert(Employee object) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String sql = "INSERT INTO " + DBHelper.TABLE_EMPLOYEE + " (email, name, phone, address, citizenshipID, status, date) " + " VALUES(?,?,?,?,?,?, ?)";
-        db.execSQL(sql, new String[]{ object.getEmail(), object.getName(), object.getPhone(), object.getAddress(), object.getCitizenshipID(), "active", object.getDate()});
+        String sql = "INSERT INTO " + DBHelper.TABLE_EMPLOYEE + " (email, name, phone, address, citizenshipID, status, date, image) " + " VALUES(?,?,?,?,?,?, ?)";
+        db.execSQL(sql, new String[]{ object.getEmail(), object.getName(), object.getPhone(), object.getAddress(), object.getCitizenshipID(), "active", object.getDate(), object.getImage()});
         if (db != null) {
             db.close();
         }
@@ -98,8 +98,8 @@ public class EmployeeDAO {
 
     public boolean updateInfo(Employee employee, String email) {
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
-        String sql = "UPDATE " + DBHelper.TABLE_EMPLOYEE + " SET name = ?, phone = ?, address = ? WHERE email = ?";
-        sqLiteDatabase.execSQL(sql, new String[]{employee.getName(), employee.getPhone(), employee.getAddress(), email});
+        String sql = "UPDATE " + DBHelper.TABLE_EMPLOYEE + " SET name = ?, phone = ?, address = ?, image = ? WHERE email = ?";
+        sqLiteDatabase.execSQL(sql, new String[]{employee.getName(), employee.getPhone(), employee.getAddress(), employee.getImage(), email});
         if (sqLiteDatabase != null) {
             sqLiteDatabase.close();
         }
@@ -120,7 +120,7 @@ public class EmployeeDAO {
 
         Cursor c = db.rawQuery(sql, selectionArgs);
         while (c.moveToNext()) {
-            list.add(new Employee(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7)));
+            list.add(new Employee(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8)));
         }
         return list;
     }

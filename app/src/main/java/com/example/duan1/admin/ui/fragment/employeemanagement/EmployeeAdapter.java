@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.dao.EmployeeDAO;
 import com.example.duan1.databinding.ItemEmployeeManagerBinding;
@@ -51,6 +52,12 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
         holder.binding.tvCCCDEm.setText("CCCD: " + (employee.getCitizenshipID() == null ? "" : employee.getCitizenshipID()));
         holder.binding.tvTrangThaiEm.setText(employee.getStatus());
         holder.binding.tvNgayVaoLamEm.setText("Ngày vào làm: " + employee.getDate());
+
+        if(employee.getImage() != null){
+            Glide.with(context).load(employee.getImage()).into(holder.binding.imgEm);
+        }else {
+            Glide.with(context).load(R.drawable.baseline_person_24).into(holder.binding.imgEm);
+        }
 
         if (employee.getStatus().equals("active")) {
             holder.binding.shapeStatusCus.setBackgroundColor(context.getResources().getColor(R.color.active));
@@ -119,8 +126,6 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
 
             alertDialog.show();
         });
-
-
     }
 
     @Override

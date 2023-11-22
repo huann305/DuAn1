@@ -56,14 +56,15 @@ public class DBHelper extends SQLiteOpenHelper {
                 "phone TEXT, " +
                 "address TEXT, " +
                 "birthday TEXT, " +
-                "status TEXT" +
+                "status TEXT, " +
+                "image TEXT" +
                 ")";
         sqLiteDatabase.execSQL(CREATE_TABLE_CUSTOMER);
         //Initialize data for the customer table
-        String INSERT_CUSTOMER_DATA = "INSERT INTO " + TABLE_CUSTOMER + " (id, email, name, phone, address, birthday, status) VALUES " +
-                "(1, 'customer1@gmail.com', 'John Doe', '123456789', '123 Main St', '1990-01-01', 'active'), " +
-                "(2, 'customer2@gmail.com', 'Jane Smith', '987654321', '456 Elm St', '1995-05-05', 'active'), " +
-                "(3, 'customer3@gmail.com', 'Mike Johnson', '555555555', '789 Oak St', '1985-10-10', 'inactive')";
+        String INSERT_CUSTOMER_DATA = "INSERT INTO " + TABLE_CUSTOMER + " (id, email, name, phone, address, birthday, status, image) VALUES " +
+                "(1, 'customer1@gmail.com', 'John Doe', '123456789', '123 Main St', '1990-01-01', 'active', ''), " +
+                "(2, 'customer2@gmail.com', 'Jane Smith', '987654321', '456 Elm St', '1995-05-05', 'active', ''), " +
+                "(3, 'customer3@gmail.com', 'Mike Johnson', '555555555', '789 Oak St', '1985-10-10', 'inactive', '')";
         sqLiteDatabase.execSQL(INSERT_CUSTOMER_DATA);
 
         String CREATE_TABLE_BILL = "CREATE TABLE " + TABLE_BILL + " " + "(" +
@@ -78,19 +79,19 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_BILL);
         //Initialize data for the bill table
         String INSERT_BILL_DATA = "INSERT INTO " + TABLE_BILL + " (idEmployee, idCustomer, date, shippingAddress, status) VALUES " +
-                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
+//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
+//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
+//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
+//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
+//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
+//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
+//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
+//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
+//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
+//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
+//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
+//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
+//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
                 "('2', '1', '2022-02-02', '456 Elm St', 'Đang làm'), " +
                 "('2', '3', '2022-02-02', '456 Elm St', 'Đã hoàn thành'), " +
                 "('3', '2', '2022-03-03', '789 Oak St', 'Đang chờ')";
@@ -149,14 +150,15 @@ public class DBHelper extends SQLiteOpenHelper {
                 "address TEXT, " +
                 "citizenshipID TEXT, " +
                 "status TEXT, " +
-                "date TEXT" + ")";
+                "date TEXT, " +
+                "image TEXT" + ")";
         sqLiteDatabase.execSQL(CREATE_TABLE_EMPLOYEE);
         //Initialize data for the employee table
-        String INSERT_EMPLOYEE_DATA = "INSERT INTO " + TABLE_EMPLOYEE + " (id, email, name, phone, address, citizenshipID, status, date) VALUES " +
-                "(1, 'employee1@gmail.com', 'Employee 1', '1234567890', 'Address 1', '1234567890', 'active', '2022-01-01'), " +
-                "(2, 'employee2@gmail.com', 'Employee 2', '0987654321', 'Address 2', '0987654321', 'active', '2022-02-02'), " +
-                "(3, 'employee3@gmail.com', 'Employee 3', '9876543210', 'Address 3', '9876543210', 'inactive', '2022-03-03')," +
-                "(4, 'admin@gmail.com', 'Admin', '8765432109', 'Address 4', '8765432109', 'active', '2022-04-04')";
+        String INSERT_EMPLOYEE_DATA = "INSERT INTO " + TABLE_EMPLOYEE + " (id, email, name, phone, address, citizenshipID, status, date, image) VALUES " +
+                "(1, 'employee1@gmail.com', 'Employee 1', '1234567890', 'Address 1', '1234567890', 'active', '2022-01-01','' ), " +
+                "(2, 'employee2@gmail.com', 'Employee 2', '0987654321', 'Address 2', '0987654321', 'active', '2022-02-02', ''), " +
+                "(3, 'employee3@gmail.com', 'Employee 3', '9876543210', 'Address 3', '9876543210', 'inactive', '2022-03-03', '')," +
+                "(4, 'admin@gmail.com', 'Admin', '8765432109', 'Address 4', '8765432109', 'active', '2022-04-04', '')";
 
         sqLiteDatabase.execSQL(INSERT_EMPLOYEE_DATA);
 

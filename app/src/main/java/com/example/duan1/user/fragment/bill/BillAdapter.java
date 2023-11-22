@@ -74,7 +74,11 @@ public abstract class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillV
         Log.i("tongtien", String.valueOf(billDetailDAO.getTotalPrice(bill.getId())));
         holder.tvDate.setText(bill.getDate());
         holder.tvAddress.setText(bill.getShippingAddress());
-        holder.tvStatus.setText("Trạng thái: " + bill.getStatus());
+        if(bill.getStatus().equals("Xác nhận thanh toán")){
+            holder.tvStatus.setText("Trạng thái: " + "Chờ xác nhận thanh toán");
+        }else {
+            holder.tvStatus.setText("Trạng thái: " + bill.getStatus());
+        }
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override

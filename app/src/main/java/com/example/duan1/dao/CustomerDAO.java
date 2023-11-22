@@ -64,8 +64,8 @@ public class CustomerDAO {
 
     public boolean insert(Customer object) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String sql = "INSERT INTO " + DBHelper.TABLE_CUSTOMER + "(email, name, phone, address, birthday, status)" +  "VALUES(?,?,?,?,?,?)";
-        db.execSQL(sql, new String[]{object.getEmail(), object.getName(), object.getPhone(), object.getAddress(), object.getBirthday(), object.getStatus()});
+        String sql = "INSERT INTO " + DBHelper.TABLE_CUSTOMER + "(email, name, phone, address, birthday, status, image)" +  "VALUES(?,?,?,?,?,?)";
+        db.execSQL(sql, new String[]{object.getEmail(), object.getName(), object.getPhone(), object.getAddress(), object.getBirthday(), object.getStatus(), object.getImage()});
         if (db != null) {
             db.close();
         }
@@ -82,8 +82,8 @@ public class CustomerDAO {
     }
     public boolean updateInfo(Customer object, String email) {
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
-        String sql = "UPDATE " + DBHelper.TABLE_CUSTOMER + " SET name = ?, phone = ?, address = ?, birthday = ? WHERE email = ?";
-        sqLiteDatabase.execSQL(sql, new String[]{object.getName(), object.getPhone(), object.getAddress(), object.getBirthday(), email});
+        String sql = "UPDATE " + DBHelper.TABLE_CUSTOMER + " SET name = ?, phone = ?, address = ?, birthday = ?, image = ? WHERE email = ?";
+        sqLiteDatabase.execSQL(sql, new String[]{object.getName(), object.getPhone(), object.getAddress(), object.getBirthday(), object.getImage(), email});
         if (sqLiteDatabase != null) {
             sqLiteDatabase.close();
         }
@@ -96,7 +96,7 @@ public class CustomerDAO {
 
         Cursor c = db.rawQuery(sql, selectionArgs);
         while (c.moveToNext()) {
-            list.add(new Customer(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6)));
+            list.add(new Customer(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7)));
             Log.e("TAGG", c.getString(6));
         }
         if (c != null) {

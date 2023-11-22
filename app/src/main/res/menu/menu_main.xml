@@ -16,6 +16,9 @@
         android:id="@+id/nav_order_management_admin"
         android:title="Quản lý đơn hàng admin"/>
     <item
+        android:id="@+id/nav_order_payment_confirmation"
+        android:title="Nhân viên xác nhận thanh toán"/>
+    <item
         android:id="@+id/nav_statistics"
         android:title="Thống kê"/>
     <item

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.dao.CustomerDAO;
 import com.example.duan1.databinding.ItemCustomerManagementBinding;
@@ -48,6 +49,11 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
         holder.binding.tvSDTCus.setText("SĐT: " + customer.getPhone());
         holder.binding.tvTaiKhoanCus.setText("Email: " + customer.getEmail());
         holder.binding.tvTrangThaiCus.setText("Trạng thái: " + customer.getStatus());
+        if(customer.getImage() != null){
+            Glide.with(context).load(customer.getImage()).into(holder.binding.imgCus);
+        }else {
+            Glide.with(context).load(R.drawable.baseline_image_search_24).into(holder.binding.imgCus);
+        }
 
         if(customer.getStatus().equals("active")) {
             holder.binding.shapeStatusCus.setBackgroundColor(context.getResources().getColor(R.color.active));

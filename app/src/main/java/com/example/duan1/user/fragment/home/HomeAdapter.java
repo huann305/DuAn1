@@ -94,7 +94,7 @@ public abstract class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeV
 
         public HomeViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgProduct = itemView.findViewById(R.id.imageView);
+            imgProduct = itemView.findViewById(R.id.imageView2);
             tvNameProduct = itemView.findViewById(R.id.textView3);
             tvPrice = itemView.findViewById(R.id.textView5);
             tvQuantitySold = itemView.findViewById(R.id.textView7);

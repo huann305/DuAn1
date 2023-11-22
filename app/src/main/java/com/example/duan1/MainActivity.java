@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 
 import com.example.duan1.activity.ChooseActivity;
+import com.example.duan1.admin.ui.fragment.ordermanagement.ConfirmFragment;
 import com.example.duan1.admin.ui.fragment.ordermanagement.OrderAdminFragment;
 import com.example.duan1.databinding.ActivityMainBinding;
 import com.example.duan1.admin.ui.activity.BaseActivity;
@@ -79,6 +80,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 finish();
             } else if (item.getItemId() == R.id.nav_order_management_admin) {
                 fragment = OrderAdminFragment.newInstance();
+            }  else if (item.getItemId() == R.id.nav_order_payment_confirmation) {
+                fragment = ConfirmFragment.newInstance();
             }
             if (fragment != null) {
                 BaseFragment.add(MainActivity.this, fragment);

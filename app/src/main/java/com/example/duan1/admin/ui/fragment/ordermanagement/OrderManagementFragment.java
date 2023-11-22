@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.duan1.ConfirmFragment;
 import com.example.duan1.R;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.databinding.FragmentOrderManagementBinding;
@@ -41,13 +40,11 @@ public class OrderManagementFragment extends BaseFragment<FragmentOrderManagemen
 
     @Override
     protected void initEvent() {
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Đang chờ xác nhận"));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Đang chờ"));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Đang làm"));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Hoàn thành"));
 
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
-        myPagerAdapter.addFragment(ConfirmFragment.newInstance());
         myPagerAdapter.addFragment(WaitingFragment.newInstance());
         myPagerAdapter.addFragment(DoingFragment.newInstance());
         myPagerAdapter.addFragment(DoneFragment.newInstance());

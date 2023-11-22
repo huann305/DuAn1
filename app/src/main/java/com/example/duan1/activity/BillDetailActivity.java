@@ -79,7 +79,7 @@ public class BillDetailActivity extends BaseActivity<ActivityBillDetailBinding> 
 
         EmployeeDAO employeeDAO = new EmployeeDAO(this);
 
-        if(binding.btnChangeStatus.getText().toString().toLowerCase().equals("đang chờ")){
+        if(binding.btnChangeStatus.getText().toString().toLowerCase().equals("xác nhận thanh toán")){
             billDAO.updateStatus(BillStatus.WAITING, idBill);
             billDAO.addEmployeeToBill(idBill, employeeDAO.getByEmail(email).getId() + "");
         }

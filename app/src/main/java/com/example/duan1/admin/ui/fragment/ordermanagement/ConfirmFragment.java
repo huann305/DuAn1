@@ -1,23 +1,18 @@
-package com.example.duan1;
+package com.example.duan1.admin.ui.fragment.ordermanagement;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.duan1.BillStatus;
+import com.example.duan1.R;
 import com.example.duan1.activity.BillDetailActivity;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
-import com.example.duan1.admin.ui.fragment.ordermanagement.OrderManagerAdapter;
-import com.example.duan1.admin.ui.fragment.ordermanagement.SendEvent;
-import com.example.duan1.admin.ui.fragment.ordermanagement.WaitingFragment;
 import com.example.duan1.dao.BillDAO;
 import com.example.duan1.databinding.FragmentConfirmBinding;
 import com.example.duan1.model.Bill;
@@ -59,7 +54,7 @@ public class ConfirmFragment extends BaseFragment<FragmentConfirmBinding> {
             public void onItemClick(int position) {
                 Intent intent = new Intent(getContext(), BillDetailActivity.class);
                 intent.putExtra("id_bill", list.get(position).getId() + "");
-                intent.putExtra("text_btn", "Đang chờ");
+                intent.putExtra("text_btn", "Xác nhận thanh toán");
                 onPause();
                 startActivity(intent);
             }
@@ -80,7 +75,7 @@ public class ConfirmFragment extends BaseFragment<FragmentConfirmBinding> {
 
     @Override
     public String getTAG() {
-        return "Đang chờ xác nhận";
+        return "Xác nhận thanh toán";
     }
     @Override
     public void onDetach() {
