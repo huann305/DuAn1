@@ -46,6 +46,7 @@ import com.example.duan1.dao.ProductDAO;
 import com.example.duan1.dao.ProductDetailDAO;
 import com.example.duan1.databinding.FragmentProductManagementBinding;
 import com.example.duan1.model.Product;
+import com.example.duan1.model.ProductDetail;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,6 +61,8 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
     String filePath = "";
     ImageView ivImagePro;
     TextView tvStatusImage;
+    ProductDetailDAO productDetailDAO;
+    ProductDetail productDetail;
     String linkImage = "";
     int PERMISSION_CODE = 1;
     View loading;
@@ -119,6 +122,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
 
                 EditText edtTenSP = view.findViewById(R.id.edt_title_updatepro);
                 EditText edtDonGia = view.findViewById(R.id.edt_price_updatepro);
+                EditText edtmota = view.findViewById(R.id.edt_mota_uppro);
                 Spinner spinnerTrangThai = view.findViewById(R.id.spn_updatepro);
                 Button btnUpdate = view.findViewById(R.id.btn_submit_updatepro);
                 Button btnCancel = view.findViewById(R.id.btn_canupdatepro);
@@ -138,6 +142,8 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 // Gán Adapter cho Spinner
                 spinnerTrangThai.setAdapter(adapter);
                 edtTenSP.setText(product.getName());
+                productDetail = new ProductDetail();
+                edtmota.setText(productDetail.getDescription());
                 edtDonGia.setText(String.valueOf(product.getPrice()));
                 spinnerTrangThai.setSelection(data.indexOf(product.getStatus()));
 
@@ -166,13 +172,20 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                     String status = spinnerTrangThai.getSelectedItem().toString();
                     String name = edtTenSP.getText().toString();
                     String gia = edtDonGia.getText().toString();
+                    String mota = edtmota.getText().toString();
+                    if (!validate(name, gia, mota)) {
+                        return;
+                    }
                     product.setStatus(status);
                     product.setName(name);
                     product.setPrice(Integer.parseInt(gia));
+                    productDetail.setDescription(mota);
 
                     uploadToCloudinary(filePath, product, product.getId() + "");
 
                     if (productDAO.updatee(product, product.getId())) {
+                        productDetailDAO = new ProductDetailDAO(getContext());
+                        productDetailDAO.update(productDetail);
                         Toast.makeText(getContext(), "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
                         notifyDataSetChanged();
                         alertDialog.dismiss();
@@ -202,6 +215,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
 
             EditText edtName = view.findViewById(R.id.edt_name_addpro);
             EditText edtPrice = view.findViewById(R.id.edt_price_addpro);
+            EditText edtmota = view.findViewById(R.id.edt_mota_addpro);
             Spinner spnRole = view.findViewById(R.id.spn_addpro);
             Button btnThem = view.findViewById(R.id.btn_submit_addpro);
             Button btnHuy = view.findViewById(R.id.btn_canaddpro);
@@ -210,8 +224,8 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
 
             // Tạo danh sách dữ liệu
             List<String> data = new ArrayList<>();
-            data.add("Đồ ăn");
-            data.add("Nước Uống");
+            data.add("Còn hàng");
+            data.add("Hết hàng");
 
             // Tạo Adapter để đổ dữ liệu vào Spinner
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, data);
@@ -225,17 +239,19 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 String name = edtName.getText().toString();
                 String price = edtPrice.getText().toString();
                 String status = spnRole.getSelectedItem().toString();
+                String mota = edtmota.getText().toString();
                 String statusImage = tvStatusImage.getText().toString();
 
 
-                if( name.isEmpty() || price.isEmpty()) {
-                    Toast.makeText(getContext(), "Các trường không được để trống", Toast.LENGTH_SHORT).show();
+                if( !validate(name, price, mota)) {
                     return;
                 }
                 product.setName(name);
                 product.setPrice(Integer.parseInt(price));
                 product.setStatus(status);
                 product.setImage("" + linkImage);
+                 productDetailDAO = new ProductDetailDAO(getContext());
+                productDetailDAO.insert(list.size()+1, mota, linkImage);
                 Log.i("TAG", "Link ảnh đây nàyyyy: " + linkImage);
                 uploadToCloudinary(filePath, product, null);
                 alertDialog.dismiss();
@@ -421,6 +437,26 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
             }
         });
     }
+    private boolean validate(String ten, String gia, String moTa){
+        if (ten.trim().equals("")|| gia.trim().equals("") || moTa.trim().equals("")){
+            Toast.makeText(getContext(), "Không được để trống!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!ten.matches("[a-zA-Z_0-9]+") ){
+            Toast.makeText(getContext(), "Tên sản phẩm không hợp lệ! ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
 
+        if ( !moTa.matches("[a-zA-Z_0-9]+") ){
+            Toast.makeText(getContext(), "Mô tả không hợp lệ! ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!gia.trim().matches("[0-9]+")){
+            Toast.makeText(getContext(), "Giá phải là số", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
 
 }
