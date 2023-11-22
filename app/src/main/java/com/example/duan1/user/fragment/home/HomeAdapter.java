@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.activity.DetailProductActivity;
 import com.example.duan1.dao.CartDAO;
@@ -34,8 +35,6 @@ public abstract class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeV
         this.list = list;
     }
 
-
-
     @NonNull
     @Override
     public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,12 +46,16 @@ public abstract class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeV
         SharedPreferences sharedPreferences = context.getSharedPreferences("USER", Context.MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "");
         Product product = list.get(position);
-        if (product.getImage() != null) {
-//            holder.imgProduct.setImageBitmap(product.getImage());
-        }
+
         holder.tvNameProduct.setText(product.getName());
         holder.tvPrice.setText(product.getPrice() + " VND");
         holder.tvQuantitySold.setText(product.getQuantitySold() + " đã bán");
+
+        if (product.getImage() != null) {
+            Glide.with(context).load(product.getImage()).into(holder.imgProduct);
+        }else {
+            holder.imgProduct.setImageResource(R.drawable.improduct1);
+        }
 
         holder.layout.setOnClickListener(v -> onItemClick(position));
         holder.btnAddCart.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +100,7 @@ public abstract class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeV
             tvQuantitySold = itemView.findViewById(R.id.textView7);
             layout = itemView.findViewById(R.id.layout_item);
             btnAddCart = itemView.findViewById(R.id.imageView4);
+            imgProduct = itemView.findViewById(R.id.imageView2);
         }
     }
 }

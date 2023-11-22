@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.duan1.BillStatus;
 import com.example.duan1.R;
 import com.example.duan1.Utils;
+import com.example.duan1.activity.DetailProductActivity;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.dao.BillDAO;
 import com.example.duan1.dao.BillDetailDAO;
@@ -95,6 +96,13 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
             public void clickBtnReduce() {
                 list = cartDAO.getAllCartCus(email);
                 cartEmpty();
+            }
+
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(getContext(), DetailProductActivity.class);
+                intent.putExtra("product_id", list.get(position).getId());
+                startActivity(intent);
             }
         };
         binding.rccCart.setAdapter(adapter);
@@ -209,7 +217,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
                 billDetail.setIdBill(bill.getId());
                 billDetail.setIdProduct(cart.getIdProduct());
                 billDetail.setQuantity(cart.getQuantity());
-                billDetail.setPrice(cart.getPrice() * cart.getQuantity());
+                billDetail.setPrice(cart.getPrice());
 
 
                 // Lưu hóa đơn chi tiết vào cơ sở dữ liệu

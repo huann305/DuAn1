@@ -11,12 +11,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.dao.BillDAO;
 import com.example.duan1.dao.BillDetailDAO;
 import com.example.duan1.dao.EmployeeDAO;
 import com.example.duan1.dao.ProductDAO;
 import com.example.duan1.model.Bill;
+import com.example.duan1.model.BillDetail;
+import com.example.duan1.model.Product;
 
 import java.util.List;
 
@@ -26,6 +29,7 @@ public abstract class OrderManagerAdapter extends RecyclerView.Adapter<OrderMana
     ProductDAO productDAO;
     EmployeeDAO employeeDAO;
     BillDetailDAO billDetailDAO;
+    Context context;
 
     public void setData(List<Bill> list){
         this.list = list;
@@ -34,6 +38,7 @@ public abstract class OrderManagerAdapter extends RecyclerView.Adapter<OrderMana
 
     public OrderManagerAdapter(List<Bill> list, Context context) {
         this.list = list;
+        this.context = context;
         billDAO = new BillDAO(context);
         productDAO = new ProductDAO(context);
         employeeDAO = new EmployeeDAO(context);
@@ -60,6 +65,21 @@ public abstract class OrderManagerAdapter extends RecyclerView.Adapter<OrderMana
         holder.llDate.setVisibility(View.GONE);
         holder.llAddress.setVisibility(View.GONE);
         holder.tvStatus.setText("Trạng thái: " + bill.getStatus());
+
+        BillDetailDAO billDetailDAO = new BillDetailDAO(context);
+        List<BillDetail> listBillDetail = billDetailDAO.getAllByIdBill(String.valueOf(bill.getId()));
+
+        if(listBillDetail.size() > 0){
+            int idPro = listBillDetail.get(0).getIdProduct();
+            Product product = productDAO.getID(idPro);
+
+            if(product.getImage() != null){
+                Glide.with(context).load(product.getImage()).into(holder.img);
+            }else {
+                Glide.with(context).load(R.drawable.improduct1).into(holder.img);
+            }
+        }
+
         holder.llItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,7 +102,7 @@ public abstract class OrderManagerAdapter extends RecyclerView.Adapter<OrderMana
         View llDate, llAddress, llItem;
         public BillViewHolder(@NonNull View itemView) {
             super(itemView);
-            img = itemView.findViewById(R.id.img);
+            img = itemView.findViewById(R.id.ivBill);
             tvIdBill = itemView.findViewById(R.id.tvIdBill);
             tvNameEmployee = itemView.findViewById(R.id.tvNameEmployee);
             tvTotalPrice = itemView.findViewById(R.id.tvTotalPrice);

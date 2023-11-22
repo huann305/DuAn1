@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.dao.BillDAO;
 import com.example.duan1.dao.BillDetailDAO;
@@ -24,7 +25,7 @@ import com.example.duan1.model.Product;
 
 import java.util.List;
 
-public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder> {
+public abstract class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder> {
     private Context context;
     private List<Bill> list;
     BillDAO billDAO;
@@ -58,11 +59,32 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
             holder.tvNameEmployee.setText("Nhân viên: ");
         }
         holder.tvTotalPrice.setText("Tổng tiền: " + billDetailDAO.getTotalPrice(bill.getId()));
+
+        BillDetailDAO billDetailDAO = new BillDetailDAO(context);
+        List<BillDetail> listBillDetail = billDetailDAO.getAllByIdBill(String.valueOf(bill.getId()));
+        int idPro = listBillDetail.get(0).getIdProduct();
+        Product product = productDAO.getID(idPro);
+
+        if(product.getImage() != null){
+            Glide.with(context).load(product.getImage()).into(holder.ivBill);
+        }else {
+            Glide.with(context).load(R.drawable.improduct1).into(holder.ivBill);
+        }
+
         Log.i("tongtien", String.valueOf(billDetailDAO.getTotalPrice(bill.getId())));
         holder.tvDate.setText(bill.getDate());
         holder.tvAddress.setText(bill.getShippingAddress());
         holder.tvStatus.setText("Trạng thái: " + bill.getStatus());
+
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClick(bill.getId());
+            }
+        });
     }
+
+    public abstract void onItemClick(int id);
 
     @Override
     public int getItemCount() {
@@ -73,17 +95,19 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
     }
 
     public class BillViewHolder extends RecyclerView.ViewHolder{
-        ImageView img;
+        ImageView ivBill;
         TextView tvIdBill, tvNameEmployee, tvTotalPrice, tvDate, tvAddress, tvStatus;
+        View layout;
         public BillViewHolder(@NonNull View itemView) {
             super(itemView);
-            img = itemView.findViewById(R.id.img);
+            ivBill = itemView.findViewById(R.id.ivBill);
             tvIdBill = itemView.findViewById(R.id.tvIdBill);
             tvNameEmployee = itemView.findViewById(R.id.tvNameEmployee);
             tvTotalPrice = itemView.findViewById(R.id.tvTotalPrice);
             tvDate = itemView.findViewById(R.id.tvDate);
             tvAddress = itemView.findViewById(R.id.tvAddress);
             tvStatus = itemView.findViewById(R.id.tvStatus);
+            layout = itemView.findViewById(R.id.llItem);
         }
     }
 }

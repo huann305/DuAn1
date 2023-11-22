@@ -11,9 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.dao.ProductDAO;
 import com.example.duan1.model.BillDetail;
+import com.example.duan1.model.Product;
 
 import java.util.List;
 
@@ -37,10 +39,18 @@ public class BillDetailAdapter extends RecyclerView.Adapter<BillDetailAdapter.Bi
     public void onBindViewHolder(@NonNull BillDetailViewHolder holder, int position) {
         BillDetail detail = list.get(position);
 
-        Log.d("TAG", "onBindViewHolder: " + detail.getIdProduct());
         holder.tvName.setText("Tên: " + (productDAO.getID(detail.getIdProduct()) != null ? productDAO.getID(detail.getIdProduct()).getName() : ""));
-        holder.tvPrice.setText("Giá: " + detail.getPrice());
+        holder.tvPrice.setText("Giá: " + detail.getPrice() + " VNĐ");
         holder.tvQuantity.setText("Số lượng: " + detail.getQuantity());
+        holder.tvTotal.setText("Thành tiền: " + (detail.getQuantity() * detail.getPrice()) + " VNĐ");
+
+        ProductDAO productDAO = new ProductDAO(holder.itemView.getContext());
+        Product product = productDAO.getID(detail.getIdProduct());
+        if(product.getImage() != null){
+            Glide.with(holder.itemView).load(product.getImage()).into(holder.ivBillDetail);
+        }else {
+            Glide.with(holder.itemView).load(R.drawable.improduct1).into(holder.ivBillDetail);
+        }
     }
 
     @Override
@@ -49,15 +59,16 @@ public class BillDetailAdapter extends RecyclerView.Adapter<BillDetailAdapter.Bi
     }
 
     public class BillDetailViewHolder extends RecyclerView.ViewHolder{
-        ImageView img;
-        TextView tvName, tvPrice, tvQuantity;
+        ImageView ivBillDetail;
+        TextView tvName, tvPrice, tvQuantity, tvTotal;
 
         public BillDetailViewHolder(@NonNull View itemView) {
             super(itemView);
-            img = itemView.findViewById(R.id.img);
+            ivBillDetail = itemView.findViewById(R.id.ivBillDetail);
             tvName = itemView.findViewById(R.id.tv_name);
             tvPrice = itemView.findViewById(R.id.tv_price);
             tvQuantity = itemView.findViewById(R.id.tv_quantity);
+            tvTotal = itemView.findViewById(R.id.tv_total);
         }
     }
 }

@@ -6,16 +6,25 @@ public class Cart {
     private String name;
     private int quantity;
     private int price;
-
     private String emailCus;
+    private String image;
 
-    public Cart(int id, int idProduct, String name, int quantity, int price, String emailCus) {
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Cart(int id, int idProduct, String name, int quantity, int price, String emailCus, String image) {
         this.id = id;
         this.idProduct = idProduct;
         this.name = name;
         this.quantity = quantity;
         this.price = price;
         this.emailCus = emailCus;
+        this.image = image;
     }
 
     public Cart() {

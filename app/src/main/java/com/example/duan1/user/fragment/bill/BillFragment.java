@@ -1,12 +1,14 @@
 package com.example.duan1.user.fragment.bill;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.duan1.R;
+import com.example.duan1.activity.BillDetailActivity;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.dao.BillDAO;
 import com.example.duan1.dao.BillDetailDAO;
@@ -36,7 +38,15 @@ public class BillFragment extends BaseFragment<FragmentOrderCustomerBinding> {
     @Override
     protected void initEvent() {
         binding.rcv.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.rcv.setAdapter(new BillAdapter(list, getContext()));
+        binding.rcv.setAdapter(new BillAdapter(list, getContext()) {
+            @Override
+            public void onItemClick(int id) {
+                Intent intent = new Intent(getContext(), BillDetailActivity.class);
+                intent.putExtra("id_bill", id + "");
+                intent.putExtra("text_btn", "none");
+                startActivity(intent);
+            }
+        });
     }
     BillDAO billDAO;
     List<Bill> list;

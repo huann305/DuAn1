@@ -7,9 +7,6 @@
         android:id="@+id/nav_cart"
         android:title="Giỏ hàng"/>
     <item
-        android:id="@+id/nav_order"
-        android:title="Đơn hàng"/>
-    <item
         android:id="@+id/nav_order_placed"
         android:title="Đơn hàng đã đặt"/>
     <item

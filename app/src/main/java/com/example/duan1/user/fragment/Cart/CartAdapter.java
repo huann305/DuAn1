@@ -3,6 +3,7 @@ package com.example.duan1.user.fragment.Cart;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +16,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.duan1.R;
+import com.example.duan1.activity.DetailProductActivity;
 import com.example.duan1.dao.CartDAO;
 import com.example.duan1.databinding.ItemCartBinding;
 import com.example.duan1.model.Cart;
@@ -27,6 +31,8 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
 
     public abstract void click(int totalPrice);
     public abstract void clickBtnReduce();
+
+    public abstract void onItemClick(int position);
 
     public CartAdapter(Context context, ArrayList<Cart> list) {
         this.context = context;
@@ -49,6 +55,11 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
         holder.binding.tvName.setText(cart.getName());
         holder.binding.tvPrice.setText(cart.getPrice() + " Đ");
         holder.binding.tvQuantity.setText("" + cart.getQuantity());
+        if(cart.getImage() != null){
+            Glide.with(context).load(cart.getImage()).into(holder.binding.ivImageCart);
+        }else {
+            Glide.with(context).load(R.drawable.improduct1).into(holder.binding.ivImageCart);
+        }
 
         //nếu số lượng = 0 thì k giảm đc nữa
         if (list.get(holder.getLayoutPosition()).getQuantity() == 0) {
@@ -120,6 +131,14 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
             }
         });
 
+        holder.binding.llLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DetailProductActivity.class);
+                intent.putExtra("product_id", list.get(holder.getAdapterPosition()).getIdProduct());
+                context.startActivity(intent);
+            }
+        });
         holder.binding.tvQuantity.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

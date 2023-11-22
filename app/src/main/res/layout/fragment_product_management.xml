@@ -4,9 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="10dp"
-        >
+        android:layout_height="match_parent">
 
         <Spinner
             android:layout_marginTop="15dp"
@@ -22,6 +20,7 @@
             android:layout_height="match_parent"
             android:layout_below="@id/spinner_product"
             android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="10dp"
             />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -39,5 +38,23 @@
             android:backgroundTint="@color/main"
             android:src="@drawable/baseline_add_24"
             app:maxImageSize="40dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/spin_kit"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"
+            android:background="#5C000000">
+
+            <com.github.ybq.android.spinkit.SpinKitView
+                style="@style/SpinKitView.Large.Circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                app:SpinKit_Color="@color/black" />
+        </RelativeLayout>
+
     </RelativeLayout>
 </layout>

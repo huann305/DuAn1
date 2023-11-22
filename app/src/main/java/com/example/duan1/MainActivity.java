@@ -1,13 +1,18 @@
 package com.example.duan1;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 
 import com.example.duan1.activity.ChooseActivity;
+import com.example.duan1.admin.ui.fragment.ordermanagement.OrderAdminFragment;
 import com.example.duan1.databinding.ActivityMainBinding;
 import com.example.duan1.admin.ui.activity.BaseActivity;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
@@ -23,6 +28,7 @@ import com.example.duan1.user.fragment.changepass.ChangePasswordFragment;
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     private Boolean isExit = false;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -71,6 +77,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             } else if (item.getItemId() == R.id.nav_logout) {
                 startActivity(new Intent(MainActivity.this, ChooseActivity.class));
                 finish();
+            } else if (item.getItemId() == R.id.nav_order_management_admin) {
+                fragment = OrderAdminFragment.newInstance();
             }
             if (fragment != null) {
                 BaseFragment.add(MainActivity.this, fragment);
@@ -107,4 +115,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             }, 3000L);
         }
     }
+
+
 }

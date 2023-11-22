@@ -31,7 +31,9 @@
             android:layout_centerHorizontal="true"
             android:background="@color/bgr_btn"
             android:textColor="@color/white"
+            android:layout_marginTop="20dp"
             android:text="hehe"
+            android:paddingHorizontal="5dp"
             android:layout_below="@+id/rcv"/>
     </RelativeLayout>
 </layout>

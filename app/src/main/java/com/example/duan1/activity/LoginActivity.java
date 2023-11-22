@@ -86,8 +86,8 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("email", binding.edtEmail.getText().toString());
                 editor.putString("password", binding.edtPassword.getText().toString());
+                editor.putBoolean("isLogin" + type, binding.cbRememberPassword.isChecked());
                 editor.commit();
-
             }
         });
     }
@@ -103,10 +103,18 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
             binding.llSignUp.setVisibility(View.GONE);
             binding.edtEmail.setText("admin@gmail.com");
             binding.edtPassword.setText("password1");
-        }else {
+        }else{
             binding.edtEmail.setText("customer1@gmail.com");
             binding.edtPassword.setText("password1");
         }
-        Toast.makeText(this, type, Toast.LENGTH_SHORT).show();
+        SharedPreferences sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
+        boolean isLogin = sharedPreferences.getBoolean("isLogin" + type, false);
+        binding.cbRememberPassword.setChecked(isLogin);
+        if (isLogin) {
+            String email = sharedPreferences.getString("email", "");
+            String password = sharedPreferences.getString("password", "");
+            binding.edtEmail.setText(email);
+            binding.edtPassword.setText(password);
+        }
     }
 }

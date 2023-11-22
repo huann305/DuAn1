@@ -56,9 +56,7 @@ public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
             BaseFragment fragment = null;
             if (item.getItemId() == R.id.nav_home_page) {
                 fragment = HomeFragment.newInstance();
-            } else if (item.getItemId() == R.id.nav_order) {
-                fragment = BillFragment.newInstance();
-            } else if (item.getItemId() == R.id.nav_update_profile) {
+            }else if (item.getItemId() == R.id.nav_update_profile) {
                 fragment = UpdateInfoCustomerFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_change_password) {
                 fragment = ChangePasswordFragment.newInstance();
@@ -66,7 +64,7 @@ public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
                 startActivity(new Intent(MainCustomer.this, ChooseActivity.class));
                 finish();
             } else if (item.getItemId() == R.id.nav_order_placed) {
-                Toast.makeText(this, "Chức năng đang cập nhật", Toast.LENGTH_SHORT).show();
+                fragment = BillFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_cart) {
                 fragment = CartFragment.newInstance();
             }
