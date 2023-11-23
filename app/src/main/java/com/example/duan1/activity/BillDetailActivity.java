@@ -67,6 +67,7 @@ public class BillDetailActivity extends BaseActivity<ActivityBillDetailBinding> 
             @Override
             public void onClick(View view) {
                 changeStatus();
+                initData();
             }
         });
     }

@@ -22,11 +22,13 @@
     </LinearLayout>
 
     <ImageView
-        android:layout_width="85dp"
-        android:layout_height="85dp"
+        android:id="@+id/imgEm_up"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/baseline_person_24" />
 
     <LinearLayout

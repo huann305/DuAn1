@@ -69,10 +69,11 @@ public abstract class AdapterProductManagement extends RecyclerView.Adapter<Adap
         holder.binding.tvPriceProduct.setText("Đơn giá: " + product.getPrice() + " VND");
         holder.binding.tvQuantityProduct.setText("Số lượng: " + product.getQuantitySold() + "");
         holder.binding.tvStatusProduct.setText("Trạng thái: " + product.getStatus());
+
         if(product.getImage() != null){
             Glide.with(context).load(product.getImage()).into(holder.binding.ivImageProduct);
-        }else {
-            Glide.with(context).load(R.drawable.improduct1).into(holder.binding.ivImageProduct);
+        }else{
+            holder.binding.ivImageProduct.setImageResource(R.drawable.improduct1);
         }
 
         //chọn lại ảnh

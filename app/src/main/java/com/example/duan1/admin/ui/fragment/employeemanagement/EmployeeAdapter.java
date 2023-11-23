@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -52,11 +53,10 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
         holder.binding.tvCCCDEm.setText("CCCD: " + (employee.getCitizenshipID() == null ? "" : employee.getCitizenshipID()));
         holder.binding.tvTrangThaiEm.setText(employee.getStatus());
         holder.binding.tvNgayVaoLamEm.setText("Ngày vào làm: " + employee.getDate());
+        holder.binding.imgEm.setImageResource(R.drawable.baseline_person_24);
 
         if(employee.getImage() != null){
             Glide.with(context).load(employee.getImage()).into(holder.binding.imgEm);
-        }else {
-            Glide.with(context).load(R.drawable.baseline_person_24).into(holder.binding.imgEm);
         }
 
         if (employee.getStatus().equals("active")) {
@@ -80,12 +80,18 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
             Spinner spinnerTrangThai = view.findViewById(R.id.spnTrangThai_up_em);
             Button btnUpdate = view.findViewById(R.id.btnLuu_up_em);
             Button btnCancel = view.findViewById(R.id.btnHuy_up_em);
+            ImageView imgEm_up = view.findViewById(R.id.imgEm_up);
 
             edtHoTen.setText(employee.getName());
             edtEmail.setText(employee.getEmail());
             edtSDT.setText(employee.getPhone());
             edtDiaChi.setText(employee.getAddress());
             edtCCCD.setText(employee.getCitizenshipID());
+            imgEm_up.setImageResource(R.drawable.baseline_person_24);
+
+            if(employee.getImage() != null){
+            Glide.with(context).load(employee.getImage()).into(imgEm_up);
+            }
 
             List<String> data = new ArrayList<>();
             data.add("active");
