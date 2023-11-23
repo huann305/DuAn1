@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -143,38 +144,42 @@ public class EmployeeManagementFragment extends BaseFragment<FragmentEmployeeMan
     }
 
     public void filterStatus() {
-        binding.btnFilter.setOnClickListener(new View.OnClickListener() {
+        // Tạo danh sách dữ liệu
+        List<String> data = new ArrayList<>();
+        data.add("Chọn cách sắp xếp");
+        data.add("Active");
+        data.add("Inactive");
+        data.add("All");
+
+        // Tạo Adapter để đổ dữ liệu vào Spinner
+        ArrayAdapter<String> adapterSPN = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, data);
+
+        // Định dạng Spinner
+        adapterSPN.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spnFilter.setAdapter(adapterSPN);
+
+        binding.spnFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(getContext(), binding.btnFilter);
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String status = binding.spnFilter.getSelectedItem().toString();
+                if (status.equals("Active")) {
+                    list = employeeDAO.getAllByStatus("active");
+                    adapter = new EmployeeAdapter(getContext(), list);
+                    binding.rccEmployee.setAdapter(adapter);
+                }else if (status.equals("Inactive")) {
+                    list = employeeDAO.getAllByStatus("inactive");
+                    adapter = new EmployeeAdapter(getContext(), list);
+                    binding.rccEmployee.setAdapter(adapter);
+                }else if (status.equals("All")) {
+                    list = employeeDAO.getAll();
+                    adapter = new EmployeeAdapter(getContext(), list);
+                    binding.rccEmployee.setAdapter(adapter);
+                }
+            }
 
-                popupMenu.getMenuInflater().inflate(R.menu.menu_filter, popupMenu.getMenu());
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        if (menuItem.getItemId() == R.id.active) {
-                            list = employeeDAO.getAllByStatus("active");
-                            adapter = new EmployeeAdapter(getContext(), list);
-                            binding.rccEmployee.setAdapter(adapter);
-                            return true;
-                        } else if (menuItem.getItemId() == R.id.inactive) {
-                            list = employeeDAO.getAllByStatus("inactive");
-                            adapter = new EmployeeAdapter(getContext(), list);
-                            binding.rccEmployee.setAdapter(adapter);
-                            return true;
-                        }else if (menuItem.getItemId() == R.id.all) {
-                            list = employeeDAO.getAll();
-                            adapter = new EmployeeAdapter(getContext(), list);
-                            binding.rccEmployee.setAdapter(adapter);
-                            return true;
-                        }
-
-                        return false;
-                    }
-                });
-                // Hiển thị PopupMenu
-                popupMenu.show();
             }
         });
     }
