@@ -30,6 +30,15 @@ public class ProductDAO {
         return null;
     }
 
+    public List<Product> getAllCus(){
+        String sql = "SELECT * FROM " + DBHelper.TABLE_PRODUCT + " WHERE status = 'Còn hàng'";
+        List<Product> list = getData(sql);
+        if (list.size() > 0){
+            return list;
+        }
+        return null;
+    }
+
     public Product getID(int id){
         String sql = "SELECT * FROM " + DBHelper.TABLE_PRODUCT + " WHERE id = ?";
         List<Product> list = getData(sql, String.valueOf(id));

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.duan1.BillStatus;
@@ -66,7 +67,6 @@ public class ConfirmFragment extends BaseFragment<FragmentConfirmBinding> {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loadData(SendEvent event) {
         list = billDAO.getAllWithStatus(BillStatus.CONFIRM);
-        Toast.makeText(getContext(), list.size() + "", Toast.LENGTH_SHORT).show();
         adapter.setData(list);
         binding.rcv.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rcv.setAdapter(adapter);

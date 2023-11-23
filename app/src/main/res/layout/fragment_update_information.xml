@@ -1,104 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginHorizontal="20dp"
         >
 
-        <ImageView
-            android:id="@+id/imgEmployee"
-            android:layout_marginTop="30dp"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/baseline_person_24"
-            android:layout_gravity="center_horizontal"
-            />
-        <EditText
-            android:id="@+id/edtName_up_em"
-            android:layout_marginTop="30dp"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="#CCD8D7D7"
-            android:hint="Họ tên"
-            android:textColor="@color/black"
-            android:paddingLeft="15dp"
-            android:textSize="14sp"
-            />
-        <EditText
-            android:id="@+id/edtPhone"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="#CCD8D7D7"
-            android:hint="SDT"
-            android:paddingLeft="15dp"
-            android:textSize="14sp"
-            />
-        <EditText
-            android:id="@+id/edtAddress"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="#CCD8D7D7"
-            android:hint="Địa chỉ"
-            android:paddingLeft="15dp"
-            android:textSize="14sp"
-            />
-        <EditText
-            android:id="@+id/edtEmail"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="#CCD8D7D7"
-            android:hint="Tài khoản"
-            android:paddingLeft="15dp"
-            android:textSize="14sp"
-            android:inputType="none"
-            android:focusable="false"
-            android:focusableInTouchMode="false"/>
-        <EditText
-            android:id="@+id/edtCitizen"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="#CCD8D7D7"
-            android:hint="CCCD"
-            android:paddingLeft="15dp"
-            android:inputType="none"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:textSize="14sp"
-            />
-        <EditText
-            android:id="@+id/edtDate"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="#CCD8D7D7"
-            android:hint="Ngày vào làm: "
-            android:paddingLeft="15dp"
-            android:inputType="none"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:textSize="14sp"
-            />
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@color/main"
-            android:text="Lưu"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgEmployee"
+                android:layout_marginTop="30dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/baseline_person_24"
+                android:layout_gravity="center_horizontal"
+                />
+            <EditText
+                android:id="@+id/edtName_up_em"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="#CCD8D7D7"
+                android:hint="Họ tên"
+                android:textColor="@color/black"
+                android:paddingLeft="15dp"
+                android:textSize="14sp"
+                />
+            <EditText
+                android:id="@+id/edtPhone"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="#CCD8D7D7"
+                android:hint="SDT"
+                android:paddingLeft="15dp"
+                android:textSize="14sp"
+                />
+            <EditText
+                android:id="@+id/edtAddress"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="#CCD8D7D7"
+                android:hint="Địa chỉ"
+                android:paddingLeft="15dp"
+                android:textSize="14sp"
+                />
+            <EditText
+                android:id="@+id/edtEmail"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="#CCD8D7D7"
+                android:hint="Tài khoản"
+                android:paddingLeft="15dp"
+                android:textSize="14sp"
+                android:inputType="none"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+            <EditText
+                android:id="@+id/edtCitizen"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="#CCD8D7D7"
+                android:hint="CCCD"
+                android:paddingLeft="15dp"
+                android:inputType="none"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:textSize="14sp"
+                />
+            <EditText
+                android:id="@+id/edtDate"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="#CCD8D7D7"
+                android:hint="Ngày vào làm: "
+                android:paddingLeft="15dp"
+                android:inputType="none"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:textSize="14sp"
+                />
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@color/main"
+                android:text="Lưu"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/spin_kit"
             android:clickable="true"
             android:focusable="true"
@@ -113,5 +120,5 @@
                 android:layout_gravity="center"
                 app:SpinKit_Color="@color/black" />
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </layout>
