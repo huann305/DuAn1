@@ -35,6 +35,7 @@ import com.example.duan1.model.Cart;
 import com.example.duan1.model.Customer;
 import com.example.duan1.model.Product;
 import com.example.duan1.qrcode.QRScanActivity;
+import com.example.duan1.zalopay.ZaloPayActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -89,7 +90,8 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         adapter = new CartAdapter(getContext(), list) {
             @Override
             public void click(int totalPrice) {
-                binding.tvSum.setText("Tổng tiền: " + totalPrice + " Đ");
+                binding.tvSum.setText(totalPrice + "");
+                Log.d("TAGG", "totalPrice" + totalPrice);
             }
             @Override
             public void clickBtnReduce() {
@@ -138,6 +140,10 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
                     @Override
                     public void onClick(View view) {
                         paymentMethod = "Zalo Pay";
+                        Intent intent = new Intent(getContext(), ZaloPayActivity.class);
+                        intent.putExtra("price", binding.tvSum.getText().toString());
+                        startActivity(intent);
+
                         onSuccess();
                         alertDialog.dismiss();
                     }
@@ -244,7 +250,6 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
             binding.llBottom.setVisibility(View.VISIBLE);
             binding.tvCartEmpty.setVisibility(View.GONE);
         }
-        binding.tvSum.setText("Tổng tiền: " + "0" + " Đ");
     }
 
 }

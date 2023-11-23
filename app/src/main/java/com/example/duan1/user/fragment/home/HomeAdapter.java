@@ -68,16 +68,19 @@ public abstract class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeV
                 }else {
                     Toast.makeText(context, "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
                 }
-                ProductDAO productDAO = new ProductDAO(context);
-                list.clear();
-                list.addAll(productDAO.getAll());
-                notifyDataSetChanged();
+//                ProductDAO productDAO = new ProductDAO(context);
+//                list.clear();
+//                list.addAll(productDAO.getAll());
+//                notifyDataSetChanged();
             }
         });
     }
 
     @Override
     public int getItemCount() {
+        if (list == null) {
+            return 0;
+        }
         return list.size();
     }
 

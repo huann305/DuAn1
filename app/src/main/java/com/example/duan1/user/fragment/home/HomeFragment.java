@@ -55,7 +55,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeCustomerBinding> {
         list = new ArrayList<>();
         productDAO = new ProductDAO(getContext());
 
-        list = productDAO.getAll();
+        list = productDAO.getAllCus();
     }
 
     @Override

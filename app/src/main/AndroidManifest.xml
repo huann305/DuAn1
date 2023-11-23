@@ -44,6 +44,9 @@
             android:name=".user.MainCustomer"
             android:exported="false"></activity>
         <activity
+            android:name=".zalopay.ZaloPayActivity"
+            android:exported="false"></activity>
+        <activity
             android:name=".activity.LoginActivity"
             android:exported="false"></activity>
         <activity

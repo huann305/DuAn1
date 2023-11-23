@@ -82,10 +82,10 @@ public class BillDetailActivity extends BaseActivity<ActivityBillDetailBinding> 
 
         if(binding.btnChangeStatus.getText().toString().toLowerCase().equals("xác nhận thanh toán")){
             billDAO.updateStatus(BillStatus.WAITING, idBill);
-            billDAO.addEmployeeToBill(idBill, employeeDAO.getByEmail(email).getId() + "");
         }
         else if(binding.btnChangeStatus.getText().toString().toLowerCase().equals("đang làm")){
             billDAO.updateStatus(BillStatus.DOING, idBill);
+            billDAO.addEmployeeToBill(idBill, employeeDAO.getByEmail(email).getId() + "");
         }else if (binding.btnChangeStatus.getText().toString().toLowerCase().equals("hoàn thành")){
             billDAO.updateStatus(BillStatus.DONE, idBill);
         }
