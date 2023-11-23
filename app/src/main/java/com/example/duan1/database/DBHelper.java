@@ -74,11 +74,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 "date TEXT, " +
                 "shippingAddress TEXT, " +
                 "status TEXT," +
-                "emailCus TEXT REFERENCES " + TABLE_CUSTOMER + "(email)" + "" +
-                ")";
+                "emailCus TEXT REFERENCES " + TABLE_CUSTOMER + "(email)," +
+                "paymentMethod TEXT" + ")";
         sqLiteDatabase.execSQL(CREATE_TABLE_BILL);
         //Initialize data for the bill table
-        String INSERT_BILL_DATA = "INSERT INTO " + TABLE_BILL + " (idEmployee, idCustomer, date, shippingAddress, status) VALUES " +
+        String INSERT_BILL_DATA = "INSERT INTO " + TABLE_BILL + " (idEmployee, idCustomer, date, shippingAddress, status, paymentMethod) VALUES " +
 //                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
 //                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
 //                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
@@ -92,9 +92,9 @@ public class DBHelper extends SQLiteOpenHelper {
 //                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
 //                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
 //                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-                "('2', '1', '2022-02-02', '456 Elm St', 'Đang làm'), " +
-                "('2', '3', '2022-02-02', '456 Elm St', 'Đã hoàn thành'), " +
-                "('3', '2', '2022-03-03', '789 Oak St', 'Đang chờ')";
+                "('2', '1', '2022-02-02', '456 Elm St', 'Đang làm', 'Cash' ), " +
+                "('2', '3', '2022-02-02', '456 Elm St', 'Đã hoàn thành', 'Cash'), " +
+                "('3', '2', '2022-03-03', '789 Oak St', 'Đang chờ', 'Zalo Pay')";
         sqLiteDatabase.execSQL(INSERT_BILL_DATA);
 
         String CREATE_TABLE_BILL_DETAIL = "CREATE TABLE " + TABLE_BILL_DETAIL + " (" +

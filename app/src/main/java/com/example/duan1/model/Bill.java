@@ -8,7 +8,15 @@ public class Bill {
     private String shippingAddress;
     private String status;
     private String email;
+    private String paymentMethod;
 
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
 
     public int getId() {
         return id;
@@ -57,6 +65,7 @@ public class Bill {
     public void setStatus(String status) {
         this.status = status;
     }
+
     public String getEmail() {
         return email;
     }
@@ -65,7 +74,17 @@ public class Bill {
         this.email = email;
     }
 
-    public Bill(int id, String idEmployee, String idCustomer, String date, String shippingAddress, String status, String email) {
+//    public Bill(int id, String idEmployee, String idCustomer, String date, String shippingAddress, String status, String paymentMethod) {
+//        this.id = id;
+//        this.idEmployee = idEmployee;
+//        this.idCustomer = idCustomer;
+//        this.date = date;
+//        this.shippingAddress = shippingAddress;
+//        this.status = status;
+//        this.paymentMethod = paymentMethod;
+//    }
+
+    public Bill(int id, String idEmployee, String idCustomer, String date, String shippingAddress, String status, String email, String paymentMethod) {
         this.id = id;
         this.idEmployee = idEmployee;
         this.idCustomer = idCustomer;
@@ -73,14 +92,7 @@ public class Bill {
         this.shippingAddress = shippingAddress;
         this.status = status;
         this.email = email;
-    }
-    public Bill(int id, String idEmployee, String idCustomer, String date, String shippingAddress, String status) {
-        this.id = id;
-        this.idEmployee = idEmployee;
-        this.idCustomer = idCustomer;
-        this.date = date;
-        this.shippingAddress = shippingAddress;
-        this.status = status;
+        this.paymentMethod = paymentMethod;
     }
 
     public Bill() {

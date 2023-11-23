@@ -63,7 +63,7 @@ public class BillDAO {
 
         Cursor c = db.rawQuery(sql, new String[]{fromDate, toDate});
         while (c.moveToNext()){
-            list.add(new Bill(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5)));
+            list.add(new Bill(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7)));
         }
         if (c != null){
             c.close();
@@ -87,7 +87,7 @@ public class BillDAO {
 
         Cursor c = db.rawQuery(sql, new String[]{fromDate, toDate});
         while (c.moveToNext()){
-            list.add(new Bill(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5)));
+            list.add(new Bill(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7)));
         }
         if (c != null){
             c.close();
@@ -112,8 +112,8 @@ public class BillDAO {
 
     public boolean insert(Bill object){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String sql = "INSERT INTO " + DBHelper.TABLE_BILL + "(idEmployee, idCustomer, date, shippingAddress, status) " + " VALUES(?,?,?,?,?)";
-        db.execSQL(sql, new String[]{ object.getIdEmployee(), object.getIdCustomer(), object.getDate(), object.getShippingAddress(), object.getStatus()});
+        String sql = "INSERT INTO " + DBHelper.TABLE_BILL + "(idEmployee, idCustomer, date, shippingAddress, status, paymentMethod) " + " VALUES(?,?,?,?,?,?)";
+        db.execSQL(sql, new String[]{ object.getIdEmployee(), object.getIdCustomer(), object.getDate(), object.getShippingAddress(), object.getStatus(), object.getPaymentMethod()});
         if (db != null){
             db.close();
         }
@@ -147,7 +147,7 @@ public class BillDAO {
 
         Cursor c = db.rawQuery(sql, selectionArgs);
         while (c.moveToNext()){
-            list.add(new Bill(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5)));
+            list.add(new Bill(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7)));
         }
         if (c != null){
             c.close();
@@ -168,9 +168,10 @@ public class BillDAO {
     }
 
     public boolean insertCus(Bill object){
+        Log.i("TAG", "Phương thức TT: " + object.getPaymentMethod());
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String sql = "INSERT INTO " + DBHelper.TABLE_BILL + "(idEmployee, idCustomer, date, shippingAddress, status, emailCus)"  + " VALUES(?,?,?,?,?,?)";
-        db.execSQL(sql, new String[]{String.valueOf(object.getIdEmployee()), object.getIdCustomer(), object.getDate(), object.getShippingAddress(), object.getStatus(), object.getEmail()});
+        String sql = "INSERT INTO " + DBHelper.TABLE_BILL + "(idEmployee, idCustomer, date, shippingAddress, status, emailCus, paymentMethod)"  + " VALUES(?,?,?,?,?,?,?)";
+        db.execSQL(sql, new String[]{String.valueOf(object.getIdEmployee()), object.getIdCustomer(), object.getDate(), object.getShippingAddress(), object.getStatus(), object.getEmail(),  object.getPaymentMethod()});
         if (db != null){
             db.close();
         }

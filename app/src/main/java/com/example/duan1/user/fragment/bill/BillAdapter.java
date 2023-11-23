@@ -80,6 +80,8 @@ public abstract class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillV
             holder.tvStatus.setText("Trạng thái: " + bill.getStatus());
         }
 
+        holder.tvpaymentMethod.setText("Phương thức thanh toán: " + bill.getPaymentMethod());
+
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,7 +102,7 @@ public abstract class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillV
 
     public class BillViewHolder extends RecyclerView.ViewHolder{
         ImageView ivBill;
-        TextView tvIdBill, tvNameEmployee, tvTotalPrice, tvDate, tvAddress, tvStatus;
+        TextView tvIdBill, tvNameEmployee, tvTotalPrice, tvDate, tvAddress, tvStatus, tvpaymentMethod;
         View layout;
         public BillViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -111,6 +113,7 @@ public abstract class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillV
             tvDate = itemView.findViewById(R.id.tvDate);
             tvAddress = itemView.findViewById(R.id.tvAddress);
             tvStatus = itemView.findViewById(R.id.tvStatus);
+            tvpaymentMethod = itemView.findViewById(R.id.tvpaymentMethod);
             layout = itemView.findViewById(R.id.llItem);
         }
     }

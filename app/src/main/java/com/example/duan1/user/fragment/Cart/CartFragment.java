@@ -47,10 +47,9 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
     CartAdapter adapter;
     CartDAO cartDAO;
     ArrayList<Cart> list;
+    String paymentMethod = "";
     Button btnOrder;
     //TextView tvTotalPrice;
-
-
 
     public static CartFragment newInstance() {
         Bundle args = new Bundle();
@@ -138,6 +137,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
                 tvZaloPay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        paymentMethod = "Zalo Pay";
                         onSuccess();
                         alertDialog.dismiss();
                     }
@@ -145,6 +145,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
                 tvCash.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        paymentMethod = "Cash";
                         onSuccess();
                         alertDialog.dismiss();
                     }
@@ -152,6 +153,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
                 tvBank.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        paymentMethod = "Bank";
                         onSuccess();
                         alertDialog.dismiss();
                     }
@@ -199,9 +201,12 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         bill.setId(billDAO.getAll().size() + 1);
         bill.setIdCustomer("" + customer.getId());
         bill.setShippingAddress(binding.tvAddress.getText().toString());
+
         bill.setEmail(email);
         bill.setStatus(BillStatus.CONFIRM);
         bill.setIdEmployee(null);
+        bill.setPaymentMethod(paymentMethod);
+        Log.i("TAGG", "Phương thức thanh toannnnnnn: " +bill.getPaymentMethod());
 
         //lấy thời gian hiện tại
         Date date = new Date();
@@ -218,7 +223,6 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
                 billDetail.setIdProduct(cart.getIdProduct());
                 billDetail.setQuantity(cart.getQuantity());
                 billDetail.setPrice(cart.getPrice());
-
 
                 // Lưu hóa đơn chi tiết vào cơ sở dữ liệu
                 billDetailDAO.insert(billDetail);
