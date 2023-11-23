@@ -42,12 +42,12 @@
                 />
             <TextView
                 android:id="@+id/tv_quantity_product"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Số lượng"
-            android:textSize="15sp"
-            android:textColor="#333333"
-            />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Số lượng"
+                android:textSize="15sp"
+                android:textColor="#333333"
+                />
             <TextView
                 android:id="@+id/tv_status_product"
                 android:layout_width="wrap_content"
