@@ -11,6 +11,27 @@ public class Employee {
     private String citizenshipID;
     private String status;
     private String date;
+    private String image;
+
+    public Employee(int id, String email, String name, String phone, String address, String citizenshipID, String status, String date, String image) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.citizenshipID = citizenshipID;
+        this.status = status;
+        this.date = date;
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public int getId() {
         return id;
@@ -79,14 +100,4 @@ public class Employee {
         this.status = status;
     }
 
-    public Employee(int id, String email, String name, String phone, String address, String citizenshipID, String status, String date) {
-        this.id = id;
-        this.email = email;
-        this.name = name;
-        this.phone = phone;
-        this.address = address;
-        this.citizenshipID = citizenshipID;
-        this.status = status;
-        this.date = date;
-    }
 }

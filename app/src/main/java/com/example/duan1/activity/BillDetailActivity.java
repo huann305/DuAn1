@@ -67,6 +67,7 @@ public class BillDetailActivity extends BaseActivity<ActivityBillDetailBinding> 
             @Override
             public void onClick(View view) {
                 changeStatus();
+                initData();
             }
         });
     }
@@ -79,9 +80,12 @@ public class BillDetailActivity extends BaseActivity<ActivityBillDetailBinding> 
 
         EmployeeDAO employeeDAO = new EmployeeDAO(this);
 
-        if(binding.btnChangeStatus.getText().toString().toLowerCase().equals("đang làm")){
-            billDAO.updateStatus(BillStatus.DOING, idBill);
+        if(binding.btnChangeStatus.getText().toString().toLowerCase().equals("xác nhận thanh toán")){
+            billDAO.updateStatus(BillStatus.WAITING, idBill);
             billDAO.addEmployeeToBill(idBill, employeeDAO.getByEmail(email).getId() + "");
+        }
+        else if(binding.btnChangeStatus.getText().toString().toLowerCase().equals("đang làm")){
+            billDAO.updateStatus(BillStatus.DOING, idBill);
         }else if (binding.btnChangeStatus.getText().toString().toLowerCase().equals("hoàn thành")){
             billDAO.updateStatus(BillStatus.DONE, idBill);
         }

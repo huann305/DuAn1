@@ -64,7 +64,11 @@ public abstract class OrderManagerAdapter extends RecyclerView.Adapter<OrderMana
         holder.tvTotalPrice.setText("Tổng tiền: " + billDetailDAO.getTotalPrice(bill.getId()));
         holder.llDate.setVisibility(View.GONE);
         holder.llAddress.setVisibility(View.GONE);
-        holder.tvStatus.setText("Trạng thái: " + bill.getStatus());
+        if(bill.getStatus().equals("Xác nhận thanh toán")){
+            holder.tvStatus.setText("Trạng thái: " + "Chờ xác nhận thanh toán");
+        }else {
+            holder.tvStatus.setText("Trạng thái: " + bill.getStatus());
+        }
 
         BillDetailDAO billDetailDAO = new BillDetailDAO(context);
         List<BillDetail> listBillDetail = billDetailDAO.getAllByIdBill(String.valueOf(bill.getId()));

@@ -8,12 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.dao.CustomerDAO;
 import com.example.duan1.databinding.ItemCustomerManagementBinding;
@@ -48,6 +50,11 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
         holder.binding.tvSDTCus.setText("SĐT: " + customer.getPhone());
         holder.binding.tvTaiKhoanCus.setText("Email: " + customer.getEmail());
         holder.binding.tvTrangThaiCus.setText("Trạng thái: " + customer.getStatus());
+        holder.binding.imgCus.setImageResource(R.drawable.baseline_person_24);
+
+        if(customer.getImage() != null){
+            Glide.with(context).load(customer.getImage()).into(holder.binding.imgCus);
+        }
 
         if(customer.getStatus().equals("active")) {
             holder.binding.shapeStatusCus.setBackgroundColor(context.getResources().getColor(R.color.active));
@@ -71,6 +78,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
             Spinner spnStatus = view.findViewById(R.id.spnStatus_up_cus);
             Button btnCancel = view.findViewById(R.id.btnCancel_up_cus);
             Button btnSave = view.findViewById(R.id.btnSave_up_cus);
+            ImageView imgCus = view.findViewById(R.id.imgCus_up);
 
             //đổ dữ liệu lên spinner
             List<String> spinnerData = new ArrayList<>();
@@ -90,6 +98,11 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
             edtEmail.setText(customer.getEmail());
             edtBirthday.setText(customer.getBirthday());
             spnStatus.setSelection(spinnerData.indexOf(customer.getStatus()));
+            imgCus.setImageResource(R.drawable.baseline_person_24);
+
+            if (customer.getImage() != null) {
+                Glide.with(context).load(customer.getImage()).into(imgCus);
+            }
             btnSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

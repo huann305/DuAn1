@@ -156,7 +156,6 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                     @Override
                     public void onClick(View view) {
                         accessTheGallery();
-                        Toast.makeText(getContext(), "ahihi", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -235,7 +234,6 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 product.setPrice(Integer.parseInt(price));
                 product.setStatus(status);
                 product.setImage("" + linkImage);
-                Log.i("TAG", "Link ảnh đây nàyyyy: " + linkImage);
                 uploadToCloudinary(filePath, product, null);
                 alertDialog.dismiss();
             });
@@ -247,7 +245,6 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
             alertDialog.show();
         });
     }
-
 
     public void accessTheGallery() {
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

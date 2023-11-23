@@ -8,6 +8,7 @@ public class Customer {
     private String address;
     private String birthday;
     private String status;
+    private String image;
 
     public int getId() {
         return id;
@@ -65,7 +66,15 @@ public class Customer {
         this.status = status;
     }
 
-    public Customer(int id, String email, String name, String phone, String address, String birthday, String status) {
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Customer(int id, String email, String name, String phone, String address, String birthday, String status, String image) {
         this.id = id;
         this.email = email;
         this.name = name;
@@ -73,5 +82,7 @@ public class Customer {
         this.address = address;
         this.birthday = birthday;
         this.status = status;
+        this.image = image;
     }
+
 }
