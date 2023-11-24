@@ -67,6 +67,7 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
     protected void initEvent() {
 
     }
+
     @Override
     protected void initData() {
         loadData();
@@ -95,10 +96,8 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
         if (employee.getImage() != null) {
             Glide.with(getContext()).load(employee.getImage()).into(binding.imgEmployee);
         }
-//        else {
-//            binding.imgEmployee.setImageResource(R.drawable.imgchoose);
-//        }
     }
+
     public void update() {
         binding.imgEmployee.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,26 +106,10 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
             }
         });
 
-
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EmployeeDAO employeeDAO = new EmployeeDAO(getContext());
-                Employee employee = new Employee();
-                employee.setName(binding.edtNameUpEm.getText().toString());
-                employee.setPhone(binding.edtPhone.getText().toString());
-                employee.setAddress(binding.edtAddress.getText().toString());
-                if(linkImageEm.equals("")){
-                    employee.setImage(null);
-                }else {
-                    employee.setImage(linkImageEm);
-                }
-                Log.i("TAG", "link Image nhaaaaaaaaaaaaaaaaaa: " + linkImageEm);
-                if (employeeDAO.updateInfo(employee, emailData)) {
-                    Toast.makeText(getContext(), "Câp nhập thông tin thành công", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getContext(), "Cập nhật thông tin thât bại", Toast.LENGTH_SHORT).show();
-                }
+                uploadToCloudinary(filePath);
             }
         });
     }
@@ -146,10 +129,10 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
     private ActivityResultLauncher<Intent> myLauncher1 = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
-            if(result == null){
+            if (result == null) {
                 return;
             }
-            if(result.getData() == null){
+            if (result.getData() == null) {
                 return;
             }
             //get the image's file location
@@ -162,7 +145,7 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
                     //hiển thị hình ảnh lên imgview
 //                    binding.imgEmployee.setImageBitmap(bitmap);
                     Glide.with(getContext()).load(bitmap).into(binding.imgEmployee);
-                    uploadToCloudinary(filePath);
+//                    uploadToCloudinary(filePath);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -216,6 +199,22 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
                 binding.btnSave.setEnabled(true);
                 linkImageEm = resultData.get("url").toString();
                 Log.i("TAG", "linkImage nhaa: " + linkImageEm);
+                EmployeeDAO employeeDAO = new EmployeeDAO(getContext());
+                Employee employee = new Employee();
+                employee.setName(binding.edtNameUpEm.getText().toString());
+                employee.setPhone(binding.edtPhone.getText().toString());
+                employee.setAddress(binding.edtAddress.getText().toString());
+                if (linkImageEm.equals("")) {
+                    employee.setImage(null);
+                } else {
+                    employee.setImage(linkImageEm);
+                }
+
+                if (employeeDAO.updateInfo(employee, emailData)) {
+                    Toast.makeText(getContext(), "Câp nhập thông tin thành công", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Cập nhật thông tin thât bại", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -229,6 +228,8 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
             }
         }).dispatch();
     }
+
+
 
 }
 

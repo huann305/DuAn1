@@ -170,7 +170,7 @@ public class EmployeeManagementFragment extends BaseFragment<FragmentEmployeeMan
                     list = employeeDAO.getAllByStatus("inactive");
                     adapter = new EmployeeAdapter(getContext(), list);
                     binding.rccEmployee.setAdapter(adapter);
-                }else if (status.equals("All")) {
+                }else if (status.equals("All") || status.equals("Chọn cách sắp xếp")) {
                     list = employeeDAO.getAll();
                     adapter = new EmployeeAdapter(getContext(), list);
                     binding.rccEmployee.setAdapter(adapter);

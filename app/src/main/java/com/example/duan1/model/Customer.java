@@ -85,4 +85,6 @@ public class Customer {
         this.image = image;
     }
 
+    public Customer() {
+    }
 }

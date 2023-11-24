@@ -91,7 +91,7 @@ public class CustomerManagementFragment extends BaseFragment<FragmentCustomerMan
                     list = customerDAO.getAllByStatus("inactive");
                     adapter = new CustomerAdapter(getContext(), list);
                     binding.rccCustomer.setAdapter(adapter);
-                } else if (status.equals("All")) {
+                } else if (status.equals("All") || status.equals("Chọn cách sắp xếp")) {
                     list = customerDAO.getAll();
                     adapter = new CustomerAdapter(getContext(), list);
                     binding.rccCustomer.setAdapter(adapter);
