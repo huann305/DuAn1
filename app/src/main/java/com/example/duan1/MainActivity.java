@@ -101,19 +101,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     @Override
     protected void initData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
-        String email = sharedPreferences.getString("email", "");
-        EmployeeDAO employeeDAO = new EmployeeDAO(this);
-        Employee employee = employeeDAO.getByEmail(email);
-        ShapeableImageView imgAccount = binding.navView.getHeaderView(0).findViewById(R.id.imgAccount);
-        TextView tvFullName = binding.navView.getHeaderView(0).findViewById(R.id.tvFullName);
-        TextView tvAc = binding.navView.getHeaderView(0).findViewById(R.id.tvAc);
-        imgAccount.setImageResource(R.drawable.baseline_person_24);
-        tvFullName.setText(employee.getName());
-        tvAc.setText(employee.getEmail());
-        if(employee.getImage() != null){
-            Glide.with(this).load(employee.getImage()).into(imgAccount);
-        }
+        loadData();
 
     }
 
@@ -138,5 +126,20 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         }
     }
 
+    public void loadData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", "");
+        EmployeeDAO employeeDAO = new EmployeeDAO(this);
+        Employee employee = employeeDAO.getByEmail(email);
+        ShapeableImageView imgAccount = binding.navView.getHeaderView(0).findViewById(R.id.imgAccount);
+        TextView tvFullName = binding.navView.getHeaderView(0).findViewById(R.id.tvFullName);
+        TextView tvAc = binding.navView.getHeaderView(0).findViewById(R.id.tvAc);
+        imgAccount.setImageResource(R.drawable.baseline_person_24);
+        tvFullName.setText(employee.getName());
+        tvAc.setText(employee.getEmail());
+        if(employee.getImage() != null){
+            Glide.with(this).load(employee.getImage()).into(imgAccount);
+        }
+    }
 
 }

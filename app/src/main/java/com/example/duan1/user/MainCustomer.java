@@ -1,26 +1,33 @@
 package com.example.duan1.user;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.view.GravityCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.activity.ChooseActivity;
 import com.example.duan1.admin.ui.activity.BaseActivity;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.admin.ui.fragment.updateinformation.UpdateInformationFragment;
+import com.example.duan1.dao.CustomerDAO;
+import com.example.duan1.dao.EmployeeDAO;
 import com.example.duan1.databinding.ActivityMainCustomerBinding;
+import com.example.duan1.model.Customer;
+import com.example.duan1.model.Employee;
 import com.example.duan1.user.fragment.Cart.CartFragment;
 import com.example.duan1.user.fragment.changepass.ChangePasswordFragment;
 import com.example.duan1.user.fragment.home.HomeFragment;
 import com.example.duan1.user.fragment.bill.BillFragment;
 import com.example.duan1.user.fragment.updateinfo.UpdateInfoCustomerFragment;
+import com.google.android.material.imageview.ShapeableImageView;
 
 public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
-
     private Boolean isExit = false;
 
     @Override
@@ -56,7 +63,7 @@ public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
             BaseFragment fragment = null;
             if (item.getItemId() == R.id.nav_home_page) {
                 fragment = HomeFragment.newInstance();
-            }else if (item.getItemId() == R.id.nav_update_profile) {
+            } else if (item.getItemId() == R.id.nav_update_profile) {
                 fragment = UpdateInfoCustomerFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_change_password) {
                 fragment = ChangePasswordFragment.newInstance();
@@ -81,6 +88,7 @@ public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
 
     @Override
     protected void initData() {
+        loadData();
 
     }
 
@@ -104,4 +112,21 @@ public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
             }, 3000L);
         }
     }
+
+    public void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", "");
+        CustomerDAO customerDAO = new CustomerDAO(this);
+        Customer customer = customerDAO.getByEmail(email);
+        ShapeableImageView imgAccount = binding.navView.getHeaderView(0).findViewById(R.id.imgAccount);
+        TextView tvFullName = binding.navView.getHeaderView(0).findViewById(R.id.tvFullName);
+        TextView tvAc = binding.navView.getHeaderView(0).findViewById(R.id.tvAc);
+        imgAccount.setImageResource(R.drawable.baseline_person_24);
+        tvFullName.setText(customer.getName());
+        tvAc.setText(customer.getEmail());
+        if (customer.getImage() != null) {
+            Glide.with(this).load(customer.getImage()).into(imgAccount);
+        }
+    }
+
 }
