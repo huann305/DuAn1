@@ -1,9 +1,11 @@
 package com.example.duan1;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -11,9 +13,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.duan1.activity.ChooseActivity;
 import com.example.duan1.admin.ui.fragment.ordermanagement.ConfirmFragment;
 import com.example.duan1.admin.ui.fragment.ordermanagement.OrderAdminFragment;
+import com.example.duan1.dao.EmployeeDAO;
 import com.example.duan1.databinding.ActivityMainBinding;
 import com.example.duan1.admin.ui.activity.BaseActivity;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
@@ -24,7 +28,9 @@ import com.example.duan1.admin.ui.fragment.productmanagement.ProductManagementFr
 import com.example.duan1.admin.ui.fragment.statistics.StatisticsFragment;
 import com.example.duan1.admin.ui.fragment.updateinformation.UpdateInformationFragment;
 import com.example.duan1.database.DBHelper;
+import com.example.duan1.model.Employee;
 import com.example.duan1.user.fragment.changepass.ChangePasswordFragment;
+import com.google.android.material.imageview.ShapeableImageView;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
@@ -95,6 +101,19 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     @Override
     protected void initData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", "");
+        EmployeeDAO employeeDAO = new EmployeeDAO(this);
+        Employee employee = employeeDAO.getByEmail(email);
+        ShapeableImageView imgAccount = binding.navView.getHeaderView(0).findViewById(R.id.imgAccount);
+        TextView tvFullName = binding.navView.getHeaderView(0).findViewById(R.id.tvFullName);
+        TextView tvAc = binding.navView.getHeaderView(0).findViewById(R.id.tvAc);
+        imgAccount.setImageResource(R.drawable.baseline_person_24);
+        tvFullName.setText(employee.getName());
+        tvAc.setText(employee.getEmail());
+        if(employee.getImage() != null){
+            Glide.with(this).load(employee.getImage()).into(imgAccount);
+        }
 
     }
 

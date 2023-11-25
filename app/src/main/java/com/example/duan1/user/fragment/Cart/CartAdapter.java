@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -30,6 +31,7 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
     private ArrayList<Cart> list;
 
     public abstract void click(int totalPrice);
+
     public abstract void clickBtnReduce();
 
     public abstract void onItemClick(int position);
@@ -48,6 +50,7 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        CartDAO cartDAO = new CartDAO(context);
         SharedPreferences sharedPreferences = context.getSharedPreferences("USER", Context.MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "");
 
@@ -55,9 +58,9 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
         holder.binding.tvName.setText(cart.getName());
         holder.binding.tvPrice.setText(cart.getPrice() + " Đ");
         holder.binding.tvQuantity.setText("" + cart.getQuantity());
-        if(cart.getImage() != null){
+        if (cart.getImage() != null) {
             Glide.with(context).load(cart.getImage()).into(holder.binding.ivImageCart);
-        }else {
+        } else {
             Glide.with(context).load(R.drawable.improduct1).into(holder.binding.ivImageCart);
         }
 
@@ -71,12 +74,12 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
         if (list.get(holder.getLayoutPosition()).getQuantity() == 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setMessage("Bạn chắc chắn muốn xóa sản phẩm");
-            CartDAO cartDAO = new CartDAO(context);
+
 
             builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    if(cartDAO.augmentQuantity(list.get(holder.getAdapterPosition()), email)){
+                    if (cartDAO.augmentQuantity(list.get(holder.getAdapterPosition()), email)) {
                         list.clear();
                         list.addAll(cartDAO.getAllCartCus(email));
                         notifyDataSetChanged();
@@ -111,7 +114,6 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
         holder.binding.btnAgument.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CartDAO cartDAO = new CartDAO(context);
                 if (cartDAO.augmentQuantity(list.get(holder.getAdapterPosition()), email)) {
                     list.clear();
                     list.addAll(cartDAO.getAllCartCus(email));
@@ -122,7 +124,6 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
         holder.binding.btnReduce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CartDAO cartDAO = new CartDAO(context);
                 if (cartDAO.reduceQuantity(list.get(holder.getAdapterPosition()), email)) {
                     list.clear();
                     list.addAll(cartDAO.getAllCartCus(email));
@@ -143,6 +144,7 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
+
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 int totalPrice = 0;
@@ -151,11 +153,24 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
                 }
                 click(totalPrice);
             }
+
             @Override
             public void afterTextChanged(Editable editable) {
             }
         });
+        holder.binding.btnDelCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (cartDAO.deleteCart(list.get(holder.getAdapterPosition()).getId(), email)) {
+                    Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
+                    list.clear();
+                    list.addAll(cartDAO.getAllCartCus(email));
+                    notifyDataSetChanged();
+                }
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {
@@ -171,3 +186,4 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
         }
     }
 }
+
