@@ -66,6 +66,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
     String linkImage = "";
     int PERMISSION_CODE = 1;
     View loading;
+    Product product;
 
 
     public static String TAG = "Quản lý sản phẩm";
@@ -114,7 +115,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
         adapter = new AdapterProductManagement(getContext(), list) {
             @Override
             public void click(int position) {
-                Product product = list.get(position);
+                product = list.get(position);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_update_products, null);
                 builder.setView(view);
@@ -181,17 +182,21 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                     product.setPrice(Integer.parseInt(gia));
                     productDetail.setDescription(mota);
 
-                    uploadToCloudinary(filePath, product, product.getId() + "");
-
-                    if (productDAO.updatee(product, product.getId())) {
-                        productDetailDAO = new ProductDetailDAO(getContext());
-                        productDetailDAO.update(productDetail);
-                        Toast.makeText(getContext(), "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
-                        notifyDataSetChanged();
-                        alertDialog.dismiss();
-                    } else {
-                        Toast.makeText(getContext(), "Cập nhật sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+                    if(filePath.equals("")){
+                        updateProduct1();
+                    }else {
+                        uploadToCloudinary(filePath, product, product.getId() + "");
                     }
+
+//                    if (productDAO.updatee(product, product.getId())) {
+//                        productDetailDAO = new ProductDetailDAO(getContext());
+//                        productDetailDAO.update(productDetail);
+//                        Toast.makeText(getContext(), "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
+//                        notifyDataSetChanged();
+//                        alertDialog.dismiss();
+//                    } else {
+//                        Toast.makeText(getContext(), "Cập nhật sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+//                    }
                 });
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -242,7 +247,6 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 String status = spnRole.getSelectedItem().toString();
                 String mota = edtmota.getText().toString();
                 String statusImage = tvStatusImage.getText().toString();
-
 
                 if (!validate(name, price, mota)) {
                     return;
@@ -463,5 +467,12 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
 
         return true;
     }
-
+    private void updateProduct1() {
+        if (productDAO.updatee(product, product.getId())) {
+            Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+            loadData();
+        } else {
+            Toast.makeText(getContext(), "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

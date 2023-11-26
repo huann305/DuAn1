@@ -42,6 +42,7 @@ public class UpdateInfoCustomerFragment extends BaseFragment<FragmentUpdateInfoC
     String filePath = "";
     String linkImageCus = "";
     String emailData = "";
+    Customer customer;
 
     public static UpdateInfoCustomerFragment newInstance() {
 
@@ -83,7 +84,7 @@ public class UpdateInfoCustomerFragment extends BaseFragment<FragmentUpdateInfoC
         CustomerDAO customerDAO = new CustomerDAO(getContext());
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("USER", MODE_PRIVATE);
         emailData = sharedPreferences.getString("email", "");
-        Customer customer = customerDAO.getByEmail(emailData);
+        customer = customerDAO.getByEmail(emailData);
         binding.edtNameUpEm.setText(customer.getName());
         binding.edtPhone.setText(customer.getPhone());
         binding.edtEmail.setText(customer.getEmail());
@@ -99,7 +100,7 @@ public class UpdateInfoCustomerFragment extends BaseFragment<FragmentUpdateInfoC
 
     }
 
-    public void update(){
+    public void update() {
         binding.imgCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,7 +110,16 @@ public class UpdateInfoCustomerFragment extends BaseFragment<FragmentUpdateInfoC
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadToCloudinary(filePath);
+
+//                if (filePath.equals("") && customer.getImage() != null) {
+//                    updateInfo();
+//                } else if (filePath.equals("") && customer.getImage() == null) {
+//                    updateInfo();
+                if(filePath.equals("")){
+                    updateInfo();
+                }else {
+                    uploadToCloudinary(filePath);
+                }
             }
         });
     }
@@ -195,22 +205,20 @@ public class UpdateInfoCustomerFragment extends BaseFragment<FragmentUpdateInfoC
                 Log.i("TAG", "linkImage nhaa: " + linkImageCus);
 
                 CustomerDAO customerDAO = new CustomerDAO(getContext());
-                Customer customer = customerDAO.getByEmail(emailData);
+                customer = customerDAO.getByEmail(emailData);
                 customer.setName(binding.edtNameUpEm.getText().toString());
                 customer.setPhone(binding.edtPhone.getText().toString());
                 customer.setAddress(binding.edtAddress.getText().toString());
                 customer.setBirthday(binding.edtBirthday.getText().toString());
-                if(linkImageCus.equals("")){
+                if (linkImageCus.equals("")) {
                     customer.setImage(null);
-                }else {
+                } else {
                     customer.setImage(linkImageCus);
                 }
-                if (customerDAO.getByEmail(emailData) != null) {
-                    if (customerDAO.updateInfo(customer, emailData)) {
-                        Toast.makeText(getContext(), "Cập nhật thông tin thành công", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getContext(), "Cập nhật thông tin thất bại", Toast.LENGTH_SHORT).show();
-                    }
+                if (customerDAO.updateInfo(customer, emailData)) {
+                    Toast.makeText(getContext(), "Cập nhật thông tin thành công", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Cập nhật thông tin thất bại", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -224,5 +232,19 @@ public class UpdateInfoCustomerFragment extends BaseFragment<FragmentUpdateInfoC
 //                tvStatusImage.setText("Reshedule " + error.getDescription());
             }
         }).dispatch();
+    }
+
+    public void updateInfo() {
+        CustomerDAO customerDAO = new CustomerDAO(getContext());
+        customer = customerDAO.getByEmail(emailData);
+        customer.setName(binding.edtNameUpEm.getText().toString());
+        customer.setPhone(binding.edtPhone.getText().toString());
+        customer.setAddress(binding.edtAddress.getText().toString());
+        customer.setBirthday(binding.edtBirthday.getText().toString());
+        if (customerDAO.updateInfo(customer, emailData)) {
+            Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+        }
     }
 }
