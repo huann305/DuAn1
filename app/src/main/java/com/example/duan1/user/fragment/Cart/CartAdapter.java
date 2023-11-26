@@ -14,22 +14,27 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.activity.DetailProductActivity;
 import com.example.duan1.dao.CartDAO;
+import com.example.duan1.databinding.FragmentCartBinding;
 import com.example.duan1.databinding.ItemCartBinding;
 import com.example.duan1.model.Cart;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
 public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private Context context;
     private ArrayList<Cart> list;
+    String email;
 
     public abstract void click(int totalPrice);
+
     public abstract void clickBtnReduce();
 
     public abstract void onItemClick(int position);
@@ -48,16 +53,17 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        CartDAO cartDAO = new CartDAO(context);
         SharedPreferences sharedPreferences = context.getSharedPreferences("USER", Context.MODE_PRIVATE);
-        String email = sharedPreferences.getString("email", "");
+        email = sharedPreferences.getString("email", "");
 
         Cart cart = list.get(position);
         holder.binding.tvName.setText(cart.getName());
         holder.binding.tvPrice.setText(cart.getPrice() + " Đ");
         holder.binding.tvQuantity.setText("" + cart.getQuantity());
-        if(cart.getImage() != null){
+        if (cart.getImage() != null) {
             Glide.with(context).load(cart.getImage()).into(holder.binding.ivImageCart);
-        }else {
+        } else {
             Glide.with(context).load(R.drawable.improduct1).into(holder.binding.ivImageCart);
         }
 
@@ -71,12 +77,12 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
         if (list.get(holder.getLayoutPosition()).getQuantity() == 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setMessage("Bạn chắc chắn muốn xóa sản phẩm");
-            CartDAO cartDAO = new CartDAO(context);
+
 
             builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    if(cartDAO.augmentQuantity(list.get(holder.getAdapterPosition()), email)){
+                    if (cartDAO.augmentQuantity(list.get(holder.getAdapterPosition()), email)) {
                         list.clear();
                         list.addAll(cartDAO.getAllCartCus(email));
                         notifyDataSetChanged();
@@ -111,7 +117,6 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
         holder.binding.btnAgument.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CartDAO cartDAO = new CartDAO(context);
                 if (cartDAO.augmentQuantity(list.get(holder.getAdapterPosition()), email)) {
                     list.clear();
                     list.addAll(cartDAO.getAllCartCus(email));
@@ -122,7 +127,6 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
         holder.binding.btnReduce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CartDAO cartDAO = new CartDAO(context);
                 if (cartDAO.reduceQuantity(list.get(holder.getAdapterPosition()), email)) {
                     list.clear();
                     list.addAll(cartDAO.getAllCartCus(email));
@@ -157,6 +161,7 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
         });
     }
 
+
     @Override
     public int getItemCount() {
         return list.size();
@@ -171,3 +176,4 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
         }
     }
 }
+

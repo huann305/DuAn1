@@ -1,5 +1,7 @@
 package com.example.duan1.dao;
 
+import static java.security.AccessController.getContext;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -13,6 +15,8 @@ import java.util.ArrayList;
 
 public class CartDAO {
     DBHelper dbhelper;
+    Context context;
+
 
     public CartDAO(Context context) {
         dbhelper = new DBHelper(context);
@@ -72,7 +76,7 @@ public class CartDAO {
             values.put("price", product.getPrice());
             values.put("emailCus", email);
             values.put("image", product.getImage());
-            check = database.insert(DBHelper.TABLE_CART, null , values);
+            check = database.insert(DBHelper.TABLE_CART, null, values);
         }
         if (check == -1) {
             return false;
@@ -106,10 +110,11 @@ public class CartDAO {
         }
         return true;
     }
-    public boolean deleteCart(int id, String email){
+
+    public boolean deleteCart(int id, String email) {
         SQLiteDatabase sqLiteDatabase = dbhelper.getWritableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT id FROM cart WHERE id = ? AND emailCus = ?", new String[]{String.valueOf(id), email});
-        if(cursor.getCount() != 0){
+        if (cursor.getCount() != 0) {
             long check = sqLiteDatabase.delete(DBHelper.TABLE_CART, "id = ? AND emailCus = ?", new String[]{String.valueOf(id), email});
             if (check == -1) {
                 return false;
@@ -118,4 +123,22 @@ public class CartDAO {
         }
         return false;
     }
+
+    public boolean insertToCart1(Cart cart, Product product, String email) {
+        SQLiteDatabase database = dbhelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id", cart.getId());
+        values.put("idProduct", product.getId());
+        values.put("name", product.getName());
+        values.put("quantity", cart.getQuantity());
+        values.put("price", product.getPrice());
+        values.put("emailCus", email);
+        values.put("image", product.getImage());
+        long check = database.insert(DBHelper.TABLE_CART, null, values);
+        if (check == -1) {
+            return false;
+        }
+        return true;
+    }
+
 }

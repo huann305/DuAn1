@@ -86,13 +86,12 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/shapeStatus_cus"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
+                    android:layout_width="17dp"
+                    android:layout_height="20dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
-                    app:shapeAppearanceOverlay="@style/roundedImageView"
                     android:background="#FF0000"
-                    />
+                    app:shapeAppearanceOverlay="@style/roundedImageView" />
             </LinearLayout>
 
         </LinearLayout>
