@@ -51,7 +51,7 @@
             android:id="@+id/edt_mota_uppro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nhập mã sản phẩm"
+            android:hint="Nhập mô tả sản phẩm"
             android:textColor="@color/black"
             android:textSize="18sp"
             />

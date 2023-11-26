@@ -143,7 +143,8 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 // Gán Adapter cho Spinner
                 spinnerTrangThai.setAdapter(adapter);
                 edtTenSP.setText(product.getName());
-                productDetail = new ProductDetail();
+                productDetailDAO = new ProductDetailDAO(getContext());
+                productDetail = productDetailDAO.getID(product.getId());
                 edtmota.setText(productDetail.getDescription());
                 edtDonGia.setText(String.valueOf(product.getPrice()));
                 spinnerTrangThai.setSelection(data.indexOf(product.getStatus()));
@@ -182,16 +183,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                     productDetail.setDescription(mota);
 
                     uploadToCloudinary(filePath, product, product.getId() + "");
-
-                    if (productDAO.updatee(product, product.getId())) {
-                        productDetailDAO = new ProductDetailDAO(getContext());
-                        productDetailDAO.update(productDetail);
-                        Toast.makeText(getContext(), "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
-                        notifyDataSetChanged();
-                        alertDialog.dismiss();
-                    } else {
-                        Toast.makeText(getContext(), "Cập nhật sản phẩm thất bại", Toast.LENGTH_SHORT).show();
-                    }
+                    alertDialog.dismiss();
                 });
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -315,6 +307,10 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
 
     private void updateProduct(Product product, String id) {
         product.setImage(linkImage);
+
+        productDetailDAO = new ProductDetailDAO(getContext());
+        productDetailDAO.update(productDetail);
+
         if (productDAO.updatee(product, product.getId())) {
             Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
             loadData();

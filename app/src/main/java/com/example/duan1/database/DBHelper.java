@@ -79,22 +79,10 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_BILL);
         //Initialize data for the bill table
         String INSERT_BILL_DATA = "INSERT INTO " + TABLE_BILL + " (idEmployee, idCustomer, date, shippingAddress, status, paymentMethod) VALUES " +
-//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
-//                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ', 'Cash'), " +
                 "('2', '1', '2022-02-02', '456 Elm St', 'Đang làm', 'Cash' ), " +
                 "('2', '3', '2022-02-02', '456 Elm St', 'Đã hoàn thành', 'Cash'), " +
-                "('3', '2', '2022-03-03', '789 Oak St', 'Đang chờ', 'Zalo Pay')";
+                "('3', '2', '2022-03-03', '789 Oak St', 'Xác nhận thanh toán', 'Zalo Pay')";
         sqLiteDatabase.execSQL(INSERT_BILL_DATA);
 
         String CREATE_TABLE_BILL_DETAIL = "CREATE TABLE " + TABLE_BILL_DETAIL + " (" +
@@ -123,9 +111,9 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_PRODUCT);
         //Initialize data for the product table
         String INSERT_PRODUCT_DATA = "INSERT INTO " + TABLE_PRODUCT + " (name, image, price, quantitySold, status, image) VALUES " +
-                "('Product 1', null, 10, 0, 'active', null), " +
-                "('Product 2', null, 15, 0, 'active', null), " +
-                "('Product 3', null, 20, 0, 'inactive', null)";
+                "('Product 1', null, 10, 0, 'Còn hàng', null), " +
+                "('Product 2', null, 15, 0, 'Còn hàng', null), " +
+                "('Product 3', null, 20, 0, 'Còn hàng', null)";
         sqLiteDatabase.execSQL(INSERT_PRODUCT_DATA);
 
         String CREATE_TABLE_PRODUCT_DETAIL = "CREATE TABLE " + TABLE_PRODUCT_DETAIL + " (" +
