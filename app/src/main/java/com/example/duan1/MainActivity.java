@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Handler;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +19,8 @@ import com.bumptech.glide.Glide;
 import com.example.duan1.activity.ChooseActivity;
 import com.example.duan1.admin.ui.fragment.ordermanagement.ConfirmFragment;
 import com.example.duan1.admin.ui.fragment.ordermanagement.OrderAdminFragment;
+import com.example.duan1.admin.ui.fragment.statistics.StatisticsSoldFragment;
+import com.example.duan1.dao.AccountDAO;
 import com.example.duan1.dao.EmployeeDAO;
 import com.example.duan1.databinding.ActivityMainBinding;
 import com.example.duan1.admin.ui.activity.BaseActivity;
@@ -88,6 +92,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 fragment = OrderAdminFragment.newInstance();
             }  else if (item.getItemId() == R.id.nav_order_payment_confirmation) {
                 fragment = ConfirmFragment.newInstance();
+            }  else if (item.getItemId() == R.id.nav_statistics_sold) {
+                fragment = StatisticsSoldFragment.newInstance();
             }
             if (fragment != null) {
                 BaseFragment.add(MainActivity.this, fragment);
@@ -129,6 +135,25 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "");
+        String role = sharedPreferences.getString("role", "");
+        Log.d("TAG", "loadData: " + email + " " + role);
+
+        switch (role) {
+            case Utils.ADMIN:
+                binding.navView.getMenu().findItem(R.id.nav_employee_management).setVisible(true);
+                binding.navView.getMenu().findItem(R.id.nav_customer_management).setVisible(true);
+                binding.navView.getMenu().findItem(R.id.nav_order_management_admin).setVisible(true);
+                binding.navView.getMenu().findItem(R.id.nav_order_payment_confirmation).setVisible(true);
+                binding.navView.getMenu().findItem(R.id.nav_statistics).setVisible(true);
+                break;
+            case Utils.EMPLOYEE_CHEF:
+                binding.navView.getMenu().findItem(R.id.nav_order_management).setVisible(true);
+                break;
+            case Utils.EMPLOYEE_SP:
+                binding.navView.getMenu().findItem(R.id.nav_order_payment_confirmation).setVisible(true);
+                break;
+        }
+
         EmployeeDAO employeeDAO = new EmployeeDAO(this);
         Employee employee = employeeDAO.getByEmail(email);
         ShapeableImageView imgAccount = binding.navView.getHeaderView(0).findViewById(R.id.imgAccount);

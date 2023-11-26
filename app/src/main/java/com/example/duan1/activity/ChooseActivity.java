@@ -1,12 +1,8 @@
 package com.example.duan1.activity;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
-
-import androidx.core.view.GravityCompat;
 
 import com.example.duan1.R;
 import com.example.duan1.Utils;
@@ -27,7 +23,7 @@ public class ChooseActivity extends BaseActivity<ActivityChooseBinding> {
         binding.btnCustom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent.putExtra(Utils.TYPE, Utils.CUSTOM);
+                intent.putExtra(Utils.TYPE, Utils.CUSTOMER);
                 startActivity(intent);
             }
         });

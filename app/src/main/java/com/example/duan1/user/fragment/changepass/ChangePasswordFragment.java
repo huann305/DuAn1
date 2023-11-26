@@ -9,17 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
-
-import com.example.duan1.MainActivity;
 import com.example.duan1.R;
 import com.example.duan1.Utils;
 import com.example.duan1.activity.ChooseActivity;
-import com.example.duan1.activity.LoginActivity;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.dao.AccountDAO;
 import com.example.duan1.database.DBHelper;
@@ -72,7 +64,7 @@ public class ChangePasswordFragment extends BaseFragment<FragmentChangePasswordB
                     SharedPreferences sharedPreferences1 = getActivity().getSharedPreferences(Utils.EMAIL, MODE_PRIVATE);
                     String role = sharedPreferences1.getString(Utils.ROLE, "");
                     Account account = new Account();
-                    if (role.equals(Utils.CUSTOM)){
+                    if (role.equals(Utils.CUSTOMER)){
                         TABLE = DBHelper.TABLE_ACCOUNT_CUSTOMER;
                     }else{
                         TABLE = DBHelper.TABLE_ACCOUNT_SHOP;

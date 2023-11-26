@@ -2,7 +2,6 @@ package com.example.duan1.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,11 +14,8 @@ import com.example.duan1.dao.CustomerDAO;
 import com.example.duan1.dao.EmployeeDAO;
 import com.example.duan1.databinding.ActivityLoginBinding;
 
-import com.example.duan1.model.Account;
 import com.example.duan1.user.MainCustomer;
 import com.example.duan1.database.DBHelper;
-
-import java.util.List;
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     private String type = "custom";
@@ -28,7 +24,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         return R.layout.activity_login;
     }
 
-    List<Account> list;
+    String role = Utils.CUSTOMER;
     @Override
     protected void initEvent() {
         AccountDAO accountDAO = new AccountDAO(this);
@@ -42,7 +38,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(type.equals(Utils.CUSTOM)){
+                if(type.equals(Utils.CUSTOMER)){
                     if(accountDAO.checkLogin(binding.edtEmail.getText().toString(), binding.edtPassword.getText().toString(), DBHelper.TABLE_ACCOUNT_CUSTOMER)){
 
                         if(new CustomerDAO(LoginActivity.this).getStatus(binding.edtEmail.getText().toString()).equals("inactive")) {
@@ -54,8 +50,9 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString(Utils.EMAIL, binding.edtEmail.getText().toString());
 
-                        editor.putString(Utils.ROLE, type);
                         editor.commit();
+
+                        role = accountDAO.getRole(binding.edtEmail.getText().toString(), DBHelper.TABLE_ACCOUNT_CUSTOMER);
 
                         startActivity(new Intent(LoginActivity.this, MainCustomer.class));
                         finishAffinity();
@@ -73,8 +70,9 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString(Utils.EMAIL, binding.edtEmail.getText().toString());
 
-                        editor.putString(Utils.ROLE, type);
                         editor.commit();
+
+                        role = accountDAO.getRole(binding.edtEmail.getText().toString(), DBHelper.TABLE_ACCOUNT_SHOP);
 
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finishAffinity();
@@ -87,6 +85,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                 editor.putString("email", binding.edtEmail.getText().toString());
                 editor.putString("password", binding.edtPassword.getText().toString());
                 editor.putBoolean("isLogin" + type, binding.cbRememberPassword.isChecked());
+                editor.putString("role", role);
                 editor.commit();
             }
         });
@@ -97,7 +96,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         Intent intent = getIntent();
         type = intent.getStringExtra(Utils.TYPE);
         if(type == null){
-            type = Utils.CUSTOM;
+            type = Utils.CUSTOMER;
         }
         if (type.equals(Utils.SHOP)) {
             binding.llSignUp.setVisibility(View.GONE);

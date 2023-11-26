@@ -38,6 +38,16 @@ public class AccountDAO {
         return null;
     }
 
+
+    public String getRole(String email, String TABLE) {
+        String sql = "SELECT * FROM " + TABLE + " WHERE email = ?";
+        List<Account> list = getData(sql, TABLE, email);
+        if (list.size() > 0) {
+            return list.get(0).getRole();
+        }
+        return null;
+    }
+
     public boolean insert(Account object) {
         try{
             SQLiteDatabase db = dbHelper.getWritableDatabase();

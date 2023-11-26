@@ -84,6 +84,16 @@ public class ProductDAO {
         return list;
     }
 
+    //sort product by quantitySold
+    public List<Product> getAllByQuantitySold(String type){
+        String sql = "SELECT * FROM " + DBHelper.TABLE_PRODUCT + " ORDER BY quantitySold " + type;
+        List<Product> list = getData(sql);
+        if (list.size() > 0){
+            return list;
+        }
+        return null;
+    }
+
     //tăng số lượng đã bán
     public boolean updateQuantitySold(Cart cart){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
