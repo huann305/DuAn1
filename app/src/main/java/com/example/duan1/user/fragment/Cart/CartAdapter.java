@@ -21,14 +21,17 @@ import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.activity.DetailProductActivity;
 import com.example.duan1.dao.CartDAO;
+import com.example.duan1.databinding.FragmentCartBinding;
 import com.example.duan1.databinding.ItemCartBinding;
 import com.example.duan1.model.Cart;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
 public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private Context context;
     private ArrayList<Cart> list;
+    String email;
 
     public abstract void click(int totalPrice);
 
@@ -52,7 +55,7 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CartDAO cartDAO = new CartDAO(context);
         SharedPreferences sharedPreferences = context.getSharedPreferences("USER", Context.MODE_PRIVATE);
-        String email = sharedPreferences.getString("email", "");
+        email = sharedPreferences.getString("email", "");
 
         Cart cart = list.get(position);
         holder.binding.tvName.setText(cart.getName());
@@ -144,7 +147,6 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 int totalPrice = 0;
@@ -153,20 +155,8 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
                 }
                 click(totalPrice);
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
-            }
-        });
-        holder.binding.btnDelCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (cartDAO.deleteCart(list.get(holder.getAdapterPosition()).getId(), email)) {
-                    Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
-                    list.clear();
-                    list.addAll(cartDAO.getAllCartCus(email));
-                    notifyDataSetChanged();
-                }
             }
         });
     }
