@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class DBHelper extends SQLiteOpenHelper {
-    public static final String DB_NAME = "app.db";
+    public static final String DB_NAME = "duan1.db";
     public static final String TABLE_ACCOUNT_SHOP = "account_shop";
     public static final String TABLE_ACCOUNT_CUSTOMER = "account_customer";
     public static final String TABLE_CUSTOMER = "customer";
@@ -19,7 +19,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_CART = "cart";
 
     public DBHelper(@Nullable Context context) {
-        super(context, DB_NAME, null, 3);
+        super(context, DB_NAME, null, 1);
     }
 
     @Override

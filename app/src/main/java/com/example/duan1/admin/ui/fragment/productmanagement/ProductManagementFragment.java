@@ -188,10 +188,16 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                         if(product.getImage() == null){
                             Toast.makeText(getContext(), "Chưa chọn ảnh", Toast.LENGTH_SHORT).show();
                             return;
+                        }else {
+                            productDAO.updatee(product, product.getId());
+                            productDetailDAO.update(productDetail);
+                            loadData();
+                            Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                         }
+                    }else {
+                        uploadToCloudinary(filePath, product, product.getId() + "");
                     }
 
-                    uploadToCloudinary(filePath, product, product.getId() + "");
                     alertDialog.dismiss();
                 });
                 btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -383,6 +389,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 } else {
                     insertProduct(product);
                 }
+                isChooseImage = false;
             }
 
             @Override
