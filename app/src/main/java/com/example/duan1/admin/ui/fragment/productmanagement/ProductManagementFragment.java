@@ -464,12 +464,12 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
             Toast.makeText(getContext(), "Không được để trống!", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (!ten.matches("[a-zA-Z_0-9]+")) {
+        if (!ten.matches("^[a-zA-Z\\s]+([0-9]+)?+$")) {
             Toast.makeText(getContext(), "Tên sản phẩm không hợp lệ! ", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        if (!moTa.matches("[a-zA-Z_0-9]+")) {
+        if (!moTa.matches("^[a-zA-Z\\s]+([0-9]+)?+$")) {
             Toast.makeText(getContext(), "Mô tả không hợp lệ! ", Toast.LENGTH_SHORT).show();
             return false;
         }
