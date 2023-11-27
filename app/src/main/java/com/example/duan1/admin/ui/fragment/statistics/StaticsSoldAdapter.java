@@ -36,6 +36,7 @@ public class StaticsSoldAdapter extends RecyclerView.Adapter<StaticsSoldAdapter.
         Product product = list.get(position);
         holder.tvName.setText(product.getName());
         holder.tvQuantitySold.setText("Đã bán: "+String.valueOf(product.getQuantitySold()));
+        holder.tvPrice.setText(product.getPrice() + " VNĐ");
         if(product.getImage() == null){
             holder.imgProduct.setImageResource(R.drawable.improduct1);
         }else {
@@ -53,12 +54,13 @@ public class StaticsSoldAdapter extends RecyclerView.Adapter<StaticsSoldAdapter.
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProduct;
-        TextView tvName, tvQuantitySold;
+        TextView tvName, tvQuantitySold, tvPrice;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imgProduct = itemView.findViewById(R.id.img);
             tvName = itemView.findViewById(R.id.tv_name);
             tvQuantitySold = itemView.findViewById(R.id.tv_quantity_sold);
+            tvPrice = itemView.findViewById(R.id.tv_price);
         }
     }
 }

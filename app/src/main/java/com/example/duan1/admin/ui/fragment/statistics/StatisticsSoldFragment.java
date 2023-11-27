@@ -67,15 +67,15 @@ public class StatisticsSoldFragment extends BaseFragment<FragmentStatisticsSoldB
     protected void initData() {
         //add data into spinner
         List<String> data = new ArrayList<>();
-        data.add("Bán chạy");
         data.add("Bán đỡ chạy");
+        data.add("Bán chạy");
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, data);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinner.setAdapter(spinnerAdapter);
 
         productDAO = new ProductDAO(getActivity());
-        list = productDAO.getAllByQuantitySold("DESC");
+        list = productDAO.getAllByQuantitySold("ASC");
         binding.rcv.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rcv.setAdapter(new StaticsSoldAdapter(list, getActivity()));
     }

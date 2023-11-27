@@ -48,6 +48,7 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
     private String filePath = "";
     private String linkImageEm = "";
     String emailData = "";
+    Employee employee;
 
     public static UpdateInformationFragment newInstance() {
 
@@ -109,7 +110,11 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadToCloudinary(filePath);
+                if(filePath.equals("")) {
+                    updateInf();
+                }else {
+                    uploadToCloudinary(filePath);
+                }
             }
         });
     }
@@ -200,15 +205,11 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
                 linkImageEm = resultData.get("url").toString();
                 Log.i("TAG", "linkImage nhaa: " + linkImageEm);
                 EmployeeDAO employeeDAO = new EmployeeDAO(getContext());
-                Employee employee = new Employee();
+                employee = employeeDAO.getByEmail(emailData);
                 employee.setName(binding.edtNameUpEm.getText().toString());
                 employee.setPhone(binding.edtPhone.getText().toString());
                 employee.setAddress(binding.edtAddress.getText().toString());
-                if (linkImageEm.equals("")) {
-                    employee.setImage(null);
-                } else {
-                    employee.setImage(linkImageEm);
-                }
+                employee.setImage(linkImageEm);
 
                 if (employeeDAO.updateInfo(employee, emailData)) {
                     Toast.makeText(getContext(), "Câp nhập thông tin thành công", Toast.LENGTH_SHORT).show();
@@ -228,8 +229,18 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
             }
         }).dispatch();
     }
-
-
+    public void updateInf(){
+        EmployeeDAO employeeDAO = new EmployeeDAO(getContext());
+        employee = employeeDAO.getByEmail(emailData);
+        employee.setName(binding.edtNameUpEm.getText().toString());
+        employee.setPhone(binding.edtPhone.getText().toString());
+        employee.setAddress(binding.edtAddress.getText().toString());
+        if (employeeDAO.updateInfo(employee, emailData)) {
+            Toast.makeText(getContext(), "Câp nhập thông tin thành công", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Cập nhật thông tin thât bại", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }
 

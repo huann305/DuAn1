@@ -66,6 +66,8 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
     String linkImage = "";
     int PERMISSION_CODE = 1;
     View loading;
+    Product product;
+    boolean isChooseImage = false;
 
 
     public static String TAG = "Quản lý sản phẩm";
@@ -114,7 +116,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
         adapter = new AdapterProductManagement(getContext(), list) {
             @Override
             public void click(int position) {
-                Product product = list.get(position);
+                product = list.get(position);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_update_products, null);
                 builder.setView(view);
@@ -182,6 +184,13 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                     product.setPrice(Integer.parseInt(gia));
                     productDetail.setDescription(mota);
 
+                    if(!isChooseImage) {
+                        if(product.getImage() == null){
+                            Toast.makeText(getContext(), "Chưa chọn ảnh", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+
                     uploadToCloudinary(filePath, product, product.getId() + "");
                     alertDialog.dismiss();
                 });
@@ -233,8 +242,6 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 String price = edtPrice.getText().toString();
                 String status = spnRole.getSelectedItem().toString();
                 String mota = edtmota.getText().toString();
-                String statusImage = tvStatusImage.getText().toString();
-
 
                 if (!validate(name, price, mota)) {
                     return;
@@ -245,6 +252,11 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 product.setImage("" + linkImage);
 
                 productDetailDAO = new ProductDetailDAO(getContext());
+
+                if(!isChooseImage) {
+                    Toast.makeText(getContext(), "Chưa chọn ảnh", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 productDetailDAO.insert(list.size() + 1, mota, linkImage);
                 Log.i("TAG", "Link ảnh đây nàyyyy: " + linkImage);
@@ -284,6 +296,8 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), result.getData().getData());
                     //hiển thị hình ảnh lên imgview
                     ivImagePro.setImageBitmap(bitmap);
+
+                    isChooseImage = true;
 
 //                    uploadToCloudinary(filePath);
                 } catch (IOException e) {
@@ -459,5 +473,12 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
 
         return true;
     }
-
+    private void updateProduct1() {
+        if (productDAO.updatee(product, product.getId())) {
+            Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+            loadData();
+        } else {
+            Toast.makeText(getContext(), "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
