@@ -83,7 +83,8 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                 SharedPreferences sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("email", binding.edtEmail.getText().toString());
-                editor.putString("password", binding.edtPassword.getText().toString());
+                editor.putString("email" + type, binding.edtEmail.getText().toString());
+                editor.putString("password" + type, binding.edtPassword.getText().toString());
                 editor.putBoolean("isLogin" + type, binding.cbRememberPassword.isChecked());
                 editor.putString("role", role);
                 editor.commit();
@@ -98,20 +99,20 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         if(type == null){
             type = Utils.CUSTOMER;
         }
-        if (type.equals(Utils.SHOP)) {
-            binding.llSignUp.setVisibility(View.GONE);
-            binding.edtEmail.setText("admin@gmail.com");
-            binding.edtPassword.setText("password1");
-        }else{
-            binding.edtEmail.setText("customer1@gmail.com");
-            binding.edtPassword.setText("password1");
-        }
+//        if (type.equals(Utils.SHOP)) {
+//            binding.llSignUp.setVisibility(View.GONE);
+//            binding.edtEmail.setText("admin@gmail.com");
+//            binding.edtPassword.setText("password1");
+//        }else{
+//            binding.edtEmail.setText("customer1@gmail.com");
+//            binding.edtPassword.setText("password1");
+//        }
         SharedPreferences sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
         boolean isLogin = sharedPreferences.getBoolean("isLogin" + type, false);
         binding.cbRememberPassword.setChecked(isLogin);
         if (isLogin) {
-            String email = sharedPreferences.getString("email", "");
-            String password = sharedPreferences.getString("password", "");
+            String email = sharedPreferences.getString("email" + type, "");
+            String password = sharedPreferences.getString("password" + type, "");
             binding.edtEmail.setText(email);
             binding.edtPassword.setText(password);
         }

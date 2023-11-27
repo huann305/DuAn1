@@ -85,7 +85,7 @@ public abstract class AdapterProductManagement extends RecyclerView.Adapter<Adap
             }
         });
 
-        holder.binding.ivUpdateProduct.setOnClickListener(v -> {
+        holder.itemView.setOnClickListener(v -> {
             click(position);
         });
     }

@@ -157,7 +157,13 @@ public class DBHelper extends SQLiteOpenHelper {
         String INSERT_PRODUCT_DETAIL_DATA = "INSERT INTO " + TABLE_PRODUCT_DETAIL + "(idProduct, description, image) VALUES " +
                 "(1, 'Description 1', null), " +
                 "(2, 'Description 2', null), " +
-                "(3, 'Description 3', null)";
+                "(3, 'Description 3', null), " +
+                "(4, 'Description 4', null), " +
+                "(5, 'Description 5', null), " +
+                "(6, 'Description 6', null), " +
+                "(7, 'Description 7', null), " +
+                "(8, 'Description 8', null), " +
+                "(9, 'Description 9', null)";
         sqLiteDatabase.execSQL(INSERT_PRODUCT_DETAIL_DATA);
 
         //Initialize data for the employee table
