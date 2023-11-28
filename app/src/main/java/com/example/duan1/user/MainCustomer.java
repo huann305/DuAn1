@@ -123,7 +123,7 @@ public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
         ShapeableImageView imgAccount = binding.navView.getHeaderView(0).findViewById(R.id.imgAccount);
         TextView tvFullName = binding.navView.getHeaderView(0).findViewById(R.id.tvFullName);
         TextView tvAc = binding.navView.getHeaderView(0).findViewById(R.id.tvAc);
-        imgAccount.setImageResource(R.drawable.baseline_person_24_ccc);
+        imgAccount.setImageResource(R.drawable.baseline_person_24_fff);
         tvFullName.setText(customer.getName());
         tvAc.setText(customer.getEmail());
         if (customer.getImage() != null) {

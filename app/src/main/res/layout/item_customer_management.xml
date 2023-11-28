@@ -87,7 +87,7 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/shapeStatus_cus"
                     android:layout_width="17dp"
-                    android:layout_height="20dp"
+                    android:layout_height="17dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
                     android:background="#FF0000"

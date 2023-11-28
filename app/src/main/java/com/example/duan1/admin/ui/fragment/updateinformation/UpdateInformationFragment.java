@@ -108,6 +108,7 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!validateForm()) return;
                 if(filePath.equals("")) {
                     updateInf();
                 }else {
@@ -240,6 +241,34 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
         } else {
             Toast.makeText(getContext(), "Cập nhật thông tin thât bại", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private boolean validateForm() {
+        if (binding.edtNameUpEm.getText().toString().equals("")) {
+            Toast.makeText(getContext(), "Tên không được để trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (binding.edtPhone.getText().toString().equals("")) {
+            Toast.makeText(getContext(), "Số điện thoại không được để trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (binding.edtEmail.getText().toString().equals("")) {
+            Toast.makeText(getContext(), "Email không được để trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (binding.edtAddress.getText().toString().equals("")) {
+            Toast.makeText(getContext(), "Địa chỉ không được để trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (binding.edtCitizen.getText().toString().equals("")) {
+            Toast.makeText(getContext(), "CMND/CCCD không được để trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (binding.edtDate.getText().toString().equals("")) {
+            Toast.makeText(getContext(), "Ngày sinh không được để trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
 }
