@@ -19,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.dao.CustomerDAO;
 import com.example.duan1.databinding.ItemCustomerManagementBinding;
-import com.example.duan1.databinding.ItemEmployeeManagerBinding;
 import com.example.duan1.model.Customer;
 
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
         holder.binding.tvSDTCus.setText("SĐT: " + customer.getPhone());
         holder.binding.tvTaiKhoanCus.setText("Email: " + customer.getEmail());
         holder.binding.tvTrangThaiCus.setText("Trạng thái: " + customer.getStatus());
-        holder.binding.imgCus.setImageResource(R.drawable.baseline_person_24);
+        holder.binding.imgCus.setImageResource(R.drawable.baseline_person_24_ccc);
 
         if(customer.getImage() != null){
             Glide.with(context).load(customer.getImage()).into(holder.binding.imgCus);
@@ -98,7 +97,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
             edtEmail.setText(customer.getEmail());
             edtBirthday.setText(customer.getBirthday());
             spnStatus.setSelection(spinnerData.indexOf(customer.getStatus()));
-            imgCus.setImageResource(R.drawable.baseline_person_24);
+            imgCus.setImageResource(R.drawable.baseline_person_24_ccc);
 
             if (customer.getImage() != null) {
                 Glide.with(context).load(customer.getImage()).into(imgCus);

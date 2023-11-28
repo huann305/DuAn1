@@ -2,17 +2,12 @@ package com.example.duan1;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 
 import com.bumptech.glide.Glide;
@@ -20,9 +15,8 @@ import com.example.duan1.activity.ChooseActivity;
 import com.example.duan1.admin.ui.fragment.ordermanagement.ConfirmFragment;
 import com.example.duan1.admin.ui.fragment.ordermanagement.OrderAdminFragment;
 import com.example.duan1.admin.ui.fragment.statistics.StatisticsSoldFragment;
-import com.example.duan1.dao.AccountDAO;
+import com.example.duan1.admin.ui.fragment.updateinformation.UpdateInformationActivity;
 import com.example.duan1.dao.EmployeeDAO;
-import com.example.duan1.databinding.ActivityMainBinding;
 import com.example.duan1.admin.ui.activity.BaseActivity;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.admin.ui.fragment.customermanagement.CustomerManagementFragment;
@@ -31,7 +25,7 @@ import com.example.duan1.admin.ui.fragment.ordermanagement.OrderManagementFragme
 import com.example.duan1.admin.ui.fragment.productmanagement.ProductManagementFragment;
 import com.example.duan1.admin.ui.fragment.statistics.StatisticsFragment;
 import com.example.duan1.admin.ui.fragment.updateinformation.UpdateInformationFragment;
-import com.example.duan1.database.DBHelper;
+import com.example.duan1.databinding.ActivityMainBinding;
 import com.example.duan1.model.Employee;
 import com.example.duan1.user.fragment.changepass.ChangePasswordFragment;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -108,7 +102,19 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     @Override
     protected void initData() {
         loadData();
+    }
 
+    private void updateInformationIfNewAccount(String email){
+        EmployeeDAO employeeDAO = new EmployeeDAO(this);
+        Employee employee = employeeDAO.getByEmail(email);
+        if(employee.getName() == null ||
+                employee.getPhone() == null ||
+                employee.getAddress() == null ||
+                employee.getCitizenshipID() == null ||
+                employee.getImage() == null){
+            startActivity(new Intent(this, UpdateInformationActivity.class));
+            finish();
+        }
     }
 
     @Override
@@ -137,6 +143,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         String email = sharedPreferences.getString("email", "");
         String role = sharedPreferences.getString("role", "");
         Log.d("TAG", "loadData: " + email + " " + role);
+        updateInformationIfNewAccount(email);
 
         switch (role) {
             case Utils.ADMIN:
@@ -159,7 +166,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         ShapeableImageView imgAccount = binding.navView.getHeaderView(0).findViewById(R.id.imgAccount);
         TextView tvFullName = binding.navView.getHeaderView(0).findViewById(R.id.tvFullName);
         TextView tvAc = binding.navView.getHeaderView(0).findViewById(R.id.tvAc);
-        imgAccount.setImageResource(R.drawable.baseline_person_24);
+        imgAccount.setImageResource(R.drawable.baseline_person_24_ccc);
         tvFullName.setText(employee.getName());
         tvAc.setText(employee.getEmail());
         if(employee.getImage() != null){

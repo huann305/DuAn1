@@ -50,6 +50,9 @@
             android:name=".activity.LoginActivity"
             android:exported="false"></activity>
         <activity
+            android:name=".admin.ui.fragment.updateinformation.UpdateInformationActivity"
+            android:exported="false"></activity>
+        <activity
             android:name=".activity.BillDetailActivity"
             android:exported="false" />
         <activity

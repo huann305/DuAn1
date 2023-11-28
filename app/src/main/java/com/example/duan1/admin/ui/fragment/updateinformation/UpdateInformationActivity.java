@@ -26,10 +26,12 @@ import com.bumptech.glide.Glide;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
+import com.example.duan1.MainActivity;
 import com.example.duan1.R;
+import com.example.duan1.admin.ui.activity.BaseActivity;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.dao.EmployeeDAO;
-
+import com.example.duan1.databinding.ActivityUpdateInformationBinding;
 import com.example.duan1.databinding.FragmentUpdateInformationBinding;
 import com.example.duan1.model.Employee;
 
@@ -38,25 +40,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInformationBinding> {
+public class UpdateInformationActivity extends BaseActivity<ActivityUpdateInformationBinding> {
     public static String TAG = "Cập nhật thông tin";
     private String filePath = "";
     private String linkImageEm = "";
     String emailData = "";
     Employee employee;
 
-    public static UpdateInformationFragment newInstance() {
-
-        Bundle args = new Bundle();
-
-        UpdateInformationFragment fragment = new UpdateInformationFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_update_information;
+        return R.layout.activity_update_information;
     }
 
     @Override
@@ -66,20 +59,15 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
 
     @Override
     protected void initData() {
+        configCloudinary();
         loadData();
         update();
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        configCloudinary();
-    }
-
     public void loadData() {
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("USER", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = this.getSharedPreferences("USER", MODE_PRIVATE);
         emailData = sharedPreferences.getString("email", "");
-        EmployeeDAO employeeDAO = new EmployeeDAO(getContext());
+        EmployeeDAO employeeDAO = new EmployeeDAO(this);
         Employee employee = employeeDAO.getByEmail(emailData);
         binding.edtNameUpEm.setText(employee.getName());
         binding.edtPhone.setText(employee.getPhone());
@@ -90,7 +78,7 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
         binding.imgEmployee.setImageResource(R.drawable.baseline_person_24_ccc);
 
         if (employee.getImage() != null) {
-            Glide.with(getContext()).load(employee.getImage()).into(binding.imgEmployee);
+            Glide.with(this).load(employee.getImage()).into(binding.imgEmployee);
         }
     }
 
@@ -105,9 +93,10 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(filePath.equals("")) {
+                if (!validateForm()) return;
+                if (filePath.equals("")) {
                     updateInf();
-                }else {
+                } else {
                     uploadToCloudinary(filePath);
                 }
             }
@@ -115,13 +104,8 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
     }
 
 
-    @Override
-    public String getTAG() {
-        return TAG;
-    }
-
     public void accessTheGallery() {
-        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         i.setType("image/*");
         myLauncher1.launch(i);
     }
@@ -135,16 +119,17 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
             if (result.getData() == null) {
                 return;
             }
+            isChooseImage = true;
             //get the image's file location
-            filePath = getRealPathFromUri(result.getData().getData(), getActivity());
+            filePath = getRealPathFromUri(result.getData().getData(), UpdateInformationActivity.this);
 
             if (result.getResultCode() == RESULT_OK) {
                 try {
                     //set picked image to the mProfile
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), result.getData().getData());
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(UpdateInformationActivity.this.getContentResolver(), result.getData().getData());
                     //hiển thị hình ảnh lên imgview
 //                    binding.imgEmployee.setImageBitmap(bitmap);
-                    Glide.with(getContext()).load(bitmap).into(binding.imgEmployee);
+                    Glide.with(UpdateInformationActivity.this).load(bitmap).into(binding.imgEmployee);
 //                    uploadToCloudinary(filePath);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -166,6 +151,41 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
         }
     }
 
+    boolean isChooseImage = false;
+
+    //validate form
+    private boolean validateForm() {
+        if (binding.edtNameUpEm.getText().toString().equals("")) {
+            Toast.makeText(this, "Tên không được để trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (binding.edtPhone.getText().toString().equals("")) {
+            Toast.makeText(this, "Số điện thoại không được để trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (binding.edtEmail.getText().toString().equals("")) {
+            Toast.makeText(this, "Email không được để trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (binding.edtAddress.getText().toString().equals("")) {
+            Toast.makeText(this, "Địa chỉ không được để trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (binding.edtCitizen.getText().toString().equals("")) {
+            Toast.makeText(this, "CMND/CCCD không được để trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (binding.edtDate.getText().toString().equals("")) {
+            Toast.makeText(this, "Ngày sinh không được để trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (isChooseImage == false) {
+            Toast.makeText(this, "Chưa chọn ảnh đại diện", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
     HashMap<String, String> config = new HashMap<>();
 
     private void configCloudinary() {
@@ -173,7 +193,7 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
             config.put("cloud_name", "diqi1klub");
             config.put("api_key", "712862419224312");
             config.put("api_secret", "XfHe0kvB7wBt4vgIfbHcoXP8L3M");
-            MediaManager.init(getContext(), config);
+            MediaManager.init(UpdateInformationActivity.this, config);
         } catch (Exception e) {
             Log.i("TAG", "configCloudinary: " + e);
         }
@@ -199,18 +219,21 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
                 binding.btnSave.setEnabled(true);
                 linkImageEm = resultData.get("url").toString();
                 Log.i("TAG", "linkImage nhaa: " + linkImageEm);
-                EmployeeDAO employeeDAO = new EmployeeDAO(getContext());
+                EmployeeDAO employeeDAO = new EmployeeDAO(UpdateInformationActivity.this);
                 employee = employeeDAO.getByEmail(emailData);
                 employee.setName(binding.edtNameUpEm.getText().toString());
                 employee.setPhone(binding.edtPhone.getText().toString());
                 employee.setAddress(binding.edtAddress.getText().toString());
                 employee.setImage(linkImageEm);
+                employee.setCitizenshipID(binding.edtCitizen.getText().toString());
 
-                if (employeeDAO.updateInfo(employee, emailData)) {
-                    Toast.makeText(getContext(), "Câp nhập thông tin thành công", Toast.LENGTH_SHORT).show();
+                if (employeeDAO.updateInfoNewAccount(employee, emailData)) {
+                    Toast.makeText(UpdateInformationActivity.this, "Câp nhập thông tin thành công", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getContext(), "Cập nhật thông tin thât bại", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UpdateInformationActivity.this, "Cập nhật thông tin thât bại", Toast.LENGTH_SHORT).show();
                 }
+                startActivity(new Intent(UpdateInformationActivity.this, MainActivity.class));
+                isChooseImage = false;
             }
 
             @Override
@@ -224,16 +247,19 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
             }
         }).dispatch();
     }
-    public void updateInf(){
-        EmployeeDAO employeeDAO = new EmployeeDAO(getContext());
+
+    public void updateInf() {
+        EmployeeDAO employeeDAO = new EmployeeDAO(UpdateInformationActivity.this);
         employee = employeeDAO.getByEmail(emailData);
         employee.setName(binding.edtNameUpEm.getText().toString());
         employee.setPhone(binding.edtPhone.getText().toString());
         employee.setAddress(binding.edtAddress.getText().toString());
-        if (employeeDAO.updateInfo(employee, emailData)) {
-            Toast.makeText(getContext(), "Câp nhập thông tin thành công", Toast.LENGTH_SHORT).show();
+        if (employeeDAO.updateInfoNewAccount(employee, emailData)) {
+            startActivity(new Intent(UpdateInformationActivity.this, MainActivity.class));
+            finish();
+            Toast.makeText(UpdateInformationActivity.this, "Câp nhập thông tin thành công", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getContext(), "Cập nhật thông tin thât bại", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UpdateInformationActivity.this, "Cập nhật thông tin thât bại", Toast.LENGTH_SHORT).show();
         }
     }
 

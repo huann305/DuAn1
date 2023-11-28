@@ -13,6 +13,17 @@
             android:layout_marginHorizontal="20dp"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Cập nhật thông tin để tiếp tục"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                />
+
             <ImageView
                 android:id="@+id/imgEmployee"
                 android:layout_marginTop="30dp"
@@ -73,9 +84,7 @@
                 android:background="#CCD8D7D7"
                 android:hint="CCCD"
                 android:paddingLeft="15dp"
-                android:inputType="none"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
+                android:inputType="number"
                 android:textSize="14sp"
                 />
             <EditText

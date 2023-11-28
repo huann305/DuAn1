@@ -2,6 +2,7 @@ package com.example.duan1.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -62,6 +63,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                 } else if (type.equals(Utils.SHOP)) {
                     if(accountDAO.checkLogin(binding.edtEmail.getText().toString(), binding.edtPassword.getText().toString(), DBHelper.TABLE_ACCOUNT_SHOP)) {
 
+                        Log.d("TAGggg", "onClick: " + new EmployeeDAO(LoginActivity.this).getStatus(binding.edtEmail.getText().toString()));
                         if(new EmployeeDAO(LoginActivity.this).getStatus(binding.edtEmail.getText().toString()).equals("inactive")) {
                             Toast.makeText(LoginActivity.this, "Tài khoản của bạn đã bị khóa", Toast.LENGTH_SHORT).show();
                             return;
@@ -99,14 +101,14 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         if(type == null){
             type = Utils.CUSTOMER;
         }
-//        if (type.equals(Utils.SHOP)) {
-//            binding.llSignUp.setVisibility(View.GONE);
+        if (type.equals(Utils.SHOP)) {
+            binding.llSignUp.setVisibility(View.GONE);
 //            binding.edtEmail.setText("admin@gmail.com");
 //            binding.edtPassword.setText("password1");
-//        }else{
+        }else{
 //            binding.edtEmail.setText("customer1@gmail.com");
 //            binding.edtPassword.setText("password1");
-//        }
+        }
         SharedPreferences sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
         boolean isLogin = sharedPreferences.getBoolean("isLogin" + type, false);
         binding.cbRememberPassword.setChecked(isLogin);

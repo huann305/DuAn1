@@ -94,7 +94,7 @@ public class UpdateInfoCustomerFragment extends BaseFragment<FragmentUpdateInfoC
         if (customer.getImage() != null) {
             Glide.with(getContext()).load(customer.getImage()).into(binding.imgCustomer);
         } else {
-            binding.imgCustomer.setImageResource(R.drawable.baseline_person_24);
+            binding.imgCustomer.setImageResource(R.drawable.baseline_person_24_ccc);
         }
 
 

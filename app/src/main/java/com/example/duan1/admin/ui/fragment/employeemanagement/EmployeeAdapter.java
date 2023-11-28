@@ -1,7 +1,6 @@
 package com.example.duan1.admin.ui.fragment.employeemanagement;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 
@@ -24,7 +23,6 @@ import com.example.duan1.databinding.ItemEmployeeManagerBinding;
 import com.example.duan1.model.Employee;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHolder> {
@@ -53,7 +51,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
         holder.binding.tvCCCDEm.setText("CCCD: " + (employee.getCitizenshipID() == null ? "" : employee.getCitizenshipID()));
         holder.binding.tvTrangThaiEm.setText(employee.getStatus());
         holder.binding.tvNgayVaoLamEm.setText("Ngày vào làm: " + employee.getDate());
-        holder.binding.imgEm.setImageResource(R.drawable.baseline_person_24);
+        holder.binding.imgEm.setImageResource(R.drawable.baseline_person_24_ccc);
 
         if(employee.getImage() != null){
             Glide.with(context).load(employee.getImage()).into(holder.binding.imgEm);
@@ -87,7 +85,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
             edtSDT.setText(employee.getPhone());
             edtDiaChi.setText(employee.getAddress());
             edtCCCD.setText(employee.getCitizenshipID());
-            imgEm_up.setImageResource(R.drawable.baseline_person_24);
+            imgEm_up.setImageResource(R.drawable.baseline_person_24_ccc);
 
             if(employee.getImage() != null){
             Glide.with(context).load(employee.getImage()).into(imgEm_up);

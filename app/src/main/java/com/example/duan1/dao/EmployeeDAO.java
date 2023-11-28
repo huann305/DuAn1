@@ -69,7 +69,7 @@ public class EmployeeDAO {
 
     public boolean insert(Employee object) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String sql = "INSERT INTO " + DBHelper.TABLE_EMPLOYEE + " (email, name, phone, address, citizenshipID, status, date, image) " + " VALUES(?,?,?,?,?,?, ?)";
+        String sql = "INSERT INTO " + DBHelper.TABLE_EMPLOYEE + " (email, name, phone, address, citizenshipID, status, date, image) " + " VALUES(?,?,?,?,?,?,?,?)";
         db.execSQL(sql, new String[]{ object.getEmail(), object.getName(), object.getPhone(), object.getAddress(), object.getCitizenshipID(), "active", object.getDate(), object.getImage()});
         if (db != null) {
             db.close();
@@ -104,7 +104,15 @@ public class EmployeeDAO {
             sqLiteDatabase.close();
         }
         return true;
-
+    }
+    public boolean updateInfoNewAccount(Employee employee, String email) {
+        SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
+        String sql = "UPDATE " + DBHelper.TABLE_EMPLOYEE + " SET name = ?, phone = ?, address = ?, image = ?, citizenshipID = ? WHERE email = ?";
+        sqLiteDatabase.execSQL(sql, new String[]{employee.getName(), employee.getPhone(), employee.getAddress(), employee.getImage(), employee.getCitizenshipID(), email});
+        if (sqLiteDatabase != null) {
+            sqLiteDatabase.close();
+        }
+        return true;
     }
     public String getStatus(String email){
         String sql = "SELECT * FROM " + DBHelper.TABLE_EMPLOYEE + " WHERE email = ?";

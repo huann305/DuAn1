@@ -70,6 +70,8 @@ public abstract class OrderManagerAdapter extends RecyclerView.Adapter<OrderMana
             holder.tvStatus.setText("Trạng thái: " + bill.getStatus());
         }
 
+        holder.tvPaymentMethod.setText("Phương thức thanh toán: " + bill.getPaymentMethod());
+
         BillDetailDAO billDetailDAO = new BillDetailDAO(context);
         List<BillDetail> listBillDetail = billDetailDAO.getAllByIdBill(String.valueOf(bill.getId()));
 
@@ -102,7 +104,7 @@ public abstract class OrderManagerAdapter extends RecyclerView.Adapter<OrderMana
 
     public class BillViewHolder extends RecyclerView.ViewHolder{
         ImageView img;
-        TextView tvIdBill, tvNameEmployee, tvTotalPrice, tvDate, tvAddress, tvStatus;
+        TextView tvIdBill, tvNameEmployee, tvTotalPrice, tvDate, tvAddress, tvStatus, tvPaymentMethod;
         View llDate, llAddress, llItem;
         public BillViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -116,6 +118,7 @@ public abstract class OrderManagerAdapter extends RecyclerView.Adapter<OrderMana
             llDate = itemView.findViewById(R.id.llDate);
             llAddress = itemView.findViewById(R.id.llAddress);
             llItem = itemView.findViewById(R.id.llItem);
+            tvPaymentMethod = itemView.findViewById(R.id.tvpaymentMethod);
         }
     }
 }

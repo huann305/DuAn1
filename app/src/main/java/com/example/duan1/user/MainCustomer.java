@@ -14,12 +14,9 @@ import com.example.duan1.R;
 import com.example.duan1.activity.ChooseActivity;
 import com.example.duan1.admin.ui.activity.BaseActivity;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
-import com.example.duan1.admin.ui.fragment.updateinformation.UpdateInformationFragment;
 import com.example.duan1.dao.CustomerDAO;
-import com.example.duan1.dao.EmployeeDAO;
 import com.example.duan1.databinding.ActivityMainCustomerBinding;
 import com.example.duan1.model.Customer;
-import com.example.duan1.model.Employee;
 import com.example.duan1.user.fragment.Cart.CartFragment;
 import com.example.duan1.user.fragment.changepass.ChangePasswordFragment;
 import com.example.duan1.user.fragment.home.HomeFragment;
@@ -121,7 +118,7 @@ public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
         ShapeableImageView imgAccount = binding.navView.getHeaderView(0).findViewById(R.id.imgAccount);
         TextView tvFullName = binding.navView.getHeaderView(0).findViewById(R.id.tvFullName);
         TextView tvAc = binding.navView.getHeaderView(0).findViewById(R.id.tvAc);
-        imgAccount.setImageResource(R.drawable.baseline_person_24);
+        imgAccount.setImageResource(R.drawable.baseline_person_24_ccc);
         tvFullName.setText(customer.getName());
         tvAc.setText(customer.getEmail());
         if (customer.getImage() != null) {
