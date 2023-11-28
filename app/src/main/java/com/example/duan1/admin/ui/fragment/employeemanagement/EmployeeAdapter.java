@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,7 +50,13 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
         holder.binding.tvSDTEm.setText("SĐT: " + (employee.getPhone() == null ? "" : employee.getPhone()));
         holder.binding.tvDiaChiEm.setText("Địa chỉ: " + (employee.getAddress() == null ? "" : employee.getAddress()));
         holder.binding.tvCCCDEm.setText("CCCD: " + (employee.getCitizenshipID() == null ? "" : employee.getCitizenshipID()));
-        holder.binding.tvTrangThaiEm.setText(employee.getStatus());
+        if(employee.getStatus().equals("active")){
+            holder.binding.tvTrangThaiEm.setText("Đang làm việc");
+        }else {
+            holder.binding.tvTrangThaiEm.setText("Đã nghỉ việc");
+        }
+
+//        holder.binding.tvTrangThaiEm.setText(employee.getStatus());
         holder.binding.tvNgayVaoLamEm.setText("Ngày vào làm: " + employee.getDate());
         holder.binding.imgEm.setImageResource(R.drawable.baseline_person_24_ccc);
 
@@ -92,8 +99,8 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
             }
 
             List<String> data = new ArrayList<>();
-            data.add("active");
-            data.add("inactive");
+            data.add("Đang làm việc");
+            data.add("Đã nghỉ việc");
 
             // Tạo Adapter để đổ dữ liệu vào Spinner
             ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, data);
@@ -103,6 +110,21 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
 
             // Gán Adapter cho Spinner
             spinnerTrangThai.setAdapter(adapter);
+            spinnerTrangThai.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    if (i == 0){
+                        employee.setStatus("active");
+                    }else {
+                        employee.setStatus("inactive");
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
 
             if(employee.getStatus().equals("active")) {
                 spinnerTrangThai.setSelection(0);
@@ -112,7 +134,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
 
             btnUpdate.setOnClickListener(v1 -> {
                 EmployeeDAO employeeDAO = new EmployeeDAO(context);
-                employee.setStatus(spinnerTrangThai.getSelectedItem().toString());
+//                employee.setStatus(spinnerTrangThai.getSelectedItem().toString());
                 if(employeeDAO.updateStatus(employee, String.valueOf(employee.getId()))) {
                     Toast.makeText(context, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                     notifyDataSetChanged();
