@@ -64,7 +64,7 @@ public class CustomerDAO {
 
     public boolean insert(Customer object) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String sql = "INSERT INTO " + DBHelper.TABLE_CUSTOMER + "(email, name, phone, address, birthday, status, image)" +  "VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO " + DBHelper.TABLE_CUSTOMER + "(email, name, phone, address, birthday, status, image)" +  "VALUES(?,?,?,?,?,?,?)";
         db.execSQL(sql, new String[]{object.getEmail(), object.getName(), object.getPhone(), object.getAddress(), object.getBirthday(), object.getStatus(), object.getImage()});
         if (db != null) {
             db.close();

@@ -61,7 +61,7 @@ public class ChangePasswordFragment extends BaseFragment<FragmentChangePasswordB
                 else {
                     String TABLE;
                     AccountDAO accountDAO = new AccountDAO(getContext());
-                    SharedPreferences sharedPreferences1 = getActivity().getSharedPreferences(Utils.EMAIL, MODE_PRIVATE);
+                    SharedPreferences sharedPreferences1 = getActivity().getSharedPreferences("USER", MODE_PRIVATE);
                     String role = sharedPreferences1.getString(Utils.ROLE, "");
                     Account account = new Account();
                     if (role.equals(Utils.CUSTOMER)){
@@ -71,6 +71,7 @@ public class ChangePasswordFragment extends BaseFragment<FragmentChangePasswordB
                     }
 
                     account = accountDAO.getEmail(email, TABLE);
+                    Log.d(TAG, "initData: " + role);
 
                     String password = binding.edtNewPass.getText().toString();
                     int minLength = 6;

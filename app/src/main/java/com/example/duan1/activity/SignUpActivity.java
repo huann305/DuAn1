@@ -6,8 +6,10 @@ import android.widget.Toast;
 import com.example.duan1.R;
 import com.example.duan1.admin.ui.activity.BaseActivity;
 import com.example.duan1.dao.AccountDAO;
+import com.example.duan1.dao.CustomerDAO;
 import com.example.duan1.databinding.ActivitySignUpBinding;
 import com.example.duan1.model.Account;
+import com.example.duan1.model.Customer;
 
 public class SignUpActivity extends BaseActivity<ActivitySignUpBinding> {
     @Override
@@ -52,9 +54,11 @@ public class SignUpActivity extends BaseActivity<ActivitySignUpBinding> {
             }
             AccountDAO accountDAO = new AccountDAO(this);
             if(accountDAO.insert(new Account(email, password, null))){
-                showToast("Đăng ký thành công");
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
+                if(new CustomerDAO(this).insert(new Customer(0,email, null, null, null, null, "active", null))){
+                    showToast("Đăng ký thành công");
+                    startActivity(new Intent(this, LoginActivity.class));
+                    finish();
+                }
             }else {
                 showToast("Email đã tồn tại");
             }

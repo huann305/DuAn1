@@ -18,7 +18,6 @@ public class ChooseActivity extends BaseActivity<ActivityChooseBinding> {
 
     @Override
     protected void initEvent() {
-        Log.d("ChooseActivity", "initEvent: " + new CustomerDAO(this).getID("1").toString());
         Intent intent = new Intent(this, LoginActivity.class);
         binding.btnCustom.setOnClickListener(new View.OnClickListener() {
             @Override
