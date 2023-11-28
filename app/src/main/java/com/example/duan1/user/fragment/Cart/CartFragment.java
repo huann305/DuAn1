@@ -158,7 +158,6 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
                         Intent intent = new Intent(getContext(), ZaloPayActivity.class);
                         intent.putExtra("price", binding.tvSum.getText().toString());
                         startActivity(intent);
-
                         onSuccess();
                         alertDialog.dismiss();
                     }
@@ -274,7 +273,6 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         }
 
         public void onChildDraw (Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,float dX, float dY,int actionState, boolean isCurrentlyActive){
-
             new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                     .addBackgroundColor(ContextCompat.getColor(getContext(), R.color.main))
                     .addActionIcon(R.drawable.ic_delete)
@@ -282,7 +280,6 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
                     .setSwipeLeftLabelColor(ContextCompat.getColor(getContext(), R.color.white)).setSwipeLeftLabelTypeface(Typeface.DEFAULT_BOLD)
                     .create()
                     .decorate();
-
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
         @Override

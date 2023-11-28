@@ -87,14 +87,15 @@
     </LinearLayout>
     <ImageView
         android:id="@+id/iv_update_product"
-        android:layout_marginTop="10dp"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
+        android:layout_marginTop="15dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:layout_marginLeft="15dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/rectangle109"
         />
     <LinearLayout
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="25dp"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal"
