@@ -26,9 +26,14 @@ import com.example.duan1.admin.ui.fragment.productmanagement.ProductManagementFr
 import com.example.duan1.admin.ui.fragment.statistics.StatisticsFragment;
 import com.example.duan1.admin.ui.fragment.updateinformation.UpdateInformationFragment;
 import com.example.duan1.databinding.ActivityMainBinding;
+import com.example.duan1.eventbus.UpdateInfo;
 import com.example.duan1.model.Employee;
 import com.example.duan1.user.fragment.changepass.ChangePasswordFragment;
 import com.google.android.material.imageview.ShapeableImageView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
@@ -174,4 +179,20 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UpdateInfo event) {
+        loadData();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 }

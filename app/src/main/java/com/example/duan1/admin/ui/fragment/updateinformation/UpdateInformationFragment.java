@@ -31,7 +31,10 @@ import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.dao.EmployeeDAO;
 
 import com.example.duan1.databinding.FragmentUpdateInformationBinding;
+import com.example.duan1.eventbus.UpdateInfo;
 import com.example.duan1.model.Employee;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -208,6 +211,7 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
 
                 if (employeeDAO.updateInfo(employee, emailData)) {
                     Toast.makeText(getContext(), "Câp nhập thông tin thành công", Toast.LENGTH_SHORT).show();
+                    EventBus.getDefault().post(new UpdateInfo());
                 } else {
                     Toast.makeText(getContext(), "Cập nhật thông tin thât bại", Toast.LENGTH_SHORT).show();
                 }
@@ -232,6 +236,7 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
         employee.setAddress(binding.edtAddress.getText().toString());
         if (employeeDAO.updateInfo(employee, emailData)) {
             Toast.makeText(getContext(), "Câp nhập thông tin thành công", Toast.LENGTH_SHORT).show();
+            EventBus.getDefault().post(new UpdateInfo());
         } else {
             Toast.makeText(getContext(), "Cập nhật thông tin thât bại", Toast.LENGTH_SHORT).show();
         }

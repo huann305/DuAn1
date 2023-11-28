@@ -31,7 +31,10 @@ import com.example.duan1.R;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.dao.CustomerDAO;
 import com.example.duan1.databinding.FragmentUpdateInfoCustomerBinding;
+import com.example.duan1.eventbus.UpdateInfo;
 import com.example.duan1.model.Customer;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -217,6 +220,7 @@ public class UpdateInfoCustomerFragment extends BaseFragment<FragmentUpdateInfoC
                 }
                 if (customerDAO.updateInfo(customer, emailData)) {
                     Toast.makeText(getContext(), "Cập nhật thông tin thành công", Toast.LENGTH_SHORT).show();
+                    EventBus.getDefault().post(new UpdateInfo());
                 } else {
                     Toast.makeText(getContext(), "Cập nhật thông tin thất bại", Toast.LENGTH_SHORT).show();
                 }
@@ -243,6 +247,7 @@ public class UpdateInfoCustomerFragment extends BaseFragment<FragmentUpdateInfoC
         customer.setBirthday(binding.edtBirthday.getText().toString());
         if (customerDAO.updateInfo(customer, emailData)) {
             Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+            EventBus.getDefault().post(new UpdateInfo());
         } else {
             Toast.makeText(getContext(), "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
         }

@@ -16,6 +16,7 @@ import com.example.duan1.admin.ui.activity.BaseActivity;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.dao.CustomerDAO;
 import com.example.duan1.databinding.ActivityMainCustomerBinding;
+import com.example.duan1.eventbus.UpdateInfo;
 import com.example.duan1.model.Customer;
 import com.example.duan1.user.fragment.Cart.CartFragment;
 import com.example.duan1.user.fragment.changepass.ChangePasswordFragment;
@@ -23,6 +24,10 @@ import com.example.duan1.user.fragment.home.HomeFragment;
 import com.example.duan1.user.fragment.bill.BillFragment;
 import com.example.duan1.user.fragment.updateinfo.UpdateInfoCustomerFragment;
 import com.google.android.material.imageview.ShapeableImageView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
     private Boolean isExit = false;
@@ -126,4 +131,20 @@ public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UpdateInfo event) {
+        loadData();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 }
