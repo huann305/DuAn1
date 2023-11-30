@@ -129,9 +129,9 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(INSERT_CUSTOMER_DATA);
         //Initialize data for the bill table
         String INSERT_BILL_DATA = "INSERT INTO " + TABLE_BILL + " (idEmployee, idCustomer, date, shippingAddress, status, paymentMethod) VALUES " +
-                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ', 'Cash'), " +
-                "('2', '1', '2022-02-02', '456 Elm St', 'Đang làm', 'Cash' ), " +
-                "('2', '3', '2022-02-02', '456 Elm St', 'Đã hoàn thành', 'Cash'), " +
+                "('1', '1', '2022-01-01', '123 Main St', 'Đang chờ', 'Tiền mặt'), " +
+                "('2', '1', '2022-02-02', '456 Elm St', 'Đang làm', 'Tiền mặt' ), " +
+                "('2', '3', '2022-02-02', '456 Elm St', 'Đã hoàn thành', 'Tiền mặt'), " +
                 "('3', '2', '2022-03-03', '789 Oak St', 'Xác nhận thanh toán', 'Zalo Pay')";
         sqLiteDatabase.execSQL(INSERT_BILL_DATA);
         //Initialize data for the bill_detail table

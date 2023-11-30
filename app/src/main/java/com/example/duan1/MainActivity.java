@@ -3,6 +3,8 @@ package com.example.duan1;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -26,6 +28,7 @@ import com.example.duan1.admin.ui.fragment.productmanagement.ProductManagementFr
 import com.example.duan1.admin.ui.fragment.statistics.StatisticsFragment;
 import com.example.duan1.admin.ui.fragment.updateinformation.UpdateInformationFragment;
 import com.example.duan1.databinding.ActivityMainBinding;
+import com.example.duan1.eventbus.Search;
 import com.example.duan1.eventbus.UpdateInfo;
 import com.example.duan1.model.Employee;
 import com.example.duan1.user.fragment.changepass.ChangePasswordFragment;
@@ -65,6 +68,24 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             @Override
             public void onClick(View view) {
                 binding.rltSearch.setVisibility(View.GONE);
+                binding.edtSearchView.setText("");
+            }
+        });
+
+        binding.edtSearchView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                EventBus.getDefault().post(new Search(String.valueOf(charSequence)));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 

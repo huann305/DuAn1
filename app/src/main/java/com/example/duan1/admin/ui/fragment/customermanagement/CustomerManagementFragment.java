@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +17,13 @@ import com.example.duan1.admin.ui.fragment.employeemanagement.EmployeeAdapter;
 import com.example.duan1.dao.CustomerDAO;
 import com.example.duan1.databinding.FragmentCustomerManagementBinding;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
+import com.example.duan1.eventbus.Search;
 import com.example.duan1.model.Customer;
+import com.example.duan1.model.Product;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,5 +109,34 @@ public class CustomerManagementFragment extends BaseFragment<FragmentCustomerMan
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+    }
+
+    //nhận sự kiện eventbus
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this); // Đăng ký để nhận sự kiện
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this); // Hủy đăng ký khi Fragment không còn hiển thị
+        super.onStop();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(Search search) {
+        List<Customer> templist = customerDAO.getAll();
+        list.clear();
+        for (Customer customer : templist) {
+            if (customer.getName().contains(search.getText())) {
+                list.add(customer);
+            }
+        }
+        if(list.isEmpty()){
+            Toast.makeText(getContext(), "Không tìm thấy thông tin", Toast.LENGTH_SHORT).show();
+        }
+        adapter.notifyDataSetChanged();
     }
 }

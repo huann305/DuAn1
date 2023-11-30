@@ -14,7 +14,13 @@ import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.dao.CustomerDAO;
 import com.example.duan1.dao.ProductDAO;
 import com.example.duan1.databinding.FragmentHomeCustomerBinding;
+import com.example.duan1.eventbus.Search;
+import com.example.duan1.model.Employee;
 import com.example.duan1.model.Product;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,5 +67,32 @@ public class HomeFragment extends BaseFragment<FragmentHomeCustomerBinding> {
     @Override
     public String getTAG() {
         return TAG;
+    }
+
+    //nhận sự kiện eventbus
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this); // Đăng ký để nhận sự kiện
+    }
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this); // Hủy đăng ký khi Fragment không còn hiển thị
+        super.onStop();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(Search search) {
+        List<Product> templist = productDAO.getAllCus();
+        list.clear();
+        for (Product p : templist) {
+            if (p.getName().contains(search.getText())) {
+                list.add(p);
+            }
+        }
+        if(list.isEmpty()){
+            Toast.makeText(getContext(), "Không tìm thấy sản phẩm", Toast.LENGTH_SHORT).show();
+        }
+        binding.rcvHomePage1.getAdapter().notifyDataSetChanged();
     }
 }

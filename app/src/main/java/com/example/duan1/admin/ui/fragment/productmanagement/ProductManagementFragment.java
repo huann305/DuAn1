@@ -4,7 +4,6 @@ import static android.app.Activity.RESULT_OK;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,8 +15,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -45,8 +42,13 @@ import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.dao.ProductDAO;
 import com.example.duan1.dao.ProductDetailDAO;
 import com.example.duan1.databinding.FragmentProductManagementBinding;
+import com.example.duan1.eventbus.Search;
 import com.example.duan1.model.Product;
 import com.example.duan1.model.ProductDetail;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -487,5 +489,32 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
         } else {
             Toast.makeText(getContext(), "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    //nhận sự kiện eventbus
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this); // Đăng ký để nhận sự kiện
+    }
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this); // Hủy đăng ký khi Fragment không còn hiển thị
+        super.onStop();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(Search search) {
+        List<Product> templist = productDAO.getAll();
+        list.clear();
+        for (Product p : templist) {
+            if (p.getName().contains(search.getText())) {
+                list.add(p);
+            }
+        }
+        if(list.isEmpty()){
+            Toast.makeText(getContext(), "Không tìm thấy thông tin", Toast.LENGTH_SHORT).show();
+        }
+        adapter.notifyDataSetChanged();
     }
 }
