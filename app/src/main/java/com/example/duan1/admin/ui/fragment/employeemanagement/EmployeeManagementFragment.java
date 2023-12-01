@@ -212,7 +212,9 @@ public class EmployeeManagementFragment extends BaseFragment<FragmentEmployeeMan
             }
         }
         if(list.isEmpty()){
-            Toast.makeText(getContext(), "Không tìm thấy thông tin", Toast.LENGTH_SHORT).show();
+            binding.tvNoInf.setVisibility(View.VISIBLE);
+        }else {
+            binding.tvNoInf.setVisibility(View.GONE);
         }
         adapter.notifyDataSetChanged();
     }

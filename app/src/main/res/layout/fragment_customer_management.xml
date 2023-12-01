@@ -10,11 +10,25 @@
             android:id="@+id/spnFilter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            />
-        <androidx.recyclerview.widget.RecyclerView
+            android:layout_margin="10dp" />
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/rccCustomer"/>
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvNoInf"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Không tìm thấy thông tin"
+                android:textSize="26sp"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rccCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
     </LinearLayout>
 </layout>

@@ -3,6 +3,7 @@ package com.example.duan1.user.fragment.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -91,7 +92,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeCustomerBinding> {
             }
         }
         if(list.isEmpty()){
-            Toast.makeText(getContext(), "Không tìm thấy sản phẩm", Toast.LENGTH_SHORT).show();
+            binding.tvNoInf.setVisibility(View.VISIBLE);
+        }else {
+            binding.tvNoInf.setVisibility(View.GONE);
         }
         binding.rcvHomePage1.getAdapter().notifyDataSetChanged();
     }
