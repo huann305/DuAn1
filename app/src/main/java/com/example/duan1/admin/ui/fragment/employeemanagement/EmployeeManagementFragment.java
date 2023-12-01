@@ -207,7 +207,7 @@ public class EmployeeManagementFragment extends BaseFragment<FragmentEmployeeMan
         List<Employee> templist = employeeDAO.getAll();
         list.clear();
         for (Employee e : templist) {
-            if (e.getName().contains(search.getText())) {
+            if (e.getName().toLowerCase().contains(search.getText().toLowerCase())) {
                 list.add(e);
             }
         }

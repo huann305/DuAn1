@@ -130,7 +130,7 @@ public class CustomerManagementFragment extends BaseFragment<FragmentCustomerMan
         List<Customer> templist = customerDAO.getAll();
         list.clear();
         for (Customer customer : templist) {
-            if (customer.getName().contains(search.getText())) {
+            if (customer.getName().toLowerCase().contains(search.getText().toLowerCase())) {
                 list.add(customer);
             }
         }

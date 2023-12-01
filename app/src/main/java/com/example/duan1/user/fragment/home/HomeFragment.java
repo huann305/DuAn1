@@ -86,7 +86,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeCustomerBinding> {
         List<Product> templist = productDAO.getAllCus();
         list.clear();
         for (Product p : templist) {
-            if (p.getName().contains(search.getText())) {
+            if (p.getName().toLowerCase().contains(search.getText().toLowerCase())) {
                 list.add(p);
             }
         }

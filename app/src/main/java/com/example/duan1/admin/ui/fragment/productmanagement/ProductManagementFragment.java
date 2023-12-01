@@ -508,7 +508,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
         List<Product> templist = productDAO.getAll();
         list.clear();
         for (Product p : templist) {
-            if (p.getName().contains(search.getText())) {
+            if (p.getName().toLowerCase().contains(search.getText().toLowerCase())) {
                 list.add(p);
             }
         }
