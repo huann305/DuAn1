@@ -165,7 +165,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
                 tvCash.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        paymentMethod = "Cash";
+                        paymentMethod = "Tiền mặt";
                         onSuccess();
                         alertDialog.dismiss();
                     }
@@ -173,7 +173,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
                 tvBank.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        paymentMethod = "Bank";
+                        paymentMethod = "Chuyển khoản";
                         onSuccess();
                         alertDialog.dismiss();
                     }
@@ -226,7 +226,6 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         bill.setStatus(BillStatus.CONFIRM);
         bill.setIdEmployee(null);
         bill.setPaymentMethod(paymentMethod);
-        Log.i("TAGG", "Phương thức thanh toannnnnnn: " + bill.getPaymentMethod());
 
         //lấy thời gian hiện tại
         Date date = new Date();

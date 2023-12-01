@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -25,64 +26,70 @@
                 android:id="@+id/edtName_up_em"
                 android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:background="#CCD8D7D7"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edt"
                 android:hint="Họ tên"
                 android:textColor="@color/black"
-                android:paddingLeft="15dp"
                 android:textSize="14sp"
+                android:paddingVertical="10dp"
+                android:paddingLeft="20dp"
                 />
             <EditText
                 android:id="@+id/edtPhone"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:background="#CCD8D7D7"
+                android:background="@drawable/bg_edt"
                 android:hint="SDT"
-                android:paddingLeft="15dp"
                 android:textSize="14sp"
+                android:paddingVertical="10dp"
+                android:paddingLeft="20dp"
+                android:layout_height="wrap_content"
                 />
             <EditText
                 android:id="@+id/edtAddress"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:background="#CCD8D7D7"
                 android:hint="Địa chỉ"
-                android:paddingLeft="15dp"
                 android:textSize="14sp"
+                android:paddingVertical="10dp"
+                android:paddingLeft="20dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edt"
                 />
             <EditText
                 android:id="@+id/edtEmail"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:background="#CCD8D7D7"
                 android:hint="Tài khoản"
-                android:paddingLeft="15dp"
                 android:textSize="14sp"
                 android:inputType="none"
                 android:focusable="false"
-                android:focusableInTouchMode="false"/>
+                android:focusableInTouchMode="false"
+                android:paddingVertical="10dp"
+                android:paddingLeft="20dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edt"/>
+
             <EditText
                 android:id="@+id/edtBirthday"
-                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:background="#CCD8D7D7"
+                android:layout_marginTop="20dp"
                 android:hint="Ngày sinh"
-                android:paddingLeft="15dp"
                 android:textSize="14sp"
-                />
+                android:paddingVertical="10dp"
+                android:paddingLeft="20dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edt"/>
+
             <Button
                 android:id="@+id/btnSave"
                 android:layout_marginTop="50dp"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:background="@color/main"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_btn"
                 android:text="Lưu"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 />
         </LinearLayout>
 

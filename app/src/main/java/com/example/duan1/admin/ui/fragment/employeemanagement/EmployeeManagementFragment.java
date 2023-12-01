@@ -22,8 +22,14 @@ import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.dao.AccountDAO;
 import com.example.duan1.dao.EmployeeDAO;
 import com.example.duan1.databinding.FragmentEmployeeManagementBinding;
+import com.example.duan1.eventbus.Search;
 import com.example.duan1.model.Account;
 import com.example.duan1.model.Employee;
+import com.example.duan1.model.Product;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -183,5 +189,33 @@ public class EmployeeManagementFragment extends BaseFragment<FragmentEmployeeMan
             }
         });
     }
-}
 
+    //nhận sự kiện eventbus
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this); // Đăng ký để nhận sự kiện
+    }
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this); // Hủy đăng ký khi Fragment không còn hiển thị
+        super.onStop();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(Search search) {
+        List<Employee> templist = employeeDAO.getAll();
+        list.clear();
+        for (Employee e : templist) {
+            if (e.getName().toLowerCase().contains(search.getText().toLowerCase())) {
+                list.add(e);
+            }
+        }
+        if(list.isEmpty()){
+            binding.tvNoInf.setVisibility(View.VISIBLE);
+        }else {
+            binding.tvNoInf.setVisibility(View.GONE);
+        }
+        adapter.notifyDataSetChanged();
+    }
+}

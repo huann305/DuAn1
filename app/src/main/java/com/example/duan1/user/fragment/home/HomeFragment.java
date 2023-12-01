@@ -3,6 +3,7 @@ package com.example.duan1.user.fragment.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -14,7 +15,13 @@ import com.example.duan1.admin.ui.fragment.BaseFragment;
 import com.example.duan1.dao.CustomerDAO;
 import com.example.duan1.dao.ProductDAO;
 import com.example.duan1.databinding.FragmentHomeCustomerBinding;
+import com.example.duan1.eventbus.Search;
+import com.example.duan1.model.Employee;
 import com.example.duan1.model.Product;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,5 +68,34 @@ public class HomeFragment extends BaseFragment<FragmentHomeCustomerBinding> {
     @Override
     public String getTAG() {
         return TAG;
+    }
+
+    //nhận sự kiện eventbus
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this); // Đăng ký để nhận sự kiện
+    }
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this); // Hủy đăng ký khi Fragment không còn hiển thị
+        super.onStop();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(Search search) {
+        List<Product> templist = productDAO.getAllCus();
+        list.clear();
+        for (Product p : templist) {
+            if (p.getName().toLowerCase().contains(search.getText().toLowerCase())) {
+                list.add(p);
+            }
+        }
+        if(list.isEmpty()){
+            binding.tvNoInf.setVisibility(View.VISIBLE);
+        }else {
+            binding.tvNoInf.setVisibility(View.GONE);
+        }
+        binding.rcvHomePage1.getAdapter().notifyDataSetChanged();
     }
 }
