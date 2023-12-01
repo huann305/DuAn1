@@ -44,38 +44,38 @@ public class StatisticsSoldFragment extends BaseFragment<FragmentStatisticsSoldB
     String sort = "DESC";
     @Override
     protected void initEvent() {
-        binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i == 0){
-                    sort = "ASC";
-                }else if(i == 1){
-                    sort = "DESC";
-                }
-                list = productDAO.getAllByQuantitySold(sort);
-                binding.rcv.setAdapter(new StaticsSoldAdapter(list, getActivity()));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+//        binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                if(i == 0){
+//                    sort = "ASC";
+//                }else if(i == 1){
+//                    sort = "DESC";
+//                }
+//                list = productDAO.getAllByQuantitySold(sort);
+//                binding.rcv.setAdapter(new StaticsSoldAdapter(list, getActivity()));
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
     }
 
     @Override
     protected void initData() {
         //add data into spinner
-        List<String> data = new ArrayList<>();
-        data.add("Bán đỡ chạy");
-        data.add("Bán chạy");
-
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, data);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spinner.setAdapter(spinnerAdapter);
+//        List<String> data = new ArrayList<>();
+//        data.add("Bán đỡ chạy");
+//        data.add("Bán chạy");
+//
+//        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, data);
+//        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        binding.spinner.setAdapter(spinnerAdapter);
 
         productDAO = new ProductDAO(getActivity());
-        list = productDAO.getAllByQuantitySold("ASC");
+        list = productDAO.getAllByQuantitySold(sort);
         binding.rcv.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rcv.setAdapter(new StaticsSoldAdapter(list, getActivity()));
     }
