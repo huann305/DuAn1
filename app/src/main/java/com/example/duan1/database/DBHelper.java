@@ -19,7 +19,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_CART = "cart";
 
     public DBHelper(@Nullable Context context) {
-        super(context, DB_NAME, null, 1);
+        super(context, DB_NAME, null, 2);
     }
 
     @Override

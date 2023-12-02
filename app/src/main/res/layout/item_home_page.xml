@@ -16,12 +16,12 @@
          >
          <LinearLayout
              android:layout_width="match_parent"
-             android:layout_height="match_parent"
+             android:layout_height="250dp"
              android:padding="15dp">
 
              <androidx.constraintlayout.widget.ConstraintLayout
                  android:layout_width="match_parent"
-                 android:layout_height="wrap_content">
+                 android:layout_height="match_parent">
 
                  <ImageView
                      android:id="@+id/imageView2"
@@ -71,22 +71,22 @@
                      android:id="@+id/textView5"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
+                     android:layout_marginBottom="10dp"
                      android:text="200.00 VND"
                      android:textColor="#E11515"
                      android:textSize="13sp"
-                     app:layout_constraintStart_toStartOf="parent"
-                     app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                     app:layout_constraintBottom_toTopOf="@+id/textView7"
+                     app:layout_constraintStart_toStartOf="parent"/>
 
                  <TextView
                      android:id="@+id/textView7"
                      android:layout_width="50dp"
                      android:layout_height="wrap_content"
-                     android:layout_marginEnd="12dp"
                      android:text="1511118 đã bán"
                      android:textColor="#3F51B5"
                      android:textSize="8sp"
-                     app:layout_constraintStart_toStartOf="parent"
-                     app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                     app:layout_constraintBottom_toBottomOf="parent"
+                     app:layout_constraintStart_toStartOf="parent" />
 
                  <Button
                      android:id="@+id/imageView4"
@@ -96,8 +96,8 @@
                      android:text="Thêm vào đơn"
                      android:textColor="@color/white"
                      android:textSize="10dp"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                     app:layout_constraintBottom_toBottomOf="parent"
+                     app:layout_constraintEnd_toEndOf="parent" />
              </androidx.constraintlayout.widget.ConstraintLayout>
          </LinearLayout>
      </androidx.cardview.widget.CardView>

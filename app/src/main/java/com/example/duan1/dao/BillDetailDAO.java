@@ -49,7 +49,7 @@ public class BillDetailDAO {
 
     public int getTotalPrice(int idBill) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT SUM(price) FROM " + DBHelper.TABLE_BILL_DETAIL + " WHERE idBill = ?", new String[]{String.valueOf(idBill)});
+        Cursor c = db.rawQuery("SELECT sum((quantity*price)) FROM " + DBHelper.TABLE_BILL_DETAIL + " WHERE idBill = ?", new String[]{String.valueOf(idBill)});
         c.moveToFirst();
         return c.getInt(0);
     }
