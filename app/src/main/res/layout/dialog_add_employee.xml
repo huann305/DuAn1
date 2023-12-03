@@ -36,15 +36,22 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingHorizontal="20dp">
-
-        <EditText
-            android:id="@+id/edtEmail_add_em"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:hint="Tài khoản: "
-            android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:layout_marginTop="20dp"
+            android:hint="Tài khoản: ">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtEmail_add_em"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:paddingHorizontal="15dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"

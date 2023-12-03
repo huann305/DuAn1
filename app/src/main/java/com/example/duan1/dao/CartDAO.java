@@ -94,9 +94,13 @@ public class CartDAO {
         SQLiteDatabase sqLiteDatabase = dbhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         int quantity = cart.getQuantity();
-        quantity++;
-        contentValues.put("quantity", quantity);
-        long check = sqLiteDatabase.update(DBHelper.TABLE_CART, contentValues, "id = ? AND emailCus = ?", new String[]{String.valueOf(cart.getId()), email});
+        long check;
+
+           quantity++;
+           contentValues.put("quantity", quantity);
+           check = sqLiteDatabase.update(DBHelper.TABLE_CART, contentValues, "id = ? AND emailCus = ?", new String[]{String.valueOf(cart.getId()), email});
+
+
         if (check == -1) {
             return false;
         }
