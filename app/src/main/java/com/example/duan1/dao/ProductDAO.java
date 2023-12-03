@@ -114,4 +114,24 @@ public class ProductDAO {
         }
         return true;
     }
+    //giảm sl
+    public boolean updateQuantity(Cart cart){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        //lấy ra cart --> từ id của cart --> sản phẩm --> số lượng đã bán ht = sl cart + sl đã bán ban đầu
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DBHelper.TABLE_PRODUCT + " WHERE id = ?", new String[]{String.valueOf(cart.getIdProduct())});
+        if(cursor.getCount() > 0){
+            cursor.moveToFirst();
+            int quantity = cursor.getInt(4);
+            quantity -= cart.getQuantity();
+            db.execSQL("UPDATE " + DBHelper.TABLE_PRODUCT + " SET quantity = ? WHERE id = ?", new String[]{String.valueOf(quantity), String.valueOf(cursor.getInt(0))});
+        }
+        if (cursor != null){
+            cursor.close();
+        }
+        if (db != null){
+            db.close();
+        }
+        return true;
+    }
 }
