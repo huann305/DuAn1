@@ -58,7 +58,7 @@ public class BillDAO {
 
     public int getTotal(String fromDate, String toDate){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String sql = "SELECT * FROM " + DBHelper.TABLE_BILL + " WHERE date BETWEEN ? AND ?";
+        String sql = "SELECT * FROM " + DBHelper.TABLE_BILL + " WHERE (date BETWEEN ? AND ?) AND status not in (SELECT status from bill where status = 'Đã hủy' or status = 'Xác nhận thanh toán')";
         List<Bill> list = new ArrayList<>();
 
         Cursor c = db.rawQuery(sql, new String[]{fromDate, toDate});
@@ -80,9 +80,9 @@ public class BillDAO {
         }
         return 0;
     }
-    public int getTotalOrder(String fromDate, String toDate){
+    public List<Bill> getTotalOrder(String fromDate, String toDate){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String sql = "SELECT * FROM " + DBHelper.TABLE_BILL + " WHERE date BETWEEN ? AND ?";
+        String sql = "SELECT * FROM " + DBHelper.TABLE_BILL + " WHERE (date BETWEEN ? AND ?) AND status not in (SELECT status from bill where status = 'Đã hủy' or status = 'Xác nhận thanh toán')";
         List<Bill> list = new ArrayList<>();
 
         Cursor c = db.rawQuery(sql, new String[]{fromDate, toDate});
@@ -95,10 +95,7 @@ public class BillDAO {
         if (db != null){
             db.close();
         }
-        if (list.size() > 0){
-            return list.size();
-        }
-        return 0;
+        return list ;
     }
 
     public Bill getID(int id){

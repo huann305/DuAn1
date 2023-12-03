@@ -1,5 +1,6 @@
 package com.example.duan1;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.GravityCompat;
 
 import com.bumptech.glide.Glide;
@@ -31,6 +33,7 @@ import com.example.duan1.databinding.ActivityMainBinding;
 import com.example.duan1.eventbus.Search;
 import com.example.duan1.eventbus.UpdateInfo;
 import com.example.duan1.model.Employee;
+import com.example.duan1.user.MainCustomer;
 import com.example.duan1.user.fragment.changepass.ChangePasswordFragment;
 import com.google.android.material.imageview.ShapeableImageView;
 
@@ -90,14 +93,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         });
 
         binding.navView.setNavigationItemSelectedListener(item -> {
+            binding.btnSearch.setVisibility(View.GONE);
             BaseFragment fragment = null;
             if(item.getItemId() == R.id.nav_statistics){
                 fragment = StatisticsFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_product_management) {
+                binding.btnSearch.setVisibility(View.VISIBLE);
                 fragment = ProductManagementFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_employee_management) {
+                binding.btnSearch.setVisibility(View.VISIBLE);
                 fragment = EmployeeManagementFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_customer_management) {
+                binding.btnSearch.setVisibility(View.VISIBLE);
                 fragment = CustomerManagementFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_order_management) {
                 fragment = OrderManagementFragment.newInstance();
@@ -106,8 +113,23 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             } else if (item.getItemId() == R.id.nav_change_password) {
                 fragment = ChangePasswordFragment.newInstance();
             } else if (item.getItemId() == R.id.nav_logout) {
-                startActivity(new Intent(MainActivity.this, ChooseActivity.class));
-                finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Đăng xuất");
+                builder.setMessage("Bạn có muốn đăng xuất ?");
+                builder.setPositiveButton("Đăng xuất", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(MainActivity.this, ChooseActivity.class));
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.show();
             } else if (item.getItemId() == R.id.nav_order_management_admin) {
                 fragment = OrderAdminFragment.newInstance();
             }  else if (item.getItemId() == R.id.nav_order_payment_confirmation) {

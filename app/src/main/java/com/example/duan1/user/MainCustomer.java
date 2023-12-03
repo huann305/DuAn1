@@ -1,5 +1,6 @@
 package com.example.duan1.user;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.GravityCompat;
 
 import com.bumptech.glide.Glide;
@@ -64,6 +66,47 @@ public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
             }
         });
 
+        binding.bottomNav.btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.bottomNav.btnCart.setBackgroundColor(getResources().getColor(R.color.main));
+                binding.bottomNav.btnHome.setBackgroundColor(getResources().getColor(R.color.bgr_btn));
+                binding.bottomNav.btnInvoice.setBackgroundColor(getResources().getColor(R.color.bgr_btn));
+                binding.bottomNav.btnCartText.setVisibility(View.VISIBLE);
+                binding.bottomNav.btnHomeText.setVisibility(View.GONE);
+                binding.bottomNav.btnInvoiceText.setVisibility(View.GONE);
+                binding.tvTitle.setText(CartFragment.newInstance().getTAG());
+                BaseFragment.add(MainCustomer.this, CartFragment.newInstance());
+            }
+        });
+
+        binding.bottomNav.btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.bottomNav.btnCart.setBackgroundColor(getResources().getColor(R.color.bgr_btn));
+                binding.bottomNav.btnHome.setBackgroundColor(getResources().getColor(R.color.main));
+                binding.bottomNav.btnInvoice.setBackgroundColor(getResources().getColor(R.color.bgr_btn));
+                binding.bottomNav.btnCartText.setVisibility(View.GONE);
+                binding.bottomNav.btnHomeText.setVisibility(View.VISIBLE);
+                binding.bottomNav.btnInvoiceText.setVisibility(View.GONE);
+                binding.tvTitle.setText(HomeFragment.newInstance().getTAG());
+                BaseFragment.add(MainCustomer.this, HomeFragment.newInstance());
+            }
+        });
+        binding.bottomNav.btnInvoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.bottomNav.btnCart.setBackgroundColor(getResources().getColor(R.color.bgr_btn));
+                binding.bottomNav.btnHome.setBackgroundColor(getResources().getColor(R.color.bgr_btn));
+                binding.bottomNav.btnInvoice.setBackgroundColor(getResources().getColor(R.color.main));
+                binding.bottomNav.btnCartText.setVisibility(View.GONE);
+                binding.bottomNav.btnHomeText.setVisibility(View.GONE);
+                binding.bottomNav.btnInvoiceText.setVisibility(View.VISIBLE);
+                binding.tvTitle.setText(BillFragment.newInstance().getTAG());
+                BaseFragment.add(MainCustomer.this, BillFragment.newInstance());
+            }
+        });
+
         binding.edtSearchView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -82,27 +125,50 @@ public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
         });
 
         binding.navView.setNavigationItemSelectedListener(item -> {
+            binding.bottomNav.bottomNav.setVisibility(View.VISIBLE);
+            binding.btnSearch.setVisibility(View.GONE);
             BaseFragment fragment = null;
             if (item.getItemId() == R.id.nav_home_page) {
                 fragment = HomeFragment.newInstance();
+                binding.bottomNav.btnHome.callOnClick();
+                binding.btnSearch.setVisibility(View.VISIBLE);
             } else if (item.getItemId() == R.id.nav_update_profile) {
                 fragment = UpdateInfoCustomerFragment.newInstance();
+                binding.bottomNav.bottomNav.setVisibility(View.GONE);
             } else if (item.getItemId() == R.id.nav_change_password) {
                 fragment = ChangePasswordFragment.newInstance();
+                binding.bottomNav.bottomNav.setVisibility(View.GONE);
             } else if (item.getItemId() == R.id.nav_logout) {
-                startActivity(new Intent(MainCustomer.this, ChooseActivity.class));
-                finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainCustomer.this);
+                builder.setTitle("Đăng xuất");
+                builder.setMessage("Bạn có muốn đăng xuất ?");
+                builder.setPositiveButton("Đăng xuất", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(MainCustomer.this, ChooseActivity.class));
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.show();
             } else if (item.getItemId() == R.id.nav_order_placed) {
                 fragment = BillFragment.newInstance();
+                binding.bottomNav.btnInvoice.callOnClick();
             } else if (item.getItemId() == R.id.nav_cart) {
                 fragment = CartFragment.newInstance();
+                binding.bottomNav.btnCart.callOnClick();
             }
 
             if (fragment != null) {
                 BaseFragment.add(MainCustomer.this, fragment);
                 binding.tvTitle.setText(fragment.getTAG());
             }
-            item.setCheckable(true);
+//            item.setCheckable(true);
             binding.drawerLayout.closeDrawer(binding.navView);
             return true;
         });
