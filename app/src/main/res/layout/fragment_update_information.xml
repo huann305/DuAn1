@@ -22,82 +22,125 @@
                 android:src="@drawable/baseline_person_24_ccc"
                 android:layout_gravity="center_horizontal"
                 />
-            <EditText
-                android:id="@+id/edtName_up_em"
-                android:layout_marginTop="30dp"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:hint="Họ tên"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:paddingVertical="10dp"
-                android:paddingLeft="20dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_edt"
-                />
-            <EditText
-                android:id="@+id/edtPhone"
-                android:layout_marginTop="10dp"
+                android:id="@+id/errName"
+                android:layout_marginHorizontal="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtName_up_em"
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:paddingVertical="10dp"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/errPhone"
                 android:layout_width="match_parent"
-                android:hint="SDT"
-                android:textSize="14sp"
-                android:paddingVertical="10dp"
-                android:paddingLeft="20dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_edt"
-                />
-            <EditText
-                android:id="@+id/edtAddress"
                 android:layout_marginTop="10dp"
+                android:hint="Số điện thoại"
+                android:layout_marginHorizontal="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtPhone"
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:paddingVertical="10dp"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/errAddress"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:hint="Địa chỉ"
-                android:textSize="14sp"
-                android:paddingVertical="10dp"
-                android:paddingLeft="20dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_edt"
-                />
-            <EditText
-                android:id="@+id/edtEmail"
-                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtAddress"
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:paddingVertical="10dp"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/errEmail"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:hint="Tài khoản"
-                android:textSize="14sp"
-                android:inputType="none"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:paddingVertical="10dp"
-                android:paddingLeft="20dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_edt"/>
-            <EditText
-                android:id="@+id/edtCitizen"
-                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtEmail"
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:paddingVertical="10dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/errCCCD"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:hint="CCCD"
-                android:inputType="none"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:textSize="14sp"
-                android:paddingVertical="10dp"
-                android:paddingLeft="20dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_edt"/>
-            <EditText
-                android:id="@+id/edtDate"
-                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtCitizen"
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:paddingVertical="10dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/errDate"
                 android:layout_width="match_parent"
-                android:hint="Ngày vào làm: "
-                android:inputType="none"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:textSize="14sp"
-                android:paddingVertical="10dp"
-                android:paddingLeft="20dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_edt"/>
+                android:layout_marginTop="10dp"
+                android:hint="Ngày vào làm: "
+                android:layout_marginHorizontal="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtDate"
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:paddingVertical="10dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <Button
                 android:id="@+id/btnSave"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_btn"

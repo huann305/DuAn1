@@ -4,6 +4,7 @@ import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,6 +38,7 @@ import com.example.duan1.model.Customer;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,6 +95,29 @@ public class UpdateInfoCustomerFragment extends BaseFragment<FragmentUpdateInfoC
         binding.edtEmail.setText(customer.getEmail());
         binding.edtAddress.setText(customer.getAddress());
         binding.edtBirthday.setText(customer.getBirthday());
+
+        binding.edtBirthday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view1) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (view, year, month, dayOfMonth) -> {
+
+                    if (dayOfMonth < 10) {
+                        binding.edtBirthday.setText(year + "-" + (month + 1) + "-0" + dayOfMonth);
+                    }
+                    if (month + 1 < 10) {
+                        binding.edtBirthday.setText(year + "-0" + (month + 1) + "-" + dayOfMonth);
+                    }
+                    if (dayOfMonth < 10 && month + 1 < 10) {
+                        binding.edtBirthday.setText(year + "-0" + (month + 1) + "-0" + dayOfMonth);
+                    }
+                    if (dayOfMonth >= 10 && month + 1 >= 10) {
+                        binding.edtBirthday.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+                    }
+                }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                datePickerDialog.show();
+            }
+        });
 
         if (customer.getImage() != null) {
             Glide.with(getContext()).load(customer.getImage()).into(binding.imgCustomer);
@@ -257,24 +282,40 @@ public class UpdateInfoCustomerFragment extends BaseFragment<FragmentUpdateInfoC
     }
     private boolean validateForm() {
         if (binding.edtNameUpEm.getText().toString().equals("")) {
-            Toast.makeText(getContext(), "Tên không được để trống", Toast.LENGTH_SHORT).show();
+            binding.errName.setError("Tên không được để trống");
             return false;
+        } else {
+            binding.errName.setError(null);
         }
         if (binding.edtPhone.getText().toString().equals("")) {
-            Toast.makeText(getContext(), "Số điện thoại không được để trống", Toast.LENGTH_SHORT).show();
+            binding.errPhone.setError("Số điện thoại không được để trống");
             return false;
+        }else {
+            binding.errPhone.setError(null);
+        }
+        if(!binding.edtPhone.getText().toString().matches("0[0-9]{9}")) {
+            binding.errPhone.setError("Số điện thoại không hợp lệ");
+            return false;
+        }else {
+            binding.errPhone.setError(null);
         }
         if (binding.edtEmail.getText().toString().equals("")) {
-            Toast.makeText(getContext(), "Email không được để trống", Toast.LENGTH_SHORT).show();
+            binding.errEmail.setError("Email không được để trống");
             return false;
+        }else {
+            binding.errEmail.setError(null);
         }
         if (binding.edtAddress.getText().toString().equals("")) {
-            Toast.makeText(getContext(), "Địa chỉ không được để trống", Toast.LENGTH_SHORT).show();
+            binding.errAddress.setError("Địa chỉ không được để trống");
             return false;
+        }else {
+            binding.errAddress.setError(null);
         }
         if (binding.edtBirthday.getText().toString().equals("")) {
-            Toast.makeText(getContext(), "Ngày sinh không được để trống", Toast.LENGTH_SHORT).show();
+            binding.errBirthday.setError("Ngày sinh không được để trống");
             return false;
+        }else {
+            binding.errBirthday.setError(null);
         }
         return true;
     }

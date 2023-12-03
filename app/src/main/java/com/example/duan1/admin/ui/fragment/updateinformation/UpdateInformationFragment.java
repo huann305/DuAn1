@@ -245,28 +245,40 @@ public class UpdateInformationFragment extends BaseFragment<FragmentUpdateInform
 
     private boolean validateForm() {
         if (binding.edtNameUpEm.getText().toString().equals("")) {
-            Toast.makeText(getContext(), "Tên không được để trống", Toast.LENGTH_SHORT).show();
+            binding.errName.setError("Tên không được để trống");
             return false;
+        }else {
+            binding.errName.setError(null);
         }
         if (binding.edtPhone.getText().toString().equals("")) {
-            Toast.makeText(getContext(), "Số điện thoại không được để trống", Toast.LENGTH_SHORT).show();
+            binding.errPhone.setError("Số điện thoại không được để trống");
             return false;
+        }else {
+            binding.errPhone.setError(null);
         }
         if (binding.edtEmail.getText().toString().equals("")) {
-            Toast.makeText(getContext(), "Email không được để trống", Toast.LENGTH_SHORT).show();
+            binding.errEmail.setError("Email không được để trống");
             return false;
+        }else {
+            binding.errEmail.setError(null);
         }
         if (binding.edtAddress.getText().toString().equals("")) {
-            Toast.makeText(getContext(), "Địa chỉ không được để trống", Toast.LENGTH_SHORT).show();
+            binding.errAddress.setError("Địa chỉ không được để trống");
             return false;
+        }else {
+            binding.errAddress.setError(null);
         }
         if (binding.edtCitizen.getText().toString().equals("")) {
-            Toast.makeText(getContext(), "CMND/CCCD không được để trống", Toast.LENGTH_SHORT).show();
+            binding.errCCCD.setError("CMND/CCCD không được để trống");
             return false;
+        }else {
+            binding.errCCCD.setError(null);
         }
         if (binding.edtDate.getText().toString().equals("")) {
-            Toast.makeText(getContext(), "Ngày sinh không được để trống", Toast.LENGTH_SHORT).show();
+            binding.errDate.setError("Ngày sinh không được để trống");
             return false;
+        }else {
+            binding.errDate.setError(null);
         }
         return true;
     }

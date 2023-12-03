@@ -141,16 +141,16 @@ public class DBHelper extends SQLiteOpenHelper {
                 "(3, 2, 2, 20, 'Note 3')";
         sqLiteDatabase.execSQL(INSERT_BILL_DETAIL_DATA);
         //Initialize data for the product table
-        String INSERT_PRODUCT_DATA = "INSERT INTO " + TABLE_PRODUCT + " (name, image, price, quantitySold, status, image) VALUES " +
-                "('Product 1', null, 10, 1, 'Còn hàng', null), " +
-                "('Product 2', null, 15, 2, 'Còn hàng', null), " +
-                "('Product 2', null, 15, 3, 'Còn hàng', null), " +
-                "('Product 2', null, 15, 4, 'Còn hàng', null), " +
-                "('Product 2', null, 15, 6, 'Còn hàng', null), " +
-                "('Product 2', null, 15, 5, 'Còn hàng', null), " +
-                "('Product 2', null, 15, 3, 'Còn hàng', null), " +
-                "('Product 2', null, 15, 8, 'Còn hàng', null), " +
-                "('Product 3', null, 20, 10, 'Còn hàng', null)";
+        String INSERT_PRODUCT_DATA = "INSERT INTO " + TABLE_PRODUCT + " (name, price, quantitySold, status, image) VALUES " +
+                "('Ức gà trộn', 10, 1, 'Còn hàng', 'https://i.pinimg.com/564x/61/e1/cd/61e1cd8c1604d9d847318013692542a1.jpg'), " +
+                "('Gà sốt kem', 15, 2, 'Còn hàng', 'https://i.pinimg.com/564x/a8/e2/0d/a8e20d82b13a3473f0b42cbf35dfeef7.jpg'), " +
+                "('Đùi gà chiên', 15, 3, 'Còn hàng', 'https://i.pinimg.com/564x/e2/ff/4c/e2ff4c5e2b22df37d161ec12900bd6d4.jpg'), " +
+                "('Salad gà', 15, 4, 'Còn hàng', 'https://i.pinimg.com/236x/06/95/52/0695523adb4489059bfce5299fd924c8.jpg'), " +
+                "('Combo gà 1', 15, 6, 'Còn hàng', 'https://i.pinimg.com/564x/75/fd/d7/75fdd7dc538330cf7523f7da3d2566b6.jpg'), " +
+                "('Bánh gà phomai', 15, 5, 'Còn hàng', 'https://i.pinimg.com/236x/18/7a/8d/187a8d7677da78e1ba91729a945b8f6a.jpg'), " +
+                "('Trà sữa caccao', 15, 3, 'Còn hàng', 'https://i.pinimg.com/564x/62/3f/ba/623fba0e89cb093c81d0add77826a149.jpg'), " +
+                "('Trà sữa thái', 15, 8, 'Còn hàng', 'https://i.pinimg.com/564x/68/ef/9e/68ef9e4beef033b43de718970ed4e25a.jpg'), " +
+                "('Combo sữa hạt', 20, 10, 'Còn hàng', 'https://i.pinimg.com/564x/d9/bc/dd/d9bcdd583afd439d479027c985218eaf.jpg')";
         sqLiteDatabase.execSQL(INSERT_PRODUCT_DATA);
 
         //Initialize data for the product_detail table
@@ -168,10 +168,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //Initialize data for the employee table
         String INSERT_EMPLOYEE_DATA = "INSERT INTO " + TABLE_EMPLOYEE + " (id, email, name, phone, address, citizenshipID, status, date, image) VALUES " +
-                "(1, 'employee1@gmail.com', 'Employee 1', '1234567890', 'Address 1', '1234567890', 'inactive', '2022-01-01',null ), " +
+                "(1, 'employee1@gmail.com', 'Employee 1', '1234567890', 'Address 1', '1234567890', 'inactive', '2022-01-01', null ), " +
                 "(2, 'employee2@gmail.com', 'Employee 2', '0987654321', 'Address 2', '0987654321', 'active', '2022-02-02', null), " +
                 "(3, 'employee3@gmail.com', 'Employee 3', '9876543210', 'Address 3', '9876543210', 'active', '2022-03-03', null)," +
-                "(4, 'admin@gmail.com', 'Admin', '8765432109', 'Address 4', '8765432109', 'active', '2022-04-04', null)";
+                "(4, 'admin@gmail.com', 'Admin', '8765432109', 'Address 4', '8765432109', 'active', '2022-04-04', 'https://i.pinimg.com/564x/ee/f4/9d/eef49d27bbe8300d3a3fc1e1bb5a0f7c.jpg')";
 
         sqLiteDatabase.execSQL(INSERT_EMPLOYEE_DATA);
 

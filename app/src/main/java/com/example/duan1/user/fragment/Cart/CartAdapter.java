@@ -14,17 +14,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.activity.DetailProductActivity;
 import com.example.duan1.dao.CartDAO;
-import com.example.duan1.databinding.FragmentCartBinding;
 import com.example.duan1.databinding.ItemCartBinding;
 import com.example.duan1.model.Cart;
-import com.google.android.material.snackbar.Snackbar;
+
 
 import java.util.ArrayList;
 
@@ -175,5 +173,6 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
             this.binding = binding;
         }
     }
+
 }
 
