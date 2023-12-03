@@ -67,7 +67,8 @@ public abstract class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeV
                 if(cartDAO.insertToCart(list.get(holder.getAdapterPosition()), email)){
                     Toast.makeText(context, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(context, "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Thêm sản phẩm thất bại, sản phẩm hết hàng", Toast.LENGTH_SHORT).show();
+
                 }
 //                ProductDAO productDAO = new ProductDAO(context);
 //                list.clear();

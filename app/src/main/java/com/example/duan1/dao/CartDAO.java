@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.duan1.database.DBHelper;
 import com.example.duan1.model.Cart;
@@ -59,12 +60,15 @@ public class CartDAO {
             // Nếu sản phẩm đã tồn tại, số lượng trong giỏ hàng tăng thêm 1
             cursor.moveToFirst();
             int currentQuantity = cursor.getInt(3);
-            currentQuantity += 1;
-
-            ContentValues values = new ContentValues();
-            values.put("quantity", currentQuantity);
-            values.put("image", product.getImage());
-            check = database.update(DBHelper.TABLE_CART, values, "name = ? AND emailCus = ?", new String[]{product.getName(), email});
+            if (currentQuantity == product.getQuantity()){
+                return false;
+            }else {
+                currentQuantity += 1;
+                ContentValues values = new ContentValues();
+                values.put("quantity", currentQuantity);
+                values.put("image", product.getImage());
+                check = database.update(DBHelper.TABLE_CART, values, "name = ? AND emailCus = ?", new String[]{product.getName(), email});
+            }
 
         } else {
             // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
@@ -78,6 +82,7 @@ public class CartDAO {
             values.put("image", product.getImage());
             check = database.insert(DBHelper.TABLE_CART, null, values);
         }
+
         if (check == -1) {
             return false;
         }

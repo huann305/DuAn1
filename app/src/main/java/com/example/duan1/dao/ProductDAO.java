@@ -47,7 +47,6 @@ public class ProductDAO {
         }
         return null;
     }
-
     public boolean insert(Product product){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -134,4 +133,5 @@ public class ProductDAO {
         }
         return true;
     }
+
 }

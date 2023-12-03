@@ -480,7 +480,6 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
             Toast.makeText(getContext(), "Số lượng phải là số", Toast.LENGTH_SHORT).show();
             return false;
         }
-
         return true;
     }
     private void updateProduct1() {

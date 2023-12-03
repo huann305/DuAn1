@@ -70,6 +70,7 @@ public class DetailProductActivity extends BaseActivity<ActivityDetailProductBin
             binding.tvDiscreption.setText(productDetail.getDescription());
             binding.tvPrice.setText("Giá tiền :" +product.getPrice() + " VND");
             binding.tvQuantitySold.setText( product.getQuantitySold() + " đã bán");
+            binding.tvSL.setText("Số lượng: " +product.getQuantity());
 
             if(product.getImage() != null){
                 Glide.with(this).load(product.getImage()).into(binding.ivImageProductDetail);
