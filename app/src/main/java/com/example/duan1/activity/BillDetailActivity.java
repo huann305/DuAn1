@@ -54,6 +54,18 @@ public class BillDetailActivity extends BaseActivity<ActivityBillDetailBinding> 
         idBill = intent.getStringExtra("id_bill");
         textBtn = intent.getStringExtra("text_btn");
 
+        if(textBtn.equals("Xác nhận thanh toán")){
+            binding.btnCancelConfirm.setVisibility(View.VISIBLE);
+            binding.btnCancelConfirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    billDAO = new BillDAO(BillDetailActivity.this);
+                    billDAO.updateStatus("Đã hủy", idBill);
+                    finish();
+                }
+            });
+        }
+
         list = dao.getAllByIdBill(idBill);
         binding.rcv.setLayoutManager(new LinearLayoutManager(this));
         binding.rcv.setAdapter(new BillDetailAdapter(list, this));
@@ -82,6 +94,7 @@ public class BillDetailActivity extends BaseActivity<ActivityBillDetailBinding> 
 
         if(binding.btnChangeStatus.getText().toString().toLowerCase().equals("xác nhận thanh toán")){
             billDAO.updateStatus(BillStatus.WAITING, idBill);
+
         }
         else if(binding.btnChangeStatus.getText().toString().toLowerCase().equals("đang làm")){
             billDAO.updateStatus(BillStatus.DOING, idBill);

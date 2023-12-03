@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
@@ -21,10 +22,14 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".BankInf"
+            android:exported="false" />
+        <activity
             android:name=".activity.ChooseActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -32,39 +37,39 @@
             android:name=".qrcode.QRScanActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:stateNotNeeded="true"></activity>
+            android:stateNotNeeded="true" />
         <activity
             android:name=".activity.SplashActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".user.MainCustomer"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".zalopay.ZaloPayActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".activity.LoginActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".admin.ui.fragment.updateinformation.UpdateInformationActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".activity.BillDetailActivity"
             android:exported="false" />
         <activity
             android:name=".activity.SignUpActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".activity.DetailProductActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".qrcode.CaptureAct"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:stateNotNeeded="true"></activity>
+            android:stateNotNeeded="true" />
     </application>
 
 </manifest>

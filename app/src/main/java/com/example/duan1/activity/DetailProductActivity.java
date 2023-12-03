@@ -14,8 +14,11 @@ import com.example.duan1.dao.CartDAO;
 import com.example.duan1.dao.ProductDAO;
 import com.example.duan1.dao.ProductDetailDAO;
 import com.example.duan1.databinding.ActivityDetailProductBinding;
+import com.example.duan1.eventbus.EventAdd;
 import com.example.duan1.model.Product;
 import com.example.duan1.model.ProductDetail;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 public class DetailProductActivity extends BaseActivity<ActivityDetailProductBinding> {
@@ -36,10 +39,10 @@ public class DetailProductActivity extends BaseActivity<ActivityDetailProductBin
         binding.btnAddCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 CartDAO cartDAO = new CartDAO(DetailProductActivity.this);
                 if (cartDAO.insertToCart(product, email)) {
                     Toast.makeText(DetailProductActivity.this, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                    EventBus.getDefault().post(new EventAdd());
                 } else {
                     Toast.makeText(DetailProductActivity.this, "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
                 }

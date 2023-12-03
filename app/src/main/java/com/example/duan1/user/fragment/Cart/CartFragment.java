@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.duan1.BankInf;
 import com.example.duan1.BillStatus;
 import com.example.duan1.MainActivity;
 import com.example.duan1.R;
@@ -36,6 +37,7 @@ import com.example.duan1.dao.CartDAO;
 import com.example.duan1.dao.CustomerDAO;
 import com.example.duan1.dao.ProductDAO;
 import com.example.duan1.databinding.FragmentCartBinding;
+import com.example.duan1.eventbus.EventAdd;
 import com.example.duan1.model.Bill;
 import com.example.duan1.model.BillDetail;
 import com.example.duan1.model.Cart;
@@ -44,6 +46,10 @@ import com.example.duan1.model.Product;
 import com.example.duan1.qrcode.QRScanActivity;
 import com.example.duan1.zalopay.ZaloPayActivity;
 import com.google.android.material.snackbar.Snackbar;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,6 +67,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
     String paymentMethod = "";
     //TextView tvTotalPrice;
     String email;
+    int idBill = 0;
 
     public static CartFragment newInstance() {
         Bundle args = new Bundle();
@@ -81,7 +88,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
 
     @Override
     protected void initData() {
-        loatData();
+        loadData();
     }
 
     @Override
@@ -89,7 +96,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         return TAG;
     }
 
-    public void loatData() {
+    public void loadData() {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
         email = sharedPreferences.getString("email", "");
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -174,6 +181,10 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
                     public void onClick(View view) {
                         paymentMethod = "Chuyển khoản";
                         onSuccess();
+                        Intent intent = new Intent(getContext(), BankInf.class);
+                        intent.putExtra("idBill", idBill);
+
+                        startActivity(intent);
                         alertDialog.dismiss();
                     }
                 });
@@ -218,6 +229,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
 
         Bill bill = new Bill();
         bill.setId(billDAO.getAll().size() + 1);
+        idBill = billDAO.getAll().size() + 1;
         bill.setIdCustomer("" + customer.getId());
         bill.setShippingAddress(binding.tvAddress.getText().toString());
 
@@ -307,7 +319,22 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
                 });
                 snackbar.show();
             }
-
         }
     };
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
+    }
+    @Subscribe (threadMode = ThreadMode.MAIN)
+    public void onEventAdd(EventAdd eventAdd) {
+        loadData();
+    }
 }
