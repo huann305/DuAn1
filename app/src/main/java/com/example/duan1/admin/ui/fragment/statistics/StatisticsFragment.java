@@ -6,13 +6,18 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.example.duan1.R;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
+import com.example.duan1.admin.ui.fragment.ordermanagement.OrderManagerAdapter;
 import com.example.duan1.dao.BillDAO;
 import com.example.duan1.databinding.FragmentStatisticsBinding;
+import com.example.duan1.model.Bill;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> {
     public static String TAG = "Thống kê";
@@ -56,8 +61,18 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
             }
 
             BillDAO billDAO = new BillDAO(getContext());
+
+            List<Bill> list = billDAO.getTotalOrder(tuNgay, denNgay);
             binding.tvTongtien.setText("Tổng doanh thu: "+billDAO.getTotal(tuNgay, denNgay) + "");
-            binding.tvTongdonhang.setText("Tổng đơn hàng: "+billDAO.getTotalOrder(tuNgay, denNgay) + "");
+            binding.tvTongdonhang.setText("Tổng đơn hàng: " + list.size() + "");
+
+            binding.rcv.setLayoutManager(new LinearLayoutManager(getContext()));
+            binding.rcv.setAdapter(new OrderManagerAdapter(list, getContext()) {
+                @Override
+                public void onItemClick(int position) {
+
+                }
+            });
         });
     }
 
