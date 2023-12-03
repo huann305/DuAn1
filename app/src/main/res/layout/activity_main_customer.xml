@@ -10,7 +10,7 @@
         android:fitsSystemWindows="true"
         tools:openDrawer="start">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -74,9 +74,12 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@+id/tool_bar"
+                android:layout_above="@+id/bottom_nav"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:id="@+id/main"/>
-        </LinearLayout>
+            <include android:id="@+id/bottom_nav" layout="@layout/bottom_nav" />
+        </RelativeLayout>
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"

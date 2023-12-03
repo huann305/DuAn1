@@ -59,7 +59,6 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
     CartDAO cartDAO;
     ArrayList<Cart> list;
     String paymentMethod = "";
-    Button btnOrder;
     //TextView tvTotalPrice;
     String email;
 
@@ -139,7 +138,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
             public void onClick(View view) {
                 Log.d("TAGG", binding.tvAddress.getText().toString());
                 if (binding.tvAddress.getText().toString().equals("Quét mã QR để nhập số bàn")) {
-                    Toast.makeText(getContext(), "Quét mã QR", Toast.LENGTH_SHORT).show();
+                    binding.btnQR.callOnClick();
                     return;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
