@@ -26,7 +26,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="Họ tên">
+                android:hint="Họ tên"
+                android:id="@+id/errName"
+                android:layout_marginHorizontal="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtName_up_em"
@@ -35,15 +37,16 @@
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:paddingVertical="10dp"
-                    android:layout_marginHorizontal="10dp"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/errPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="Số điện thoại">
+                android:hint="Số điện thoại"
+                android:layout_marginHorizontal="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtPhone"
@@ -52,15 +55,16 @@
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:paddingVertical="10dp"
-                    android:layout_marginHorizontal="10dp"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/errAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="Địa chỉ">
+                android:hint="Địa chỉ"
+                android:layout_marginHorizontal="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtAddress"
@@ -69,15 +73,16 @@
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:paddingVertical="10dp"
-                    android:layout_marginHorizontal="10dp"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/errEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:hint="Tài khoản">
+                android:hint="Tài khoản"
+                android:layout_marginHorizontal="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtEmail"
@@ -86,17 +91,18 @@
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:paddingVertical="10dp"
-                    android:layout_marginHorizontal="10dp"
                     android:layout_height="wrap_content"
                     android:inputType="none"
                     android:focusable="false"
                     android:focusableInTouchMode="false" />
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/errCCCD"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="CCCD">
+                android:hint="CCCD"
+                android:layout_marginHorizontal="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtCitizen"
@@ -105,7 +111,6 @@
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:paddingVertical="10dp"
-                    android:layout_marginHorizontal="10dp"
                     android:layout_height="wrap_content"
                     android:inputType="none"
                     android:focusable="false"
@@ -113,10 +118,12 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/errDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="Ngày vào làm: ">
+                android:hint="Ngày vào làm: "
+                android:layout_marginHorizontal="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtDate"
@@ -125,7 +132,6 @@
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:paddingVertical="10dp"
-                    android:layout_marginHorizontal="10dp"
                     android:layout_height="wrap_content"
                     android:inputType="none"
                     android:focusable="false"
