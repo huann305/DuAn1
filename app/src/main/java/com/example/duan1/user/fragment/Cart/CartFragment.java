@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.duan1.BankInf;
 import com.example.duan1.BillStatus;
 import com.example.duan1.MainActivity;
 import com.example.duan1.R;
@@ -67,6 +68,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
     Button btnOrder;
     //TextView tvTotalPrice;
     String email;
+    int idBill = 0;
 
     public static CartFragment newInstance() {
         Bundle args = new Bundle();
@@ -180,6 +182,10 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
                     public void onClick(View view) {
                         paymentMethod = "Chuyển khoản";
                         onSuccess();
+                        Intent intent = new Intent(getContext(), BankInf.class);
+                        intent.putExtra("idBill", idBill);
+
+                        startActivity(intent);
                         alertDialog.dismiss();
                     }
                 });
@@ -224,6 +230,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
 
         Bill bill = new Bill();
         bill.setId(billDAO.getAll().size() + 1);
+        idBill = billDAO.getAll().size() + 1;
         bill.setIdCustomer("" + customer.getId());
         bill.setShippingAddress(binding.tvAddress.getText().toString());
 

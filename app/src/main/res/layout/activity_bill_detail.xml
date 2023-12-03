@@ -35,5 +35,17 @@
             android:text="hehe"
             android:paddingHorizontal="5dp"
             android:layout_below="@+id/rcv"/>
+        <Button
+            android:id="@+id/btnCancelConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hủy xác nhận"
+            android:layout_below="@+id/btn_change_status"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:background="@color/bgr_btn"
+            android:paddingHorizontal="10dp"
+            android:visibility="gone"/>
     </RelativeLayout>
 </layout>
