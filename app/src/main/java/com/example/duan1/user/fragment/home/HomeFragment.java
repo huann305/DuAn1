@@ -12,11 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.duan1.R;
 import com.example.duan1.activity.DetailProductActivity;
 import com.example.duan1.admin.ui.fragment.BaseFragment;
-import com.example.duan1.dao.CustomerDAO;
 import com.example.duan1.dao.ProductDAO;
 import com.example.duan1.databinding.FragmentHomeCustomerBinding;
 import com.example.duan1.eventbus.Search;
-import com.example.duan1.model.Employee;
 import com.example.duan1.model.Product;
 
 import org.greenrobot.eventbus.EventBus;
@@ -98,4 +96,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeCustomerBinding> {
         }
         binding.rcvHomePage1.getAdapter().notifyDataSetChanged();
     }
+
+
 }

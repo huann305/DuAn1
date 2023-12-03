@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".BankInf">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/qrbank" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/bg_edt"
+        android:paddingHorizontal="25dp"
+        android:paddingVertical="10dp"
+        android:text="Nội dung chuyển khoản"
+        android:textSize="22dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_btn"
+        android:drawableStart="@drawable/baseline_arrow_back_24"
+        android:paddingHorizontal="15dp"
+        android:text="Trở về trang chủ"
+        android:textColor="@color/white" />
+</LinearLayout>

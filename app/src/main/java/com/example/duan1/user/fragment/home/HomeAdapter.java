@@ -61,6 +61,7 @@ public abstract class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeV
         holder.btnAddCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Context context = view.getContext();
                 CartDAO cartDAO = new CartDAO(context);
                 if(cartDAO.insertToCart(list.get(holder.getAdapterPosition()), email)){
@@ -106,4 +107,6 @@ public abstract class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeV
             imgProduct = itemView.findViewById(R.id.imageView2);
         }
     }
+
+
 }
