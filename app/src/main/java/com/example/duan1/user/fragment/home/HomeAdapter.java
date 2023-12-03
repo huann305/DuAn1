@@ -50,6 +50,7 @@ public abstract class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeV
         holder.tvNameProduct.setText(product.getName());
         holder.tvPrice.setText(product.getPrice() + " VND");
         holder.tvQuantitySold.setText(product.getQuantitySold() + " đã bán");
+        holder.tvQuantity.setText("SL: "+ product.getQuantity());
 
         if (product.getImage() != null) {
             Glide.with(context).load(product.getImage()).into(holder.imgProduct);
@@ -61,7 +62,6 @@ public abstract class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeV
         holder.btnAddCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Context context = view.getContext();
                 CartDAO cartDAO = new CartDAO(context);
                 if(cartDAO.insertToCart(list.get(holder.getAdapterPosition()), email)){
@@ -92,6 +92,7 @@ public abstract class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeV
         TextView tvNameProduct;
         TextView tvPrice;
         TextView tvQuantitySold;
+        TextView tvQuantity;
         Button btnAddCart;
 
         View layout;
@@ -102,6 +103,7 @@ public abstract class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeV
             tvNameProduct = itemView.findViewById(R.id.textView3);
             tvPrice = itemView.findViewById(R.id.textView5);
             tvQuantitySold = itemView.findViewById(R.id.textView7);
+            tvQuantity = itemView.findViewById(R.id.textView8);
             layout = itemView.findViewById(R.id.layout_item);
             btnAddCart = itemView.findViewById(R.id.imageView4);
             imgProduct = itemView.findViewById(R.id.imageView2);
