@@ -123,6 +123,13 @@ public class ProductDAO {
             cursor.moveToFirst();
             int quantity = cursor.getInt(4);
             quantity -= cart.getQuantity();
+            if(quantity == 0){
+                Product product = getID(cursor.getInt(0));
+                product.setStatus("Hết hàng");
+                updatee(product, cursor.getInt(0));
+                return false;
+            }
+
             db.execSQL("UPDATE " + DBHelper.TABLE_PRODUCT + " SET quantity = ? WHERE id = ?", new String[]{String.valueOf(quantity), String.valueOf(cursor.getInt(0))});
         }
         if (cursor != null){

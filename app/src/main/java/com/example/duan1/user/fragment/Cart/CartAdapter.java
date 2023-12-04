@@ -83,7 +83,7 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
             builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    if (cartDAO.augmentQuantity(list.get(holder.getAdapterPosition()), email)) {
+                    if (cartDAO.augmentQuantityV2(list.get(holder.getAdapterPosition()), email)) {
                         list.clear();
                         list.addAll(cartDAO.getAllCartCus(email));
                         notifyDataSetChanged();
@@ -118,11 +118,13 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
         holder.binding.btnAgument.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (cartDAO.augmentQuantity(list.get(holder.getAdapterPosition()), email)) {
+                if (cartDAO.augmentQuantityV2(list.get(holder.getAdapterPosition()), email)) {
                     list.clear();
                     list.addAll(cartDAO.getAllCartCus(email));
                     notifyDataSetChanged();
-                }
+                }else
+                    Toast.makeText(context, "Bạn đã vượt quá số lượng sản phẩm cho phép", Toast.LENGTH_SHORT).show();
+
             }
         });
         holder.binding.btnReduce.setOnClickListener(new View.OnClickListener() {

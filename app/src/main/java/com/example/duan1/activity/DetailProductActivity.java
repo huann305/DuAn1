@@ -44,7 +44,7 @@ public class DetailProductActivity extends BaseActivity<ActivityDetailProductBin
                     Toast.makeText(DetailProductActivity.this, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
                     EventBus.getDefault().post(new EventAdd());
                 } else {
-                    Toast.makeText(DetailProductActivity.this, "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailProductActivity.this, "Bạn đã vượt quá số lượng sản phẩm cho phép", Toast.LENGTH_SHORT).show();
                 }
             }
         });
