@@ -20,8 +20,10 @@ import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.activity.DetailProductActivity;
 import com.example.duan1.dao.CartDAO;
+import com.example.duan1.dao.ProductDAO;
 import com.example.duan1.databinding.ItemCartBinding;
 import com.example.duan1.model.Cart;
+import com.example.duan1.model.Product;
 
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
     private Context context;
     private ArrayList<Cart> list;
     String email;
+    Product product;
 
     public abstract void click(int totalPrice);
 
@@ -80,7 +83,7 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
             builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    if (cartDAO.augmentQuantity(list.get(holder.getAdapterPosition()), email)) {
+                    if (cartDAO.augmentQuantityV2(list.get(holder.getAdapterPosition()), email)) {
                         list.clear();
                         list.addAll(cartDAO.getAllCartCus(email));
                         notifyDataSetChanged();
@@ -115,11 +118,13 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
         holder.binding.btnAgument.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (cartDAO.augmentQuantity(list.get(holder.getAdapterPosition()), email)) {
+                if (cartDAO.augmentQuantityV2(list.get(holder.getAdapterPosition()), email)) {
                     list.clear();
                     list.addAll(cartDAO.getAllCartCus(email));
                     notifyDataSetChanged();
-                }
+                }else
+                    Toast.makeText(context, "Bạn đã vượt quá số lượng sản phẩm cho phép", Toast.LENGTH_SHORT).show();
+
             }
         });
         holder.binding.btnReduce.setOnClickListener(new View.OnClickListener() {
@@ -141,23 +146,26 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
                 context.startActivity(intent);
             }
         });
-        holder.binding.tvQuantity.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                int totalPrice = 0;
-                for (Cart item : list) {
-                    totalPrice += item.getPrice() * item.getQuantity();
+            holder.binding.tvQuantity.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 }
-                click(totalPrice);
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
-    }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    int totalPrice = 0;
+                    for (Cart item : list) {
+                        totalPrice += item.getPrice() * item.getQuantity();
+                    }
+                    click(totalPrice);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                }
+            });
+        }
+
 
 
     @Override

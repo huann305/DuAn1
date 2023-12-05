@@ -219,6 +219,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         ProductDAO productDAO = new ProductDAO(getContext());
         for (Cart cart : list) {
             productDAO.updateQuantitySold(cart);
+            productDAO.updateQuantity(cart);
             cartDAO.deleteCart(cart.getId(), email);
         }
         //tạo đơn ra hóa đơn mới

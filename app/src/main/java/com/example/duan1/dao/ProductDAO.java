@@ -47,12 +47,11 @@ public class ProductDAO {
         }
         return null;
     }
-
     public boolean insert(Product product){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        String sql = "INSERT INTO " + DBHelper.TABLE_PRODUCT + "(name, price, quantitySold, status, image)" + " VALUES(?,?,?,?,?)";
-        db.execSQL(sql, new String[]{String.valueOf(product.getName()), String.valueOf(product.getPrice()), String.valueOf(product.getQuantitySold()), product.getStatus(), product.getImage()});
+        String sql = "INSERT INTO " + DBHelper.TABLE_PRODUCT + "(name, price, quantitySold,quantity ,status, image)" + " VALUES(?,?,?,?,?,?)";
+        db.execSQL(sql, new String[]{String.valueOf(product.getName()), String.valueOf(product.getPrice()), String.valueOf(product.getQuantitySold()), String.valueOf(product.getQuantity()),product.getStatus(), product.getImage()});
         if (db != null){
             db.close();
         }
@@ -60,8 +59,8 @@ public class ProductDAO {
     }
     public boolean updatee(Product product, int id){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String sql = "UPDATE " + DBHelper.TABLE_PRODUCT + " SET name = ?, image = ?, price = ?, quantitySold = ?, status = ?" + " WHERE id = ?";
-        db.execSQL(sql, new String[]{product.getName(), product.getImage(), String.valueOf(product.getPrice()), String.valueOf(product.getQuantitySold()), product.getStatus(), String.valueOf(id)});
+        String sql = "UPDATE " + DBHelper.TABLE_PRODUCT + " SET name = ?, image = ?, price = ?, quantitySold = ?,quantity = ? ,status = ?" + " WHERE id = ?";
+        db.execSQL(sql, new String[]{product.getName(), product.getImage(), String.valueOf(product.getPrice()), String.valueOf(product.getQuantitySold()),String.valueOf(product.getQuantity()), product.getStatus(), String.valueOf(id)});
         if (db != null){
             db.close();
         }
@@ -73,7 +72,7 @@ public class ProductDAO {
 
         Cursor cursor = db.rawQuery(sql, selectionArgs);
         while (cursor.moveToNext()){
-            list.add(new Product(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getString(4), cursor.getString(5)));
+            list.add(new Product(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3),cursor.getInt(4), cursor.getString(5), cursor.getString(6)));
         }
         if (cursor != null){
             cursor.close();
@@ -114,4 +113,33 @@ public class ProductDAO {
         }
         return true;
     }
+    //giảm sl
+    public boolean updateQuantity(Cart cart){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        //lấy ra cart --> từ id của cart --> sản phẩm --> số lượng đã bán ht = sl cart + sl đã bán ban đầu
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DBHelper.TABLE_PRODUCT + " WHERE id = ?", new String[]{String.valueOf(cart.getIdProduct())});
+        if(cursor.getCount() > 0){
+            cursor.moveToFirst();
+            int quantity = cursor.getInt(4);
+            quantity -= cart.getQuantity();
+            if(quantity == 0){
+                Product product = getID(cursor.getInt(0));
+                product.setStatus("Hết hàng");
+                product.setQuantity(0);
+                updatee(product, cursor.getInt(0));
+                return false;
+            }
+
+            db.execSQL("UPDATE " + DBHelper.TABLE_PRODUCT + " SET quantity = ? WHERE id = ?", new String[]{String.valueOf(quantity), String.valueOf(cursor.getInt(0))});
+        }
+        if (cursor != null){
+            cursor.close();
+        }
+        if (db != null){
+            db.close();
+        }
+        return true;
+    }
+
 }
