@@ -110,7 +110,7 @@ public abstract class AdapterProductManagement extends RecyclerView.Adapter<Adap
             @Override
             public int compare(Product o1, Product o2) {
                 if (o1.getPrice() < o2.getPrice()){
-//                    Toast.makeText(context, "Đã sắp xếp giảm dần", Toast.LENGTH_SHORT).show();
+//                  git   Toast.makeText(context, "Đã sắp xếp giảm dần", Toast.LENGTH_SHORT).show();
                     notifyDataSetChanged();
                     return 1;
                 }else {
