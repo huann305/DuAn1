@@ -126,6 +126,7 @@ public class ProductDAO {
             if(quantity == 0){
                 Product product = getID(cursor.getInt(0));
                 product.setStatus("Hết hàng");
+                product.setQuantity(0);
                 updatee(product, cursor.getInt(0));
                 return false;
             }
