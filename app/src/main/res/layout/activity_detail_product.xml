@@ -69,6 +69,7 @@
 
             <TextView
                 android:id="@+id/tvStatus"
+                android:layout_marginRight="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/tv"
@@ -76,6 +77,26 @@
                 android:layout_toRightOf="@id/tv"
                 android:text="Còn hàng"
                 android:textColor="#E53935"
+                android:textSize="16sp" />
+            <View
+                android:id="@+id/tv1"
+                android:layout_width="2dp"
+                android:layout_height="18dp"
+                android:layout_alignBottom="@id/tvStatus"
+                android:layout_toRightOf="@id/tvStatus"
+                android:background="#B5B5B5"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="5dp" />
+
+            <TextView
+                android:id="@+id/tvSL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/tv1"
+                android:layout_marginLeft="12sp"
+                android:layout_toRightOf="@id/tv1"
+                android:text="Số lượng: "
+                android:textColor="#039BE5"
                 android:textSize="16sp" />
         </RelativeLayout>
 

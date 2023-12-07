@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.duan1.database.DBHelper;
 import com.example.duan1.model.Cart;
@@ -59,12 +60,15 @@ public class CartDAO {
             // Nếu sản phẩm đã tồn tại, số lượng trong giỏ hàng tăng thêm 1
             cursor.moveToFirst();
             int currentQuantity = cursor.getInt(3);
-            currentQuantity += 1;
-
-            ContentValues values = new ContentValues();
-            values.put("quantity", currentQuantity);
-            values.put("image", product.getImage());
-            check = database.update(DBHelper.TABLE_CART, values, "name = ? AND emailCus = ?", new String[]{product.getName(), email});
+            if (currentQuantity == product.getQuantity()){
+                return false;
+            }else {
+                currentQuantity += 1;
+                ContentValues values = new ContentValues();
+                values.put("quantity", currentQuantity);
+                values.put("image", product.getImage());
+                check = database.update(DBHelper.TABLE_CART, values, "name = ? AND emailCus = ?", new String[]{product.getName(), email});
+            }
 
         } else {
             // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
@@ -78,6 +82,7 @@ public class CartDAO {
             values.put("image", product.getImage());
             check = database.insert(DBHelper.TABLE_CART, null, values);
         }
+
         if (check == -1) {
             return false;
         }
@@ -85,13 +90,45 @@ public class CartDAO {
     }
 
     //tăng sản phẩm bằng btn trong giỏ hàng, tăng số lượng sản phẩm trong giỏ hàng
-    public boolean augmentQuantity(Cart cart, String email) {
+//    public boolean augmentQuantity(Cart cart, String email) {
+//        SQLiteDatabase sqLiteDatabase = dbhelper.getWritableDatabase();
+//        ContentValues contentValues = new ContentValues();
+//        int quantity = cart.getQuantity();
+//        long check;
+//
+//           quantity++;
+//           contentValues.put("quantity", quantity);
+//           check = sqLiteDatabase.update(DBHelper.TABLE_CART, contentValues, "id = ? AND emailCus = ?", new String[]{String.valueOf(cart.getId()), email});
+//
+//
+//        if (check == -1) {
+//            return false;
+//        }
+//        return true;
+//    }
+
+    public boolean augmentQuantityV2(Cart cart, String email) {
         SQLiteDatabase sqLiteDatabase = dbhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         int quantity = cart.getQuantity();
+        long check;
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT quantity FROM " + DBHelper.TABLE_PRODUCT, null);
         quantity++;
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            do {
+                if(quantity > cursor.getInt(0)){
+                    return false;
+                }
+            } while (cursor.moveToNext());
+        }
+
+
+
         contentValues.put("quantity", quantity);
-        long check = sqLiteDatabase.update(DBHelper.TABLE_CART, contentValues, "id = ? AND emailCus = ?", new String[]{String.valueOf(cart.getId()), email});
+        check = sqLiteDatabase.update(DBHelper.TABLE_CART, contentValues, "id = ? AND emailCus = ?", new String[]{String.valueOf(cart.getId()), email});
+
+
         if (check == -1) {
             return false;
         }

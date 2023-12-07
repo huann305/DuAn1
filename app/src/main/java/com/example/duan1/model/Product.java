@@ -5,16 +5,21 @@ public class Product {
     private String name;
     private int price;
     private int quantitySold;
+    private int quantity;
     private String status;
     private String image;
 
-    public Product(int id, String name, int price, int quantitySold, String status, String image) {
+    public Product(int id, String name, int price, int quantitySold, int quantity, String status, String image) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.quantitySold = quantitySold;
+        this.quantity = quantity;
         this.status = status;
         this.image = image;
+    }
+
+    public Product() {
     }
 
     public int getId() {
@@ -33,14 +38,6 @@ public class Product {
         this.name = name;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public int getPrice() {
         return price;
     }
@@ -57,6 +54,14 @@ public class Product {
         this.quantitySold = quantitySold;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -65,8 +70,14 @@ public class Product {
         this.status = status;
     }
 
-    public Product() {
+    public String getImage() {
+        return image;
     }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -74,6 +85,7 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", quantitySold=" + quantitySold +
+                ", quantity=" + quantity +
                 ", status='" + status + '\'' +
                 ", image='" + image + '\'' + "}";
     }

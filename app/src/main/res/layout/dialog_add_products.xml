@@ -28,33 +28,62 @@
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
         android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập tên sản phẩm">
 
-        <EditText
-            android:id="@+id/edt_name_addpro"
-            android:layout_marginTop="5dp"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_name_addpro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:paddingHorizontal="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nhập tên sản phẩm"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            />
-        <EditText
-            android:id="@+id/edt_price_addpro"
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nhập đơn giá"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            />
-        <EditText
-            android:id="@+id/edt_mota_addpro"
+            android:hint="Nhập đơn giá">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_price_addpro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:paddingHorizontal="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nhập mô tả sản phẩm"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            />
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_mota_addpro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:paddingHorizontal="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập số lượng sản phẩm"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_sl_addpro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:paddingHorizontal="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

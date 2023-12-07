@@ -70,6 +70,7 @@ public abstract class AdapterProductManagement extends RecyclerView.Adapter<Adap
         holder.binding.tvTitleProduct.setText(product.getName());
         holder.binding.tvPriceProduct.setText("Đơn giá: " + product.getPrice() + " VND");
         holder.binding.tvQuantityProduct.setText("Số lượng đã bán: " + product.getQuantitySold() + "");
+        holder.binding.tvQuantity2Product.setText("Số lượng: " + product.getQuantity() + "");
         holder.binding.tvStatusProduct.setText("Trạng thái: "+product.getStatus());
 
         if(product.getImage() != null){

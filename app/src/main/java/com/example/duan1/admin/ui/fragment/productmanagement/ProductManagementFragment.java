@@ -128,6 +128,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 EditText edtTenSP = view.findViewById(R.id.edt_title_updatepro);
                 EditText edtDonGia = view.findViewById(R.id.edt_price_updatepro);
                 EditText edtmota = view.findViewById(R.id.edt_mota_uppro);
+                EditText edtsl = view.findViewById(R.id.edt_sl_uppro);
                 Spinner spinnerTrangThai = view.findViewById(R.id.spn_updatepro);
                 Button btnUpdate = view.findViewById(R.id.btn_submit_updatepro);
                 Button btnCancel = view.findViewById(R.id.btn_canupdatepro);
@@ -150,6 +151,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 productDetailDAO = new ProductDetailDAO(getContext());
                 productDetail = productDetailDAO.getID(product.getId());
                 edtmota.setText(productDetail.getDescription());
+                edtsl.setText(String.valueOf(product.getQuantity()));
                 edtDonGia.setText(String.valueOf(product.getPrice()));
                 spinnerTrangThai.setSelection(data.indexOf(product.getStatus()));
 
@@ -178,14 +180,15 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                     String name = edtTenSP.getText().toString();
                     String gia = edtDonGia.getText().toString();
                     String mota = edtmota.getText().toString();
-                    if (!validate(name, gia, mota)) {
+                    String sl = edtsl.getText().toString();
+                    if (!validate(name, gia, mota, sl)) {
                         return;
                     }
                     product.setStatus(status);
                     product.setName(name);
                     product.setPrice(Integer.parseInt(gia));
                     productDetail.setDescription(mota);
-
+                    product.setQuantity(Integer.parseInt(sl));
                     if(!isChooseImage) {
                         if(product.getImage() == null){
                             Toast.makeText(getContext(), "Chưa chọn ảnh", Toast.LENGTH_SHORT).show();
@@ -226,6 +229,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
             EditText edtName = view.findViewById(R.id.edt_name_addpro);
             EditText edtPrice = view.findViewById(R.id.edt_price_addpro);
             EditText edtmota = view.findViewById(R.id.edt_mota_addpro);
+            EditText edtsl = view.findViewById(R.id.edt_sl_addpro);
             Spinner spnRole = view.findViewById(R.id.spn_addpro);
             Button btnThem = view.findViewById(R.id.btn_submit_addpro);
             Button btnHuy = view.findViewById(R.id.btn_canaddpro);
@@ -250,14 +254,16 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 String price = edtPrice.getText().toString();
                 String status = spnRole.getSelectedItem().toString();
                 String mota = edtmota.getText().toString();
+                String sl = edtsl.getText().toString();
 
-                if (!validate(name, price, mota)) {
+                if (!validate(name, price, mota,sl)) {
                     return;
                 }
                 product.setName(name);
                 product.setPrice(Integer.parseInt(price));
                 product.setStatus(status);
                 product.setImage("" + linkImage);
+                product.setQuantity(Integer.parseInt(sl));
 
                 productDetailDAO = new ProductDetailDAO(getContext());
 
@@ -461,8 +467,8 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
         });
     }
 
-    private boolean validate(String ten, String gia, String moTa) {
-        if (ten.trim().equals("") || gia.trim().equals("") || moTa.trim().equals("")) {
+    private boolean validate(String ten, String gia, String moTa, String sl) {
+        if (ten.trim().equals("") || gia.trim().equals("") || moTa.trim().equals("") || sl.trim().equals("")) {
             Toast.makeText(getContext(), "Không được để trống!", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -470,7 +476,10 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
             Toast.makeText(getContext(), "Giá phải là số", Toast.LENGTH_SHORT).show();
             return false;
         }
-
+        if (!sl.trim().matches("[0-9]+")) {
+            Toast.makeText(getContext(), "Số lượng phải là số", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
     private void updateProduct1() {
