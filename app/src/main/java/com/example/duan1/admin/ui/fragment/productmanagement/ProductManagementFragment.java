@@ -12,6 +12,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +47,7 @@ import com.example.duan1.databinding.FragmentProductManagementBinding;
 import com.example.duan1.eventbus.Search;
 import com.example.duan1.model.Product;
 import com.example.duan1.model.ProductDetail;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -134,6 +137,11 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 Button btnCancel = view.findViewById(R.id.btn_canupdatepro);
                 ivImagePro = view.findViewById(R.id.iv_update_product);
 
+                TextInputLayout erName = view.findViewById(R.id.erName);
+                TextInputLayout erPrice = view.findViewById(R.id.erPrice);
+                TextInputLayout erDisc = view.findViewById(R.id.erDisc);
+                TextInputLayout erQuantity = view.findViewById(R.id.erQuantity);
+
 
                 List<String> data = new ArrayList<>();
                 data.add("Còn hàng");
@@ -174,6 +182,27 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                     }
                 });
 
+                edtsl.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if (charSequence.toString().equals("0")) {
+                            spinnerTrangThai.setSelection(1);
+                        } else {
+                            spinnerTrangThai.setSelection(0);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+
                 btnUpdate.setOnClickListener(v1 -> {
                     ProductDAO productDAO = new ProductDAO(getContext());
                     String status = spinnerTrangThai.getSelectedItem().toString();
@@ -181,7 +210,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                     String gia = edtDonGia.getText().toString();
                     String mota = edtmota.getText().toString();
                     String sl = edtsl.getText().toString();
-                    if (!validate(name, gia, mota, sl)) {
+                    if (!validate(name, gia, mota, sl, erName, erPrice, erQuantity, erDisc)) {
                         return;
                     }
                     product.setStatus(status);
@@ -189,17 +218,17 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                     product.setPrice(Integer.parseInt(gia));
                     productDetail.setDescription(mota);
                     product.setQuantity(Integer.parseInt(sl));
-                    if(!isChooseImage) {
-                        if(product.getImage() == null){
+                    if (!isChooseImage) {
+                        if (product.getImage() == null) {
                             Toast.makeText(getContext(), "Chưa chọn ảnh", Toast.LENGTH_SHORT).show();
                             return;
-                        }else {
+                        } else {
                             productDAO.updatee(product, product.getId());
                             productDetailDAO.update(productDetail);
                             loadData();
                             Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                         }
-                    }else {
+                    } else {
                         uploadToCloudinary(filePath, product, product.getId() + "");
                     }
 
@@ -236,6 +265,12 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
             ivImagePro = view.findViewById(R.id.ivImageProduct);
             tvStatusImage = view.findViewById(R.id.tvStatusImage);
 
+            TextInputLayout edtNameErr = view.findViewById(R.id.edtName_add_pr);
+            TextInputLayout edtPriceErr = view.findViewById(R.id.edtPrice_add_pr);
+            TextInputLayout edtDiscErr = view.findViewById(R.id.edtDisc_add_pr);
+            TextInputLayout edtQuantityErr = view.findViewById(R.id.edtQuantity_add_pr);
+
+
             // Tạo danh sách dữ liệu
             List<String> data = new ArrayList<>();
             data.add("Còn hàng");
@@ -248,6 +283,27 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spnRole.setAdapter(adapter);
 
+            edtsl.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (charSequence.toString().equals("0")) {
+                        spnRole.setSelection(1);
+                    } else {
+                        spnRole.setSelection(0);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+
             btnThem.setOnClickListener(v1 -> {
                 Product product = new Product();
                 String name = edtName.getText().toString();
@@ -255,10 +311,8 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 String status = spnRole.getSelectedItem().toString();
                 String mota = edtmota.getText().toString();
                 String sl = edtsl.getText().toString();
-
-                if (!validate(name, price, mota,sl)) {
+                if (!validate(name, price, mota, sl, edtNameErr, edtPriceErr, edtQuantityErr, edtDiscErr))
                     return;
-                }
                 product.setName(name);
                 product.setPrice(Integer.parseInt(price));
                 product.setStatus(status);
@@ -267,7 +321,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
 
                 productDetailDAO = new ProductDetailDAO(getContext());
 
-                if(!isChooseImage) {
+                if (!isChooseImage) {
                     Toast.makeText(getContext(), "Chưa chọn ảnh", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -467,21 +521,63 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
         });
     }
 
-    private boolean validate(String ten, String gia, String moTa, String sl) {
-        if (ten.trim().equals("") || gia.trim().equals("") || moTa.trim().equals("") || sl.trim().equals("")) {
-            Toast.makeText(getContext(), "Không được để trống!", Toast.LENGTH_SHORT).show();
-            return false;
+    private boolean validate(String edtName, String edtPrice, String edtDisc, String edtQuantity, TextInputLayout edtNameErr, TextInputLayout edtPriceErr, TextInputLayout edtQuantityErr, TextInputLayout edtDiscErr) {
+
+        boolean test = true;
+        if (edtName.isEmpty()) {
+            edtNameErr.setError("Vui lòng nhập đủ thông tin");
+            test = false;
+        } else {
+            edtNameErr.setError(null);
         }
-        if (!gia.trim().matches("[0-9]+")) {
-            Toast.makeText(getContext(), "Giá phải là số", Toast.LENGTH_SHORT).show();
-            return false;
+        if (edtPrice.isEmpty()) {
+            edtPriceErr.setError("Vui lòng nhập đủ thông tin");
+            test = false;
+        } else if (edtPrice.length() > 0) {
+            try {
+                Integer.parseInt(edtPrice);
+                if (Integer.parseInt(edtPrice) < 0) {
+                    edtPriceErr.setError("Giá tiền phải lớn hơn 0");
+                    test = false;
+                } else {
+                    edtPriceErr.setError(null);
+                }
+            } catch (Exception e) {
+                edtPriceErr.setError("Giá tiền phải là số");
+                test = false;
+            }
+        } else {
+            edtPriceErr.setError(null);
         }
-        if (!sl.trim().matches("[0-9]+")) {
-            Toast.makeText(getContext(), "Số lượng phải là số", Toast.LENGTH_SHORT).show();
-            return false;
+        if (edtDisc.isEmpty()) {
+            edtDiscErr.setError("Vui lòng nhập đủ thông tin");
+            test = false;
+        } else {
+            edtDiscErr.setError(null);
         }
-        return true;
+        if (edtQuantity.isEmpty()) {
+            edtQuantityErr.setError("Vui lòng nhập đủ thông tin");
+            test = false;
+        } else if (edtQuantity.length() > 0) {
+            try {
+                Integer.parseInt(edtQuantity);
+                if (Integer.parseInt(edtQuantity) < 0) {
+                    edtQuantityErr.setError("Số lượng phải lớn hơn 0");
+                    test = false;
+                } else {
+                    edtQuantityErr.setError(null);
+                }
+            } catch (Exception e) {
+                edtQuantityErr.setError("Số lần phải là số");
+                test = false;
+            }
+        } else {
+            edtQuantityErr.setError(null);
+        }
+
+        return test;
     }
+
     private void updateProduct1() {
         if (productDAO.updatee(product, product.getId())) {
             Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
@@ -497,6 +593,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
         super.onStart();
         EventBus.getDefault().register(this); // Đăng ký để nhận sự kiện
     }
+
     @Override
     public void onStop() {
         EventBus.getDefault().unregister(this); // Hủy đăng ký khi Fragment không còn hiển thị
@@ -512,10 +609,9 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 list.add(p);
             }
         }
-        if(list.isEmpty()){
+        if (list.isEmpty()) {
             binding.tvNoInf.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             binding.tvNoInf.setVisibility(View.GONE);
         }
         adapter.notifyDataSetChanged();

@@ -26,6 +26,7 @@ import com.example.duan1.eventbus.Search;
 import com.example.duan1.model.Account;
 import com.example.duan1.model.Employee;
 import com.example.duan1.model.Product;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -99,6 +100,7 @@ public class EmployeeManagementFragment extends BaseFragment<FragmentEmployeeMan
             Spinner spnRole = view.findViewById(R.id.spnRole_add_em);
             Button btnThem = view.findViewById(R.id.btnLuu_add_em);
             Button btnHuy = view.findViewById(R.id.btnHuy_add_em);
+            TextInputLayout erEmail = view.findViewById(R.id.erEmail_add_em);
 
             // Tạo danh sách dữ liệu
             List<String> data = new ArrayList<>();
@@ -118,8 +120,10 @@ public class EmployeeManagementFragment extends BaseFragment<FragmentEmployeeMan
                 String role = spnRole.getSelectedItem().toString();
 
                 if (email.isEmpty()) {
-                    Toast.makeText(getContext(), "Không để trống Email", Toast.LENGTH_SHORT).show();
+                    erEmail.setError("Vui lòng nhập email");
                     return;
+                }else {
+                    erEmail.setError(null);
                 }
                 AccountDAO accountDAO = new AccountDAO(getContext());
                 if (accountDAO.insertEmployee(new Account(email, "chicken", role))) {

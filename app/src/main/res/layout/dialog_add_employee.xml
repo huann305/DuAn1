@@ -40,7 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:hint="Tài khoản: ">
+            android:hint="Tài khoản: "
+            android:id="@+id/erEmail_add_em">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtEmail_add_em"

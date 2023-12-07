@@ -31,7 +31,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nhập tên sản phẩm">
+            android:hint="Nhập tên sản phẩm"
+            android:id="@+id/edtName_add_pr">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_name_addpro"
@@ -45,7 +46,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nhập đơn giá">
+            android:hint="Nhập đơn giá"
+            android:id="@+id/edtPrice_add_pr">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_price_addpro"
@@ -59,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nhập mô tả sản phẩm"
-            >
+            android:id="@+id/edtDisc_add_pr">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_mota_addpro"
@@ -73,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nhập số lượng sản phẩm"
-            >
+            android:id="@+id/edtQuantity_add_pr">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_sl_addpro"

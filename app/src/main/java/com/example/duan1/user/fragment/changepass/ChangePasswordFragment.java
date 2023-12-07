@@ -41,6 +41,7 @@ public class ChangePasswordFragment extends BaseFragment<FragmentChangePasswordB
     }
 
     String email;
+
     @Override
     protected void initData() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Utils.EMAIL, MODE_PRIVATE);
@@ -53,48 +54,106 @@ public class ChangePasswordFragment extends BaseFragment<FragmentChangePasswordB
                 String oldPass = binding.edtOldPass.getText().toString();
                 String newPass = binding.edtNewPass.getText().toString();
                 String reNewPass = binding.edtReNewPass.getText().toString();
-                if(oldPass.equals("") || newPass.equals("") || reNewPass.equals("")){
-                    Toast.makeText(getContext(), "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-                } else if(!newPass.equals(reNewPass)) {
-                    Toast.makeText(getContext(), "Mật khẩu xác nhận không trùng khớp", Toast.LENGTH_SHORT).show();
+
+                String TABLE;
+                AccountDAO accountDAO = new AccountDAO(getContext());
+                SharedPreferences sharedPreferences1 = getActivity().getSharedPreferences("USER", MODE_PRIVATE);
+                String role = sharedPreferences1.getString(Utils.ROLE, "");
+                Account account = new Account();
+                if (role.equals(Utils.CUSTOMER)) {
+                    TABLE = DBHelper.TABLE_ACCOUNT_CUSTOMER;
+                } else {
+                    TABLE = DBHelper.TABLE_ACCOUNT_SHOP;
                 }
-                else {
-                    String TABLE;
-                    AccountDAO accountDAO = new AccountDAO(getContext());
-                    SharedPreferences sharedPreferences1 = getActivity().getSharedPreferences("USER", MODE_PRIVATE);
-                    String role = sharedPreferences1.getString(Utils.ROLE, "");
-                    Account account = new Account();
-                    if (role.equals(Utils.CUSTOMER)){
-                        TABLE = DBHelper.TABLE_ACCOUNT_CUSTOMER;
-                    }else{
-                        TABLE = DBHelper.TABLE_ACCOUNT_SHOP;
-                    }
 
-                    account = accountDAO.getEmail(email, TABLE);
-                    Log.d(TAG, "initData: " + role);
+                account = accountDAO.getEmail(email, TABLE);
+                Log.d(TAG, "initData: " + role);
 
-                    String password = binding.edtNewPass.getText().toString();
-                    int minLength = 6;
+                boolean check = true;
+                if (oldPass.equals("")) {
+                    binding.errPassOld.setError("Vui lòng nhập mật khẩu cũ");
+                    check = false;
+                } else if (account.getPassword().equals(oldPass)) {
+                    binding.errPassOld.setError(null);
+                    check = true;
+                } else {
+                    binding.errPassOld.setError("Mật khẩu cũ không đúng");
+                    check = false;
+                }
 
-                    if (password.length() < minLength) {
-                        Toast.makeText(getContext(), "Mật khẩu phải có ít nhất " + minLength + " ký tự", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    if(account.getPassword().equals(oldPass)) {
-                        account.setPassword(newPass);
-                        if (accountDAO.updatee(account , email, TABLE)) {
-                            Toast.makeText(getContext(), "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getContext(), ChooseActivity.class);
-                            startActivity(intent);
-                            getActivity().finish();
-                        } else {
-                            Toast.makeText(getContext(), "Đổi mật khẩu thất bại", Toast.LENGTH_SHORT).show();
-                        }
+                if (check) {
+                    if (newPass.equals("")) {
+                        binding.errPassNew.setError("Vui lòng nhập mật khẩu mới");
+                    } else if (newPass.length() < 6) {
+                        binding.errPassNew.setError("Mật khẩu phải có ít nhất 6 ký tự");
                     } else {
-                        Toast.makeText(getContext(), "Mật khẩu cũ không đúng", Toast.LENGTH_SHORT).show();
+                        binding.errPassNew.setError(null);
+                        check = false;
+                    }
+
+                    if (!check) {
+                        if (reNewPass.equals("")) {
+                            binding.errRePassNew.setError("Vui lòng xác nhận lại mật khẩu");
+                        } else if (!reNewPass.equals(newPass)) {
+                            binding.errRePassNew.setError("Mật khẩu xác nhận không trùng khớp");
+                        } else {
+                            binding.errRePassNew.setError(null);
+                            account.setPassword(newPass);
+                            if (accountDAO.updatee(account, email, TABLE)) {
+                                Toast.makeText(getContext(), "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getContext(), ChooseActivity.class);
+                                startActivity(intent);
+                                getActivity().finish();
+                            } else {
+                                Toast.makeText(getContext(), "Đổi mật khẩu thất bại", Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 }
+
+
+//                if(oldPass.equals("") || newPass.equals("") || reNewPass.equals("")){
+//                    Toast.makeText(getContext(), "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+//                } else if(!newPass.equals(reNewPass)) {
+//                    Toast.makeText(getContext(), "Mật khẩu xác nhận không trùng khớp", Toast.LENGTH_SHORT).show();
+//                }
+//                else {
+//                    String TABLE;
+//                    AccountDAO accountDAO = new AccountDAO(getContext());
+//                    SharedPreferences sharedPreferences1 = getActivity().getSharedPreferences("USER", MODE_PRIVATE);
+//                    String role = sharedPreferences1.getString(Utils.ROLE, "");
+//                    Account account = new Account();
+//                    if (role.equals(Utils.CUSTOMER)){
+//                        TABLE = DBHelper.TABLE_ACCOUNT_CUSTOMER;
+//                    }else{
+//                        TABLE = DBHelper.TABLE_ACCOUNT_SHOP;
+//                    }
+//
+//                    account = accountDAO.getEmail(email, TABLE);
+//                    Log.d(TAG, "initData: " + role);
+//
+//                    String password = binding.edtNewPass.getText().toString();
+//                    int minLength = 6;
+//
+//                    if (password.length() < minLength) {
+//                        Toast.makeText(getContext(), "Mật khẩu phải có ít nhất " + minLength + " ký tự", Toast.LENGTH_SHORT).show();
+//                        return;
+//                    }
+//
+//                    if(account.getPassword().equals(oldPass)) {
+//                        account.setPassword(newPass);
+//                        if (accountDAO.updatee(account , email, TABLE)) {
+//                            Toast.makeText(getContext(), "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+//                            Intent intent = new Intent(getContext(), ChooseActivity.class);
+//                            startActivity(intent);
+//                            getActivity().finish();
+//                        } else {
+//                            Toast.makeText(getContext(), "Đổi mật khẩu thất bại", Toast.LENGTH_SHORT).show();
+//                        }
+//                    } else {
+//                        Toast.makeText(getContext(), "Mật khẩu cũ không đúng", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
             }
         });
     }
