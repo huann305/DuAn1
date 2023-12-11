@@ -61,7 +61,7 @@ public abstract class OrderManagerAdapter extends RecyclerView.Adapter<OrderMana
         }else {
             holder.tvNameEmployee.setText("Nhân viên: ");
         }
-        holder.tvTotalPrice.setText("Tổng tiền: " + billDetailDAO.getTotalPrice(bill.getId()));
+        holder.tvTotalPrice.setText("Tổng tiền: " + String.format("%,d", billDetailDAO.getTotalPrice(bill.getId())) + "đ");
         holder.llDate.setVisibility(View.GONE);
         holder.llAddress.setVisibility(View.GONE);
         if(bill.getStatus().equals("Xác nhận thanh toán")){

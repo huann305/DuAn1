@@ -5,6 +5,7 @@
             <item
                 android:id="@+id/nav_product_management"
                 android:icon="@drawable/ic_qlsp"
+                android:visible="false"
                 android:title="Quản lý sản phẩm" />
             <item
                 android:id="@+id/nav_employee_management"
@@ -25,12 +26,12 @@
                 android:id="@+id/nav_order_management_admin"
                 android:icon="@drawable/qlhd"
                 android:visible="false"
-                android:title="Quản lý đơn hàng admin" />
+                android:title="Quản lý đơn hàng" />
             <item
                 android:icon="@drawable/ic_pay"
                 android:visible="false"
                 android:id="@+id/nav_order_payment_confirmation"
-                android:title="Nhân viên xác nhận thanh toán" />
+                android:title="Xác nhận thanh toán" />
         </menu>
     </item>
     <item android:title="Thống kê">

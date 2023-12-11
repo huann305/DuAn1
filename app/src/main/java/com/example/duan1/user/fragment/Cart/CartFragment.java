@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,12 +45,14 @@ import com.example.duan1.model.Cart;
 import com.example.duan1.model.Customer;
 import com.example.duan1.model.Product;
 import com.example.duan1.qrcode.QRScanActivity;
+import com.example.duan1.zalopay.Api.CreateOrder;
 import com.example.duan1.zalopay.ZaloPayActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,6 +61,10 @@ import java.util.List;
 import java.util.Locale;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPayError;
+import vn.zalopay.sdk.ZaloPaySDK;
+import vn.zalopay.sdk.listeners.PayOrderListener;
 
 public class CartFragment extends BaseFragment<FragmentCartBinding> {
     public static String TAG = "Giỏ hàng";
@@ -88,6 +95,12 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
 
     @Override
     protected void initData() {
+        StrictMode.ThreadPolicy policy = new
+                StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        // ZaloPay SDK Init
+        ZaloPaySDK.init(2553, Environment.SANDBOX);
         loadData();
     }
 
@@ -95,6 +108,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
     public String getTAG() {
         return TAG;
     }
+    String totalPriceString = "";
 
     public void loadData() {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
@@ -107,7 +121,8 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         adapter = new CartAdapter(getContext(), list) {
             @Override
             public void click(int totalPrice) {
-                binding.tvSum.setText(totalPrice + "");
+                totalPriceString = String.valueOf(totalPrice);
+                binding.tvSum.setText(String.format("%,d", totalPrice) + "");
                 Log.d("TAGG", "totalPrice" + totalPrice);
             }
 
@@ -161,10 +176,11 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
                     @Override
                     public void onClick(View view) {
                         paymentMethod = "Zalo Pay";
-                        Intent intent = new Intent(getContext(), ZaloPayActivity.class);
-                        intent.putExtra("price", binding.tvSum.getText().toString());
-                        startActivity(intent);
-                        onSuccess();
+//                        Intent intent = new Intent(getContext(), ZaloPayActivity.class);
+//                        intent.putExtra("price", binding.tvSum.getText().toString());
+//                        startActivity(intent);
+//                        onSuccess();
+                        requestZaloPay();
                         alertDialog.dismiss();
                     }
                 });
@@ -191,6 +207,40 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
                 alertDialog.show();
             }
         });
+    }
+
+    private void requestZaloPay() {
+        CreateOrder orderApi = new CreateOrder();
+
+        try {
+            JSONObject data = orderApi.createOrder(totalPriceString);
+
+            String code = data.getString("return_code");
+
+            if (code.equals("1")) {
+                String token = data.getString("zp_trans_token");
+                ZaloPaySDK.getInstance().payOrder(getActivity(), token, "demozpdk://app", new PayOrderListener() {
+                    @Override
+                    public void onPaymentSucceeded(String s, String s1, String s2) {
+                        Toast.makeText(getContext(), "Thanh toán thanh cong", Toast.LENGTH_SHORT).show();
+                        onSuccess();
+                    }
+
+                    @Override
+                    public void onPaymentCanceled(String s, String s1) {
+                        Toast.makeText(getContext(), "Thanh toán thất bại", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+                        Toast.makeText(getContext(), "Thanh toán thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

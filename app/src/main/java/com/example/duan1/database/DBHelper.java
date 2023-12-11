@@ -19,7 +19,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_CART = "cart";
 
     public DBHelper(@Nullable Context context) {
-        super(context, DB_NAME, null, 2);
+        super(context, DB_NAME, null, 3);
     }
 
     @Override
@@ -144,15 +144,15 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(INSERT_BILL_DETAIL_DATA);
         //Initialize data for the product table
         String INSERT_PRODUCT_DATA = "INSERT INTO " + TABLE_PRODUCT + " (name, price, quantitySold,quantity ,status, image) VALUES " +
-                "('Ức gà trộn', 10, 1,100 ,'Còn hàng', 'https://i.pinimg.com/564x/61/e1/cd/61e1cd8c1604d9d847318013692542a1.jpg'), " +
-                "('Gà sốt kem', 15, 2,50 ,'Còn hàng', 'https://i.pinimg.com/564x/a8/e2/0d/a8e20d82b13a3473f0b42cbf35dfeef7.jpg'), " +
-                "('Đùi gà chiên', 15, 3,100 ,'Còn hàng', 'https://i.pinimg.com/564x/e2/ff/4c/e2ff4c5e2b22df37d161ec12900bd6d4.jpg'), " +
-                "('Salad gà', 15, 4,200 ,'Còn hàng', 'https://i.pinimg.com/236x/06/95/52/0695523adb4489059bfce5299fd924c8.jpg'), " +
-                "('Combo gà 1', 15, 6,300 ,'Còn hàng', 'https://i.pinimg.com/564x/75/fd/d7/75fdd7dc538330cf7523f7da3d2566b6.jpg'), " +
-                "('Bánh gà phomai', 15, 5,120, 'Còn hàng', 'https://i.pinimg.com/236x/18/7a/8d/187a8d7677da78e1ba91729a945b8f6a.jpg'), " +
-                "('Trà sữa caccao', 15, 3,130 ,'Còn hàng', 'https://i.pinimg.com/564x/62/3f/ba/623fba0e89cb093c81d0add77826a149.jpg'), " +
-                "('Trà sữa thái', 15, 8,140 ,'Còn hàng', 'https://i.pinimg.com/564x/68/ef/9e/68ef9e4beef033b43de718970ed4e25a.jpg'), " +
-                "('Combo sữa hạt', 20, 10,160 ,'Còn hàng', 'https://i.pinimg.com/564x/d9/bc/dd/d9bcdd583afd439d479027c985218eaf.jpg')";
+                "('Ức gà trộn', 100000, 1,100 ,'Còn hàng', 'https://i.pinimg.com/564x/61/e1/cd/61e1cd8c1604d9d847318013692542a1.jpg'), " +
+                "('Gà sốt kem', 150000, 2,50 ,'Còn hàng', 'https://i.pinimg.com/564x/a8/e2/0d/a8e20d82b13a3473f0b42cbf35dfeef7.jpg'), " +
+                "('Đùi gà chiên', 150000, 3,100 ,'Còn hàng', 'https://i.pinimg.com/564x/e2/ff/4c/e2ff4c5e2b22df37d161ec12900bd6d4.jpg'), " +
+                "('Salad gà', 150000, 4,200 ,'Còn hàng', 'https://i.pinimg.com/236x/06/95/52/0695523adb4489059bfce5299fd924c8.jpg'), " +
+                "('Combo gà 1', 150000, 6,300 ,'Còn hàng', 'https://i.pinimg.com/564x/75/fd/d7/75fdd7dc538330cf7523f7da3d2566b6.jpg'), " +
+                "('Bánh gà phomai', 150000, 5,120, 'Còn hàng', 'https://i.pinimg.com/236x/18/7a/8d/187a8d7677da78e1ba91729a945b8f6a.jpg'), " +
+                "('Trà sữa caccao', 150000, 3,130 ,'Còn hàng', 'https://i.pinimg.com/564x/62/3f/ba/623fba0e89cb093c81d0add77826a149.jpg'), " +
+                "('Trà sữa thái', 15000, 8,140 ,'Còn hàng', 'https://i.pinimg.com/564x/68/ef/9e/68ef9e4beef033b43de718970ed4e25a.jpg'), " +
+                "('Combo sữa hạt', 20000, 10,160 ,'Còn hàng', 'https://i.pinimg.com/564x/d9/bc/dd/d9bcdd583afd439d479027c985218eaf.jpg')";
         sqLiteDatabase.execSQL(INSERT_PRODUCT_DATA);
 
         //Initialize data for the product_detail table

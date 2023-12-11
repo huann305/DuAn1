@@ -58,7 +58,7 @@ public abstract class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillV
         }else {
             holder.tvNameEmployee.setText("Nhân viên: ");
         }
-        holder.tvTotalPrice.setText("Tổng tiền: " + billDetailDAO.getTotalPrice(bill.getId()));
+        holder.tvTotalPrice.setText("Tổng tiền: " + String.format("%,d", billDetailDAO.getTotalPrice(bill.getId())) + "VNĐ");
 
         BillDetailDAO billDetailDAO = new BillDetailDAO(context);
         List<BillDetail> listBillDetail = billDetailDAO.getAllByIdBill(String.valueOf(bill.getId()));

@@ -58,9 +58,11 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
         SharedPreferences sharedPreferences = context.getSharedPreferences("USER", Context.MODE_PRIVATE);
         email = sharedPreferences.getString("email", "");
 
+        String price = String.format("%,d", list.get(position).getPrice());
+
         Cart cart = list.get(position);
         holder.binding.tvName.setText(cart.getName());
-        holder.binding.tvPrice.setText(cart.getPrice() + " Đ");
+        holder.binding.tvPrice.setText(price + " Đ");
         holder.binding.tvQuantity.setText("" + cart.getQuantity());
         if (cart.getImage() != null) {
             Glide.with(context).load(cart.getImage()).into(holder.binding.ivImageCart);

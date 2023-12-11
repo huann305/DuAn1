@@ -200,6 +200,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 binding.navView.getMenu().findItem(R.id.nav_order_management_admin).setVisible(true);
                 binding.navView.getMenu().findItem(R.id.nav_order_payment_confirmation).setVisible(true);
                 binding.navView.getMenu().findItem(R.id.nav_statistics).setVisible(true);
+                binding.navView.getMenu().findItem(R.id.nav_product_management).setVisible(true);
                 break;
             case Utils.EMPLOYEE_CHEF:
                 binding.navView.getMenu().findItem(R.id.nav_order_management).setVisible(true);

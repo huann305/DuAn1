@@ -69,9 +69,9 @@ public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
         binding.bottomNav.btnCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.bottomNav.btnCart.setBackgroundColor(getResources().getColor(R.color.main));
+                binding.bottomNav.btnCart.setBackgroundResource(R.drawable.bgr_bottom_nav_left_selected);
                 binding.bottomNav.btnHome.setBackgroundColor(getResources().getColor(R.color.bgr_btn));
-                binding.bottomNav.btnInvoice.setBackgroundColor(getResources().getColor(R.color.bgr_btn));
+                binding.bottomNav.btnInvoice.setBackgroundResource(R.drawable.bgr_bottom_nav_right);;
                 binding.bottomNav.btnCartText.setVisibility(View.VISIBLE);
                 binding.bottomNav.btnHomeText.setVisibility(View.GONE);
                 binding.bottomNav.btnInvoiceText.setVisibility(View.GONE);
@@ -83,9 +83,9 @@ public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
         binding.bottomNav.btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.bottomNav.btnCart.setBackgroundColor(getResources().getColor(R.color.bgr_btn));
+                binding.bottomNav.btnCart.setBackgroundResource(R.drawable.bgr_bottom_nav_left);
                 binding.bottomNav.btnHome.setBackgroundColor(getResources().getColor(R.color.main));
-                binding.bottomNav.btnInvoice.setBackgroundColor(getResources().getColor(R.color.bgr_btn));
+                binding.bottomNav.btnInvoice.setBackgroundResource(R.drawable.bgr_bottom_nav_right);
                 binding.bottomNav.btnCartText.setVisibility(View.GONE);
                 binding.bottomNav.btnHomeText.setVisibility(View.VISIBLE);
                 binding.bottomNav.btnInvoiceText.setVisibility(View.GONE);
@@ -96,9 +96,9 @@ public class MainCustomer extends BaseActivity<ActivityMainCustomerBinding> {
         binding.bottomNav.btnInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.bottomNav.btnCart.setBackgroundColor(getResources().getColor(R.color.bgr_btn));
+                binding.bottomNav.btnCart.setBackgroundResource(R.drawable.bgr_bottom_nav_left);
                 binding.bottomNav.btnHome.setBackgroundColor(getResources().getColor(R.color.bgr_btn));
-                binding.bottomNav.btnInvoice.setBackgroundColor(getResources().getColor(R.color.main));
+                binding.bottomNav.btnInvoice.setBackgroundResource(R.drawable.bgr_bottom_nav_right_selected);
                 binding.bottomNav.btnCartText.setVisibility(View.GONE);
                 binding.bottomNav.btnHomeText.setVisibility(View.GONE);
                 binding.bottomNav.btnInvoiceText.setVisibility(View.VISIBLE);

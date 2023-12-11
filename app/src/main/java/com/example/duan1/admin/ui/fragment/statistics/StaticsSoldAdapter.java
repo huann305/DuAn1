@@ -36,7 +36,7 @@ public class StaticsSoldAdapter extends RecyclerView.Adapter<StaticsSoldAdapter.
         Product product = list.get(position);
         holder.tvName.setText(product.getName());
         holder.tvQuantitySold.setText("Đã bán: "+String.valueOf(product.getQuantitySold()));
-        holder.tvPrice.setText(product.getPrice() + " VNĐ");
+        holder.tvPrice.setText(String.format("%,d", product.getPrice()) + " VNĐ");
         if(product.getImage() == null){
             holder.imgProduct.setImageResource(R.drawable.improduct1);
         }else {

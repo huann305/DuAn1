@@ -48,7 +48,10 @@ public abstract class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeV
         Product product = list.get(position);
 
         holder.tvNameProduct.setText(product.getName());
-        holder.tvPrice.setText(product.getPrice() + " VND");
+
+        String price = String.format("%,d", product.getPrice());
+
+        holder.tvPrice.setText(price + " VND");
         holder.tvQuantitySold.setText(product.getQuantitySold() + " đã bán");
         holder.tvQuantity.setText("SL: "+ product.getQuantity());
 

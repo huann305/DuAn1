@@ -20,7 +20,7 @@ public class BankInf extends AppCompatActivity {
         Button btnBack = findViewById(R.id.btnBack);
         Intent intent = getIntent();
         int i = intent.getIntExtra("idBill", 1);
-        idBill.setText("Mã hóa đơn: " + i);
+        idBill.setText("Nội dung chuyển khoản: " + i);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -40,9 +40,9 @@ public class BillDetailAdapter extends RecyclerView.Adapter<BillDetailAdapter.Bi
         BillDetail detail = list.get(position);
 
         holder.tvName.setText("Tên: " + (productDAO.getID(detail.getIdProduct()) != null ? productDAO.getID(detail.getIdProduct()).getName() : ""));
-        holder.tvPrice.setText("Giá: " + detail.getPrice() + " VNĐ");
+        holder.tvPrice.setText("Giá: " + String.format("%,d", detail.getPrice()) + " VNĐ");
         holder.tvQuantity.setText("Số lượng: " + detail.getQuantity());
-        holder.tvTotal.setText("Thành tiền: " + (detail.getQuantity() * detail.getPrice()) + " VNĐ");
+        holder.tvTotal.setText("Thành tiền: " + String.format("%,d", detail.getQuantity() * detail.getPrice()) + " VNĐ");
 
         ProductDAO productDAO = new ProductDAO(holder.itemView.getContext());
         Product product = productDAO.getID(detail.getIdProduct());
