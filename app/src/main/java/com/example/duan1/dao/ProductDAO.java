@@ -142,4 +142,24 @@ public class ProductDAO {
         return true;
     }
 
+    //check product out of stock
+    public boolean isOutOfStock(int id){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DBHelper.TABLE_PRODUCT + " WHERE id = ?", new String[]{String.valueOf(id)});
+        if(cursor.getCount() > 0){
+            cursor.moveToFirst();
+            if(cursor.getInt(4) == 0){
+                return true;
+            }
+        }
+        if (cursor != null){
+            cursor.close();
+        }
+        if (db != null){
+            db.close();
+        }
+        return false;
+    }
+
+
 }

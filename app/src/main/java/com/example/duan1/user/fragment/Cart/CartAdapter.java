@@ -55,6 +55,7 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CartDAO cartDAO = new CartDAO(context);
+        ProductDAO productDAO = new ProductDAO(context);
         SharedPreferences sharedPreferences = context.getSharedPreferences("USER", Context.MODE_PRIVATE);
         email = sharedPreferences.getString("email", "");
 
@@ -69,6 +70,16 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
         } else {
             Glide.with(context).load(R.drawable.improduct1).into(holder.binding.ivImageCart);
         }
+
+        // Check if the product is out of stock
+        if (productDAO.isOutOfStock(cart.getIdProduct())) {
+            holder.binding.trangthai.setVisibility(View.VISIBLE);
+            holder.itemView.setAlpha(0.5f);
+        } else {
+            holder.binding.trangthai.setVisibility(View.GONE);
+            holder.itemView.setAlpha(1f);
+        }
+
 
         //nếu số lượng = 0 thì k giảm đc nữa
         if (list.get(holder.getLayoutPosition()).getQuantity() == 0) {
@@ -120,7 +131,7 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
         holder.binding.btnAgument.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (cartDAO.augmentQuantityV2(list.get(holder.getAdapterPosition()), email)) {
+                if (cartDAO.augmentQuantityV2(list.get(position), email)) {
                     list.clear();
                     list.addAll(cartDAO.getAllCartCus(email));
                     notifyDataSetChanged();

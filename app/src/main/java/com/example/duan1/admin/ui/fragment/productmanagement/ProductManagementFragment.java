@@ -136,6 +136,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
                 Button btnUpdate = view.findViewById(R.id.btn_submit_updatepro);
                 Button btnCancel = view.findViewById(R.id.btn_canupdatepro);
                 ivImagePro = view.findViewById(R.id.iv_update_product);
+                spinnerTrangThai.setEnabled(false);
 
                 TextInputLayout erName = view.findViewById(R.id.erName);
                 TextInputLayout erPrice = view.findViewById(R.id.erPrice);
@@ -264,6 +265,7 @@ public class ProductManagementFragment extends BaseFragment<FragmentProductManag
             Button btnHuy = view.findViewById(R.id.btn_canaddpro);
             ivImagePro = view.findViewById(R.id.ivImageProduct);
             tvStatusImage = view.findViewById(R.id.tvStatusImage);
+            spnRole.setEnabled(false);
 
             TextInputLayout edtNameErr = view.findViewById(R.id.edtName_add_pr);
             TextInputLayout edtPriceErr = view.findViewById(R.id.edtPrice_add_pr);
