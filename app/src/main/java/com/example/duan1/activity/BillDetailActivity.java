@@ -61,6 +61,7 @@ public class BillDetailActivity extends BaseActivity<ActivityBillDetailBinding> 
                 public void onClick(View view) {
                     billDAO = new BillDAO(BillDetailActivity.this);
                     billDAO.updateStatus("Đã hủy", idBill);
+                    EventBus.getDefault().post(new SendEvent());
                     finish();
                 }
             });

@@ -68,13 +68,13 @@ public class DetailProductActivity extends BaseActivity<ActivityDetailProductBin
         if (productDetail != null) {
             binding.tvProductName.setText(product.getName());
             binding.tvDiscreption.setText(productDetail.getDescription());
-            binding.tvPrice.setText("Giá tiền :" +product.getPrice() + " VND");
-            binding.tvQuantitySold.setText( product.getQuantitySold() + " đã bán");
-            binding.tvSL.setText("Số lượng: " +product.getQuantity());
+            binding.tvPrice.setText("Giá tiền :" + String.format("%,d", product.getPrice()) + " VND");
+            binding.tvQuantitySold.setText(product.getQuantitySold() + " đã bán");
+            binding.tvSL.setText("Số lượng: " + product.getQuantity());
 
-            if(product.getImage() != null){
+            if (product.getImage() != null) {
                 Glide.with(this).load(product.getImage()).into(binding.ivImageProductDetail);
-            }else {
+            } else {
                 Glide.with(this).load(R.drawable.improduct1).into(binding.ivImageProductDetail);
             }
         }

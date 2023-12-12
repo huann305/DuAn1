@@ -112,7 +112,7 @@ public class CartDAO {
         ContentValues contentValues = new ContentValues();
         int quantity = cart.getQuantity();
         long check;
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT quantity FROM " + DBHelper.TABLE_PRODUCT, null);
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT quantity FROM " + DBHelper.TABLE_PRODUCT + " WHERE id = ?", new String[]{String.valueOf(cart.getIdProduct())});
         quantity++;
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();

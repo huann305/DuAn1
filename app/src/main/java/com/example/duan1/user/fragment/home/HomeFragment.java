@@ -43,7 +43,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeCustomerBinding> {
     ProductDAO productDAO;
     @Override
     protected void initEvent() {
-        binding.rcvHomePage1.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+
+        binding.rcvHomePage1.setLayoutManager(layoutManager);
 
         binding.rcvHomePage1.setAdapter(new HomeAdapter(getContext(), list) {
             @Override

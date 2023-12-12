@@ -86,6 +86,7 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     if (cartDAO.augmentQuantityV2(list.get(holder.getAdapterPosition()), email)) {
+                        holder.binding.btnAgument.callOnClick();
                         list.clear();
                         list.addAll(cartDAO.getAllCartCus(email));
                         notifyDataSetChanged();

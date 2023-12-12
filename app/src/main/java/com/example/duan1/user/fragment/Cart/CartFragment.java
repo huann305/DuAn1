@@ -251,6 +251,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         if (!qr.equals("")) {
             binding.tvAddress.setText(qr);
         }
+        adapter.notifyDataSetChanged();
     }
 
     @Override

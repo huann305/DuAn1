@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.duan1.BillStatus;
 import com.example.duan1.database.DBHelper;
 import com.example.duan1.model.Bill;
 
@@ -58,7 +59,7 @@ public class BillDAO {
 
     public int getTotal(String fromDate, String toDate){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String sql = "SELECT * FROM " + DBHelper.TABLE_BILL + " WHERE (date BETWEEN ? AND ?) AND status not in (SELECT status from bill where status = 'Đã hủy' or status = 'Xác nhận thanh toán')";
+        String sql = "SELECT * FROM " + DBHelper.TABLE_BILL + " WHERE (date BETWEEN ? AND ?) AND status in (SELECT status from bill where status = '"+ BillStatus.DONE +"')";
         List<Bill> list = new ArrayList<>();
 
         Cursor c = db.rawQuery(sql, new String[]{fromDate, toDate});
@@ -82,7 +83,7 @@ public class BillDAO {
     }
     public List<Bill> getTotalOrder(String fromDate, String toDate){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String sql = "SELECT * FROM " + DBHelper.TABLE_BILL + " WHERE (date BETWEEN ? AND ?) AND status not in (SELECT status from bill where status = 'Đã hủy' or status = 'Xác nhận thanh toán')";
+        String sql = "SELECT * FROM " + DBHelper.TABLE_BILL + " WHERE (date BETWEEN ? AND ?) AND status in (SELECT status from bill where status = '"+ BillStatus.DONE +"')";
         List<Bill> list = new ArrayList<>();
 
         Cursor c = db.rawQuery(sql, new String[]{fromDate, toDate});

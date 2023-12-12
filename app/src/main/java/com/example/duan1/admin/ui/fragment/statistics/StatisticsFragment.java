@@ -63,8 +63,14 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
             BillDAO billDAO = new BillDAO(getContext());
 
             List<Bill> list = billDAO.getTotalOrder(tuNgay, denNgay);
-            binding.tvTongtien.setText("Tổng doanh thu: "+billDAO.getTotal(tuNgay, denNgay) + "");
+            binding.tvTongtien.setText("Tổng doanh thu: "+ String.format("%,d", billDAO.getTotal(tuNgay, denNgay)) + "VNĐ");
             binding.tvTongdonhang.setText("Tổng đơn hàng: " + list.size() + "");
+
+            if (list.size() == 0) {
+                binding.noS.setVisibility(View.VISIBLE);
+            }else {
+                binding.noS.setVisibility(View.GONE);
+            }
 
             binding.rcv.setLayoutManager(new LinearLayoutManager(getContext()));
             binding.rcv.setAdapter(new OrderManagerAdapter(list, getContext()) {
