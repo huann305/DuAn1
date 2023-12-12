@@ -123,8 +123,6 @@ public class CartDAO {
             } while (cursor.moveToNext());
         }
 
-
-
         contentValues.put("quantity", quantity);
         check = sqLiteDatabase.update(DBHelper.TABLE_CART, contentValues, "id = ? AND emailCus = ?", new String[]{String.valueOf(cart.getId()), email});
 
