@@ -60,7 +60,7 @@ public class CartDAO {
             // Nếu sản phẩm đã tồn tại, số lượng trong giỏ hàng tăng thêm 1
             cursor.moveToFirst();
             int currentQuantity = cursor.getInt(3);
-            if (currentQuantity == product.getQuantity()){
+            if (currentQuantity >= product.getQuantity()){
                 return false;
             }else {
                 currentQuantity += 1;
@@ -107,6 +107,16 @@ public class CartDAO {
 //        return true;
 //    }
 
+    public int getQuantity(int id) {
+        SQLiteDatabase sqLiteDatabase = dbhelper.getReadableDatabase();
+        int quantity = 0;
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT quantity FROM " + DBHelper.TABLE_PRODUCT + " WHERE id = ?", new String[]{String.valueOf(id)});
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            quantity = cursor.getInt(0);
+        }
+        return quantity;
+    }
     public boolean augmentQuantityV2(Cart cart, String email) {
         SQLiteDatabase sqLiteDatabase = dbhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();

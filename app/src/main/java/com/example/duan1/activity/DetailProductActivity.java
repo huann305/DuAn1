@@ -65,6 +65,10 @@ public class DetailProductActivity extends BaseActivity<ActivityDetailProductBin
         product = productDAO.getID(productId);
         productDetail = productDetailDAO.getID(productId);
 
+        if(product.getQuantity() == 0){
+            binding.tvStatus.setText("Đã hết hàng");
+        }
+
         if (productDetail != null) {
             binding.tvProductName.setText(product.getName());
             binding.tvDiscreption.setText(productDetail.getDescription());

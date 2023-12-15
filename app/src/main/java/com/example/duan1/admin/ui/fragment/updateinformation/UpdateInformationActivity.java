@@ -185,6 +185,12 @@ public class UpdateInformationActivity extends BaseActivity<ActivityUpdateInform
         }else {
             binding.errCCCD.setError(null);
         }
+        if (binding.edtCitizen.getText().toString().matches("[0-9]{9}|[0-9]{12}")) {
+            binding.errCCCD.setError("CMND/CCCD không hợp lệ");
+            return false;
+        }else {
+            binding.errCCCD.setError(null);
+        }
         if (binding.edtDate.getText().toString().equals("")) {
             binding.errDate.setError("Ngày sinh không được để trống");
             return false;

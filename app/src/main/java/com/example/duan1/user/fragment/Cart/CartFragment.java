@@ -158,11 +158,17 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         binding.btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!checkQuantity()) {
+                    Toast.makeText(getContext(), "Giỏ hàng có sản phẩm không đủ số lượng hoặc hết hàng", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Log.d("TAGG", binding.tvAddress.getText().toString());
                 if (binding.tvAddress.getText().toString().equals("Quét mã QR để nhập số bàn")) {
                     binding.btnQR.callOnClick();
                     return;
                 }
+
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 LayoutInflater inflater = getLayoutInflater();
                 View view1 = inflater.inflate(R.layout.dialog_choose_method, null);
@@ -207,6 +213,15 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
                 alertDialog.show();
             }
         });
+    }
+
+    private boolean checkQuantity() {
+        for (Cart cart : list) {
+            if (cart.getQuantity() > cartDAO.getQuantity(cart.getIdProduct())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void requestZaloPay() {

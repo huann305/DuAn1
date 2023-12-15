@@ -124,9 +124,7 @@
                     android:textSize="14sp"
                     android:paddingVertical="10dp"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false" />
+                    android:inputType="none"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

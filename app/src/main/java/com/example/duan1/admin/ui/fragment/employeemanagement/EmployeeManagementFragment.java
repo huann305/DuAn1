@@ -126,7 +126,7 @@ public class EmployeeManagementFragment extends BaseFragment<FragmentEmployeeMan
                     erEmail.setError(null);
                 }
                 AccountDAO accountDAO = new AccountDAO(getContext());
-                if (accountDAO.insertEmployee(new Account(email, "chicken", role))) {
+                if (accountDAO.insertEmployee(new Account(email, "a", role))) {
                     employee.setEmail(email);
                     //get current date
                     Date currentDate = new Date();

@@ -52,7 +52,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     @Override
     protected void initEvent() {
-        BaseFragment.add(this, ProductManagementFragment.newInstance());
         binding.tvTitle.setText(ProductManagementFragment.newInstance().getTAG());
         binding.navView.setCheckedItem(R.id.nav_product_management);
         binding.btnMenu.setOnClickListener(new View.OnClickListener() {
@@ -195,6 +194,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
         switch (role) {
             case Utils.ADMIN:
+                BaseFragment.add(this, ProductManagementFragment.newInstance());
                 binding.navView.getMenu().findItem(R.id.nav_employee_management).setVisible(true);
                 binding.navView.getMenu().findItem(R.id.nav_customer_management).setVisible(true);
                 binding.navView.getMenu().findItem(R.id.nav_order_management_admin).setVisible(true);
@@ -203,9 +203,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 binding.navView.getMenu().findItem(R.id.nav_product_management).setVisible(true);
                 break;
             case Utils.EMPLOYEE_CHEF:
+                BaseFragment.add(this, OrderManagementFragment.newInstance());
                 binding.navView.getMenu().findItem(R.id.nav_order_management).setVisible(true);
                 break;
             case Utils.EMPLOYEE_SP:
+                BaseFragment.add(this, ConfirmFragment.newInstance());
                 binding.navView.getMenu().findItem(R.id.nav_order_payment_confirmation).setVisible(true);
                 break;
         }

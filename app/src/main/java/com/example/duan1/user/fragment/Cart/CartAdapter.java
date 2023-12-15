@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import android.view.View;
@@ -71,15 +72,27 @@ public abstract class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewH
             Glide.with(context).load(R.drawable.improduct1).into(holder.binding.ivImageCart);
         }
 
-        // Check if the product is out of stock
+        if (cart.getQuantity() > cartDAO.getQuantity(cart.getIdProduct())) {
+            Log.d("TAG", "onBindViewHolder: " + email);
+            holder.itemView.setAlpha(0.5f);
+            holder.binding.trangthaiQuantity.setVisibility(View.VISIBLE);
+        }else {
+            Log.d("TAG", "onBindViewHolder: " + false);
+            holder.binding.trangthaiQuantity.setVisibility(View.GONE);
+            holder.itemView.setAlpha(1f);
+
+            if (productDAO.isOutOfStock(cart.getIdProduct())) {
+                holder.itemView.setAlpha(0.5f);
+            } else {
+                holder.itemView.setAlpha(1f);
+            }
+        }
         if (productDAO.isOutOfStock(cart.getIdProduct())) {
             holder.binding.trangthai.setVisibility(View.VISIBLE);
-            holder.itemView.setAlpha(0.5f);
+            holder.binding.trangthaiQuantity.setVisibility(View.GONE);
         } else {
             holder.binding.trangthai.setVisibility(View.GONE);
-            holder.itemView.setAlpha(1f);
         }
-
 
         //nếu số lượng = 0 thì k giảm đc nữa
         if (list.get(holder.getLayoutPosition()).getQuantity() == 0) {
